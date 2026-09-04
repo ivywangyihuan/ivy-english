@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { BookOpen, Ellipsis, ExternalLink, Home, Library, LineChart, Plus, Settings, Sparkles, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { QuickCaptureButton, QuickCaptureDialog } from "@/components/QuickCapture";
@@ -15,11 +15,15 @@ const nav = [
 export function AppShell({ children }: { children: ReactNode }) {
   const [quickMenuOpen, setQuickMenuOpen] = useState(false);
   const { setCaptureOpen } = useAppState();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const isExamRoute = pathname.startsWith("/exam");
 
   function openCapture() {
     setQuickMenuOpen(false);
     setCaptureOpen(true);
   }
+
+  if (isExamRoute) return <>{children}</>;
 
   return (
     <div className="relative min-h-screen bg-background">
