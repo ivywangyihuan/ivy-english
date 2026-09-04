@@ -16,7 +16,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [quickMenuOpen, setQuickMenuOpen] = useState(false);
   const { setCaptureOpen } = useAppState();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const isExamRoute = pathname.startsWith("/exam");
+  const isExamRoute = pathname.startsWith("/exam") || pathname.startsWith("/writing-exam");
 
   function openCapture() {
     setQuickMenuOpen(false);
