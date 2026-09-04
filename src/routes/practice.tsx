@@ -133,8 +133,8 @@ function PracticePage(){
         {title:"分级听力",hint:"ELLLO 等",icon:ListMusic}
       ]}/>
       <Group title="IELTS Listening" items={[
-        {title:"Section 练习",hint:"Section 1–4",icon:Layers},
-        {title:"完整模拟",hint:"40 题 · 计时",icon:Timer},
+        {title:"Section 练习",hint:"原创 Section 1 · 机考熟悉模式",icon:Layers,badge:"CBT",href:"/listening-exam?mode=familiarisation"},
+        {title:"完整模拟",hint:"考试规则 · 单次播放",icon:Timer,badge:"CBT",href:"/listening-exam?mode=exam"},
         {title:"历史记录",hint:"过去的成绩与复盘",icon:History}
       ]}/>
       <Callout>现在以真实英语输入为主，IELTS 练习保持低频接触。</Callout>
