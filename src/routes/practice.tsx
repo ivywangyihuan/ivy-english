@@ -133,8 +133,8 @@ function PracticePage(){
         {title:"分级听力",hint:"ELLLO 等",icon:ListMusic}
       ]}/>
       <Group title="IELTS Listening" items={[
-        {title:"Section 练习",hint:"原创 Section 1 · 可暂停 / 跳转 / 重放",icon:Layers,badge:"CBT",href:"/listening-exam-v2?mode=familiarisation&scope=section"},
-        {title:"完整模拟",hint:"30 分钟 · 单次播放规则",icon:Timer,badge:"CBT",href:"/listening-exam-v2?mode=exam&scope=full"},
+        {title:"Section 练习",hint:"Section 1 · 可拖进度 / 暂停 / 跳转 / 重放",icon:Layers,badge:"CBT",href:"/listening-exam-v3?mode=familiarisation&scope=section"},
+        {title:"完整模拟",hint:"4 Sections · 40 题 · 计时方式可选",icon:Timer,badge:"CBT",href:"/listening-exam-v3?mode=familiarisation&scope=full"},
         {title:"历史记录",hint:"过去的成绩与复盘",icon:History}
       ]}/>
       <Callout>现在以真实英语输入为主，IELTS 练习保持低频接触。</Callout>
@@ -165,10 +165,10 @@ function PracticePage(){
         {title:"我的材料",hint:"PDF · 老师的材料",icon:FolderOpen}
       ]}/>
       <Group title="IELTS Reading" items={[
-        {title:"Cambridge / 官方",hint:"单 Passage · 默认 20 分钟",icon:BookMarked,badge:"CBT",href:"/exam-v2?mode=familiarisation&scope=passage"},
+        {title:"Cambridge / 官方",hint:"单 Passage · 默认 20 分钟 · 计时可选",icon:BookMarked,badge:"CBT",href:"/exam-v3?mode=familiarisation&scope=passage"},
         {title:"近期题型",hint:"考生回忆整理",icon:ClipboardList,to:{tab:"recent",subject:"阅读"}},
         {title:"我的题库",hint:"收藏 · 错题",icon:FolderOpen},
-        {title:"完整 CBT",hint:"完整 Reading · 60 分钟",icon:Timer,badge:"CBT",href:"/exam-v2?mode=exam&scope=full"}
+        {title:"完整 CBT",hint:"3 Passages · 40 题 · 计时方式可选",icon:Timer,badge:"CBT",href:"/exam-v3?mode=familiarisation&scope=full"}
       ]}/>
       <section>
         <SectionTitle title="最近一次"/>
@@ -193,7 +193,7 @@ function PracticePage(){
         {title:"Task 1",hint:"只练 Task 1 · 默认 20 分钟",icon:FileText,badge:"CBT",href:"/writing-exam-v2?mode=familiarisation&scope=task1"},
         {title:"Task 2",hint:"只练 Task 2 · 默认 40 分钟",icon:PenLine,badge:"CBT",href:"/writing-exam-v2?mode=familiarisation&scope=task2"},
         {title:"近期考题",hint:"考生回忆整理",icon:ClipboardList,to:{tab:"recent",subject:"写作"}},
-        {title:"完整模拟",hint:"Task 1 + Task 2 · 60 分钟",icon:Timer,badge:"CBT",href:"/writing-exam-v2?mode=exam&scope=full"},
+        {title:"完整模拟",hint:"Task 1 + Task 2 · 默认 60 分钟 · 计时可选",icon:Timer,badge:"CBT",href:"/writing-exam-v2?mode=familiarisation&scope=full"},
         {title:"历史作文",hint:"过去写过的",icon:History}
       ]}/>
       <section>
