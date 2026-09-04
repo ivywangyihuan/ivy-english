@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feature/exam-engine-v4
+      - feature/learning-flow-v2
   pull_request:
     branches:
       - main
