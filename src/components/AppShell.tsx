@@ -17,7 +17,12 @@ export function AppShell({ children }: { children: ReactNode }) {
   const { setCaptureOpen } = useAppState();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const isImmersiveRoute = pathname.startsWith("/exam") || pathname.startsWith("/writing-exam") || pathname.startsWith("/listening-exam") || pathname.startsWith("/speaking-workspace") || pathname.startsWith("/study-workspace");
-
+  const libraryActive = ["/library","/history","/session","/recordings","/mistakes","/vocabulary"].some((path) => pathname === path || pathname.startsWith(`${path}/`));
+  function mainActive(to: (typeof nav)[number]["to"]) {
+    if (to === "/") return pathname === "/";
+    if (to === "/progress") return pathname === "/progress" || pathname === "/progress-detail";
+    return pathname === to || pathname.startsWith(`${to}/`);
+  }
   function openCapture() { setQuickMenuOpen(false); setCaptureOpen(true); }
   if (isImmersiveRoute) return <>{children}</>;
 
@@ -25,16 +30,16 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="relative min-h-screen bg-background">
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-56 flex-col border-r border-border bg-sidebar px-4 py-7 md:flex">
         <div className="px-2"><p className="display text-lg leading-tight">Ivy English</p><p className="mt-1 text-[11px] text-muted-foreground">Personal Workspace</p></div>
-        <nav className="mt-9 flex flex-col gap-1">{nav.map((item) => <Link key={item.to} to={item.to} activeOptions={{ exact: item.to === "/" }} className="flex touch-manipulation items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors duration-100 hover:bg-sidebar-accent/60 hover:text-foreground" activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground" }}><item.icon className="size-4" />{item.label}</Link>)}</nav>
+        <nav className="mt-9 flex flex-col gap-1">{nav.map((item) => {const active=mainActive(item.to);return <Link key={item.to} to={item.to} activeOptions={{ exact: item.to === "/" }} className={cn("flex touch-manipulation items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors duration-100 hover:bg-sidebar-accent/60 hover:text-foreground",active?"bg-sidebar-accent text-sidebar-accent-foreground":"text-muted-foreground")}><item.icon className="size-4" />{item.label}</Link>})}</nav>
         <div className="mt-auto flex flex-col gap-1 border-t border-sidebar-border pt-4">
-          <Link to="/library" className="flex touch-manipulation items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors duration-100 hover:bg-sidebar-accent/60 hover:text-foreground" activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground" }}><Library className="size-4" />资料库</Link>
-          <Link to="/settings" className="flex touch-manipulation items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors duration-100 hover:bg-sidebar-accent/60 hover:text-foreground" activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground" }}><Settings className="size-4" />设置</Link>
+          <Link to="/library" className={cn("flex touch-manipulation items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors duration-100 hover:bg-sidebar-accent/60 hover:text-foreground",libraryActive?"bg-sidebar-accent text-sidebar-accent-foreground":"text-muted-foreground")}><Library className="size-4" />资料库</Link>
+          <Link to="/settings" className={cn("flex touch-manipulation items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors duration-100 hover:bg-sidebar-accent/60 hover:text-foreground",pathname==="/settings"?"bg-sidebar-accent text-sidebar-accent-foreground":"text-muted-foreground")}><Settings className="size-4" />设置</Link>
         </div>
       </aside>
 
       <main className="md:pl-56"><div className="mx-auto w-full max-w-5xl px-5 pt-8 pb-32 sm:px-8 md:pt-10 md:pb-20">{children}</div></main>
 
-      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-paper/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"><div className="grid grid-cols-4">{nav.map((item) => <Link key={item.to} to={item.to} activeOptions={{ exact: item.to === "/" }} className={cn("flex touch-manipulation flex-col items-center gap-1 py-3 text-[11px] text-muted-foreground transition-colors duration-100")} activeProps={{ className: "text-sage-foreground" }}><item.icon className="size-5" />{item.mobileLabel}</Link>)}</div></nav>
+      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-paper/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"><div className="grid grid-cols-4">{nav.map((item) => {const active=mainActive(item.to);return <Link key={item.to} to={item.to} activeOptions={{ exact: item.to === "/" }} className={cn("flex touch-manipulation flex-col items-center gap-1 py-3 text-[11px] transition-colors duration-100",active?"text-sage-foreground":"text-muted-foreground")}><item.icon className="size-5" />{item.mobileLabel}</Link>})}</div></nav>
 
       <div className="fixed right-5 bottom-[calc(env(safe-area-inset-bottom)+5.5rem)] z-40 md:hidden"><div className="relative size-12">
         <button type="button" aria-label="记录一次学习" onClick={openCapture} className={cn("absolute right-[4.35rem] bottom-0 flex size-11 touch-manipulation items-center justify-center rounded-full border border-border bg-paper text-foreground shadow-lift transition-all duration-200", quickMenuOpen ? "pointer-events-auto translate-x-0 translate-y-0 scale-100 opacity-100" : "pointer-events-none translate-x-8 scale-75 opacity-0")}><Plus className="size-[18px]" strokeWidth={1.8} /></button>
