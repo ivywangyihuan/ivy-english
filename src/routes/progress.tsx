@@ -1,114 +1,25 @@
-import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { Sheet,SheetContent,SheetDescription,SheetHeader,SheetTitle } from "@/components/ui/sheet";
 import { Chip,formatCnDate,PageHeader,SectionTitle,StatusPill,TrendChart } from "@/components/ui-kit";
 import { useAppState } from "@/state/app-state";
-import { overviewByRange,skillCardsByRange,trendByRange } from "@/data/mock";
-import type { LearningSignal, SignalStatus } from "@/data/mock";
+import type { LearningSignal, Module, SignalStatus, StudySession } from "@/data/mock";
 import { cn } from "@/lib/utils";
 
-export const Route=createFileRoute("/progress")({
-  head:()=>({meta:[
-    {title:"进度 · Ivy English"},
-    {name:"description",content:"学习时间趋势、听说读写四项变化、IELTS 表现记录与反复出现的学习问题。"},
-    {property:"og:title",content:"进度 · Ivy English"},
-    {property:"og:description",content:"不是看你刷了多少题，而是看你的英语正在发生什么变化。"}
-  ]}),
-  component:ProgressPage
-});
+export const Route=createFileRoute("/progress")({head:()=>({meta:[{title:"进度 · Ivy English"},{name:"description",content:"真实学习记录、IELTS 原始得分、错题、生词与反复出现的学习问题。"}]}),component:ProgressPage});
+const ranges=["7天","30天","3个月","全部"] as const;const signalTabs=["全部","听力","口语","阅读","写作"] as const;const signalStatuses:SignalStatus[]=["训练中","正在进步","已稳定"];
+function daysFor(range:string){return range==="7天"?7:range==="30天"?30:range==="3个月"?90:99999}
+function filteredByRange(sessions:StudySession[],range:string){const days=daysFor(range);if(days>10000)return sessions;const cutoff=Date.now()-days*86400000;return sessions.filter(s=>new Date(`${s.date}T00:00:00`).getTime()>=cutoff)}
+function formatMinutes(total:number){const h=Math.floor(total/60);const m=total%60;return h?`${h}h ${m.toString().padStart(2,"0")}m`:`${m}m`}
+function rawScores(sessions:StudySession[],module:"阅读"|"听力"){return sessions.filter(s=>s.module===module&&/^\d+\s*\/\s*\d+/.test(s.score??"")).map(s=>{const match=(s.score??"").match(/(\d+)\s*\/\s*(\d+)/);return match?{session:s,value:Number(match[1]),total:Number(match[2])}:null}).filter(Boolean) as {session:StudySession;value:number;total:number}[]}
 
-const ranges=["7天","30天","3个月","全部"];
-const signalTabs=["全部","听力","口语","阅读","写作"];
-const signalStatuses:SignalStatus[]=["训练中","正在进步","已稳定"];
-
-function ProgressPage(){
-  const [range,setRange]=useState("30天");
-  const [signalTab,setSignalTab]=useState("全部");
-  const [active,setActive]=useState<LearningSignal|null>(null);
-  const {sessions,signals,updateSignalStatus}=useAppState();
-  const overview=overviewByRange[range]!;
-  const skills=skillCardsByRange[range]!;
-  const trend=trendByRange[range]!;
-  const filteredSignals=signalTab==="全部"?signals:signals.filter(s=>s.module===signalTab);
-  const selected=active?signals.find((signal)=>signal.id===active.id)??active:null;
-
-  return <div className="space-y-10">
-    <PageHeader title="进度" subtitle="不是看你刷了多少题，而是看你的英语正在发生什么变化。"/>
-
-    <div className="flex gap-2 overflow-x-auto pb-1">
-      {ranges.map(r=><Chip key={r} active={range===r} onClick={()=>setRange(r)}>{r}</Chip>)}
-    </div>
-
-    <section className="surface p-6 sm:p-8">
-      <div className="flex flex-wrap gap-x-12 gap-y-4">
-        <div><p className="text-[11px] text-muted-foreground">{overview.caption}学习时间</p><p className="display mt-1 text-2xl">{overview.time}</p></div>
-        <div><p className="text-[11px] text-muted-foreground">学习次数</p><p className="display mt-1 text-2xl tabular-nums">{overview.count}</p></div>
-      </div>
-      <div className="mt-7"><p className="mb-3 text-xs text-muted-foreground">学习时间趋势</p><TrendChart data={trend}/></div>
-    </section>
-
-    <section>
-      <SectionTitle title="听说读写"/>
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {skills.map(s=><div key={s.module} className="surface p-5"><p className="text-sm">{s.module}</p><p className="display mt-4 text-lg tabular-nums">{s.time}</p><p className="mt-1 text-[11px] text-muted-foreground">趋势 {s.trend}</p></div>)}
-      </div>
-    </section>
-
-    <section>
-      <SectionTitle title="IELTS 表现" subtitle="只记录做过的原始得分，不换算 band。"/>
-      <div className="grid gap-3 md:grid-cols-2">
-        <div className="surface p-5 sm:p-6"><p className="text-sm">Reading</p><div className="mt-4 space-y-2 text-xs text-muted-foreground"><p>最近：<span className="tabular-nums text-foreground">31 / 40</span></p><p>近 5 次平均：<span className="tabular-nums text-foreground">30.4 / 40</span></p></div></div>
-        <div className="surface p-5 sm:p-6"><p className="text-sm">Listening</p><div className="mt-4 space-y-2 text-xs text-muted-foreground"><p>最近：<span className="tabular-nums text-foreground">28 / 40</span></p><p>近 5 次平均：<span className="tabular-nums text-foreground">27.2 / 40</span></p></div></div>
-      </div>
-    </section>
-
-    <section>
-      <SectionTitle title="我的学习问题"/>
-      <div className="mb-4 flex gap-2 overflow-x-auto pb-1">
-        {signalTabs.map(t=><Chip key={t} active={signalTab===t} onClick={()=>setSignalTab(t)}>{t}</Chip>)}
-      </div>
-      <div className="surface divide-y divide-border overflow-hidden">
-        {filteredSignals.map(s=><button key={s.id} type="button" onClick={()=>setActive(s)} className="flex w-full items-center gap-4 px-5 py-4 text-left transition-colors hover:bg-secondary/50"><div className="min-w-0 flex-1"><p className="truncate text-sm">{s.title}</p><p className="mt-1 text-[11px] text-muted-foreground">{s.module} · 最近出现 {formatCnDate(s.lastSeen)}</p></div><StatusPill status={s.status}/><ChevronRight className="size-4 shrink-0 text-muted-foreground"/></button>)}
-        {filteredSignals.length===0?<p className="px-5 py-8 text-center text-sm text-muted-foreground">这个科目暂时没有记录的问题。</p>:null}
-      </div>
-    </section>
-
-    <section>
-      <SectionTitle title="最近的学习"/>
-      <ol className="space-y-1">
-        {sessions.slice(0,8).map(s=><li key={s.id} className="flex gap-5 py-3"><span className="w-16 shrink-0 pt-0.5 text-[11px] tabular-nums text-muted-foreground">{formatCnDate(s.date)}</span><span className="relative flex-1 border-l border-border pl-5"><span className={cn("absolute top-1.5 -left-[3.5px] size-[7px] rounded-full bg-sage")}/><span className="block text-sm">{s.activity}</span><span className="mt-1 block text-[11px] text-muted-foreground">{s.module}{s.score?` · ${s.score}`:""} · {s.durationMinutes} min{s.tool?` · ${s.tool}`:""}</span></span></li>)}
-      </ol>
-      <p className="mt-4 text-[11px] text-muted-foreground">共 {sessions.length} 条记录</p>
-    </section>
-
-    <Sheet open={!!selected} onOpenChange={o=>!o&&setActive(null)}>
-      <SheetContent className="w-full overflow-y-auto sm:max-w-md">
-        {selected?<>
-          <SheetHeader><SheetTitle className="display text-xl leading-snug">{selected.title}</SheetTitle><SheetDescription className="text-xs">{selected.module} · {selected.status}</SheetDescription></SheetHeader>
-          <div className="mt-8 space-y-6 pb-8">
-            <div className="grid grid-cols-3 gap-3 text-xs">
-              <div><p className="text-muted-foreground">首次出现</p><p className="mt-1 tabular-nums">{selected.firstSeen}</p></div>
-              <div><p className="text-muted-foreground">最近出现</p><p className="mt-1 tabular-nums">{selected.lastSeen}</p></div>
-              <div><p className="text-muted-foreground">出现次数</p><p className="mt-1 tabular-nums">{selected.occurrenceCount}</p></div>
-            </div>
-            <div><p className="text-xs text-muted-foreground">表现</p><p className="mt-2 text-sm leading-relaxed">{selected.evidence}</p></div>
-            <div className="rounded-xl bg-sage-soft/70 p-4"><p className="text-xs text-sage-foreground">下一步</p><p className="mt-2 text-sm leading-relaxed">{selected.nextAction}</p></div>
-            <div>
-              <p className="text-xs text-muted-foreground">训练状态</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {signalStatuses.map((status)=><Chip key={status} active={selected.status===status} onClick={()=>updateSignalStatus(selected.id,status)}>{status}</Chip>)}
-              </div>
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground">相关记录</p>
-              <ul className="mt-3 space-y-2">
-                {sessions.filter(s=>selected.relatedSessionIds.includes(s.id)).map(s=><li key={s.id} className="rounded-lg border border-border px-4 py-3 text-xs"><p className="text-sm">{s.activity}</p><p className="mt-1 text-muted-foreground">{s.date} · {s.durationMinutes} min{s.score?` · ${s.score}`:""}</p></li>)}
-              </ul>
-            </div>
-          </div>
-        </>:null}
-      </SheetContent>
-    </Sheet>
-  </div>;
-}
+function ProgressPage(){const [range,setRange]=useState<(typeof ranges)[number]>("30天");const [signalTab,setSignalTab]=useState<(typeof signalTabs)[number]>("全部");const [active,setActive]=useState<LearningSignal|null>(null);const {sessions,signals,updateSignalStatus,mistakes,vocabulary}=useAppState();const scoped=useMemo(()=>filteredByRange(sessions,range),[sessions,range]);const totalMinutes=scoped.reduce((sum,s)=>sum+s.durationMinutes,0);const modules:Module[]=["听力","口语","阅读","写作"];const skills=modules.map(module=>({module,minutes:scoped.filter(s=>s.module===module).reduce((sum,s)=>sum+s.durationMinutes,0),count:scoped.filter(s=>s.module===module).length}));const trend=useMemo(()=>{const grouped=new Map<string,number>();[...scoped].reverse().forEach(s=>grouped.set(s.date,(grouped.get(s.date)??0)+s.durationMinutes));return Array.from(grouped.entries()).slice(-12).map(([label,minutes])=>({label:label.slice(5),minutes}))},[scoped]);const filteredSignals=signalTab==="全部"?signals:signals.filter(s=>s.module===signalTab);const selected=active?signals.find(s=>s.id===active.id)??active:null;const readingScores=rawScores(sessions,"阅读");const listeningScores=rawScores(sessions,"听力");
+function scoreCard(label:string,values:{session:StudySession;value:number;total:number}[]){const latest=values[0];const five=values.slice(0,5);const avg=five.length?five.reduce((sum,v)=>sum+v.value,0)/five.length:null;return <div className="surface p-5 sm:p-6"><p className="text-sm">{label}</p><div className="mt-4 space-y-2 text-xs text-muted-foreground"><p>最近：<span className="tabular-nums text-foreground">{latest?`${latest.value} / ${latest.total}`:"暂无"}</span></p><p>近 5 次平均：<span className="tabular-nums text-foreground">{avg===null?"暂无":`${avg.toFixed(1)} / ${latest?.total??40}`}</span></p></div>{latest?<Link to="/session" search={{id:latest.session.id}} className="mt-4 inline-block text-[11px] text-sage-foreground hover:underline">查看最近一次</Link>:null}</div>}
+return <div className="space-y-10"><PageHeader title="进度" subtitle="这里现在直接读取你的学习记录，不再用固定示例数字。"/><div className="flex gap-2 overflow-x-auto pb-1">{ranges.map(r=><Chip key={r} active={range===r} onClick={()=>setRange(r)}>{r}</Chip>)}</div><section className="surface p-6 sm:p-8"><div className="flex flex-wrap gap-x-12 gap-y-4"><div><p className="text-[11px] text-muted-foreground">{range}学习时间</p><p className="display mt-1 text-2xl">{formatMinutes(totalMinutes)}</p></div><div><p className="text-[11px] text-muted-foreground">学习次数</p><p className="display mt-1 text-2xl tabular-nums">{scoped.length}</p></div><div><p className="text-[11px] text-muted-foreground">待复习错题</p><p className="display mt-1 text-2xl tabular-nums">{mistakes.filter(m=>m.status!=="已掌握").length}</p></div><div><p className="text-[11px] text-muted-foreground">生词</p><p className="display mt-1 text-2xl tabular-nums">{vocabulary.length}</p></div></div><div className="mt-7"><p className="mb-3 text-xs text-muted-foreground">学习时间趋势</p>{trend.length?<TrendChart data={trend}/>:<p className="py-8 text-center text-xs text-muted-foreground">这个范围还没有学习记录。</p>}</div></section>
+<section><SectionTitle title="听说读写"/><div className="grid grid-cols-2 gap-3 lg:grid-cols-4">{skills.map(s=><Link key={s.module} to="/practice" search={{module:s.module==="听力"?"listening":s.module==="口语"?"speaking":s.module==="阅读"?"reading":"writing"}} className="surface hover-lift p-5"><p className="text-sm">{s.module}</p><p className="display mt-4 text-lg tabular-nums">{formatMinutes(s.minutes)}</p><p className="mt-1 text-[11px] text-muted-foreground">{s.count} 次记录</p></Link>)}</div></section>
+<section><SectionTitle title="IELTS 表现" subtitle="只记录做过的原始得分，不换算 band。"/><div className="grid gap-3 md:grid-cols-2">{scoreCard("Reading",readingScores)}{scoreCard("Listening",listeningScores)}</div></section>
+<section><SectionTitle title="复盘与积累"/><div className="grid gap-3 sm:grid-cols-2"><Link to="/mistakes" className="surface hover-lift p-5"><p className="text-sm">错题本</p><p className="display mt-3 text-2xl">{mistakes.length}</p><p className="mt-1 text-[11px] text-muted-foreground">{mistakes.filter(m=>m.status!=="已掌握").length} 条还需要复习</p></Link><Link to="/vocabulary" className="surface hover-lift p-5"><p className="text-sm">生词本</p><p className="display mt-3 text-2xl">{vocabulary.length}</p><p className="mt-1 text-[11px] text-muted-foreground">{vocabulary.filter(v=>v.status!=="已掌握").length} 个正在学习</p></Link></div></section>
+<section><SectionTitle title="我的学习问题"/><div className="mb-4 flex gap-2 overflow-x-auto pb-1">{signalTabs.map(t=><Chip key={t} active={signalTab===t} onClick={()=>setSignalTab(t)}>{t}</Chip>)}</div><div className="surface divide-y divide-border overflow-hidden">{filteredSignals.map(s=><button key={s.id} type="button" onClick={()=>setActive(s)} className="flex w-full items-center gap-4 px-5 py-4 text-left hover:bg-secondary/50"><div className="min-w-0 flex-1"><p className="truncate text-sm">{s.title}</p><p className="mt-1 text-[11px] text-muted-foreground">{s.module} · 最近出现 {formatCnDate(s.lastSeen)}</p></div><StatusPill status={s.status}/><ChevronRight className="size-4 text-muted-foreground"/></button>)}{!filteredSignals.length?<p className="px-5 py-8 text-center text-sm text-muted-foreground">这个科目暂时没有记录的问题。</p>:null}</div></section>
+<section><SectionTitle title="最近的学习"/><ol className="space-y-1">{sessions.slice(0,12).map(s=><li key={s.id}><Link to="/session" search={{id:s.id}} className="flex gap-5 rounded-lg py-3 transition-colors hover:bg-secondary/35"><span className="w-16 shrink-0 pl-2 pt-0.5 text-[11px] tabular-nums text-muted-foreground">{formatCnDate(s.date)}</span><span className="relative flex-1 border-l border-border pl-5"><span className={cn("absolute top-1.5 -left-[3.5px] size-[7px] rounded-full bg-sage")}/><span className="block text-sm">{s.activity}</span><span className="mt-1 block text-[11px] text-muted-foreground">{s.module}{s.score?` · ${s.score}`:""} · {s.durationMinutes} min{s.tool?` · ${s.tool}`:""}</span></span><ChevronRight className="mr-2 mt-1 size-4 text-muted-foreground"/></Link></li>)}</ol><p className="mt-4 text-[11px] text-muted-foreground">共 {sessions.length} 条记录</p></section>
+<Sheet open={!!selected} onOpenChange={o=>!o&&setActive(null)}><SheetContent className="w-full overflow-y-auto sm:max-w-md">{selected?<><SheetHeader><SheetTitle className="display text-xl leading-snug">{selected.title}</SheetTitle><SheetDescription className="text-xs">{selected.module} · {selected.status}</SheetDescription></SheetHeader><div className="mt-8 space-y-6 pb-8"><div className="grid grid-cols-3 gap-3 text-xs"><div><p className="text-muted-foreground">首次出现</p><p className="mt-1 tabular-nums">{selected.firstSeen}</p></div><div><p className="text-muted-foreground">最近出现</p><p className="mt-1 tabular-nums">{selected.lastSeen}</p></div><div><p className="text-muted-foreground">出现次数</p><p className="mt-1 tabular-nums">{selected.occurrenceCount}</p></div></div><div><p className="text-xs text-muted-foreground">表现</p><p className="mt-2 text-sm leading-relaxed">{selected.evidence}</p></div><div className="rounded-xl bg-sage-soft/70 p-4"><p className="text-xs text-sage-foreground">下一步</p><p className="mt-2 text-sm leading-relaxed">{selected.nextAction}</p></div><div><p className="text-xs text-muted-foreground">训练状态</p><div className="mt-3 flex flex-wrap gap-2">{signalStatuses.map(status=><Chip key={status} active={selected.status===status} onClick={()=>updateSignalStatus(selected.id,status)}>{status}</Chip>)}</div></div><div><p className="text-xs text-muted-foreground">相关记录</p><ul className="mt-3 space-y-2">{sessions.filter(s=>selected.relatedSessionIds.includes(s.id)).map(s=><li key={s.id}><Link to="/session" search={{id:s.id}} className="block rounded-lg border border-border px-4 py-3 text-xs hover:border-sage"><p className="text-sm">{s.activity}</p><p className="mt-1 text-muted-foreground">{s.date} · {s.durationMinutes} min{s.score?` · ${s.score}`:""}</p></Link></li>)}</ul></div></div></>:null}</SheetContent></Sheet></div>}
