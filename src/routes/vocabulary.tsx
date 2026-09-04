@@ -1,0 +1,25 @@
+import { useMemo, useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Plus, Trash2 } from "lucide-react";
+import { PageHeader, SectionTitle, Chip } from "@/components/ui-kit";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useAppState, type VocabularyStatus } from "@/state/app-state";
+import type { Module } from "@/data/mock";
+import { cn } from "@/lib/utils";
+
+export const Route=createFileRoute("/vocabulary")({head:()=>({meta:[{title:"生词本 · Ivy English"}]}),component:VocabularyPage});
+const modules:Module[]=["听力","口语","阅读","写作","词汇"];
+const statuses:VocabularyStatus[]=["新词","复习中","已掌握"];
+
+function VocabularyPage(){
+  const {vocabulary,addVocabulary,updateVocabularyStatus,removeVocabulary}=useAppState();
+  const [status,setStatus]=useState<"全部"|VocabularyStatus>("全部");
+  const [word,setWord]=useState("");const [meaning,setMeaning]=useState("");const [context,setContext]=useState("");const [source,setSource]=useState("");const [module,setModule]=useState<Module>("阅读");
+  const visible=useMemo(()=>status==="全部"?vocabulary:vocabulary.filter(item=>item.status===status),[status,vocabulary]);
+  function save(){if(!word.trim())return;addVocabulary({word,meaning:meaning.trim()||undefined,context:context.trim()||undefined,source:source.trim()||"手动添加",module});setWord("");setMeaning("");setContext("");setSource("");}
+  return <div className="space-y-9"><PageHeader title="生词本" subtitle="把阅读、听力和写作里真正遇到的词留下来，而不是背一份陌生词表。"/>
+    <section className="surface p-5 sm:p-6"><SectionTitle title="添加一个词"/><div className="grid gap-3 sm:grid-cols-2"><Input value={word} onChange={e=>setWord(e.target.value)} placeholder="word / phrase"/><Input value={meaning} onChange={e=>setMeaning(e.target.value)} placeholder="自己的释义（可选）"/><Input value={source} onChange={e=>setSource(e.target.value)} placeholder="来源，例如 Reading Passage 2"/><div className="flex gap-2 overflow-x-auto">{modules.map(m=><Chip key={m} active={module===m} onClick={()=>setModule(m)}>{m}</Chip>)}</div></div><Textarea value={context} onChange={e=>setContext(e.target.value)} rows={2} className="mt-3 resize-none" placeholder="原句 / 语境（可选）"/><Button onClick={save} className="mt-3 rounded-full"><Plus className="mr-1 size-3.5"/>保存到生词本</Button></section>
+    <section><SectionTitle title="我的词" subtitle={`${vocabulary.length} 个`}/><div className="mb-4 flex gap-2 overflow-x-auto">{(["全部",...statuses] as const).map(s=><Chip key={s} active={status===s} onClick={()=>setStatus(s)}>{s}</Chip>)}</div><div className="grid gap-3 md:grid-cols-2">{visible.map(item=><article key={item.id} className="surface p-5"><div className="flex items-start justify-between gap-3"><div><p className="display text-xl">{item.word}</p><p className="mt-1 text-[11px] text-muted-foreground">{item.module} · {item.source}</p></div><button type="button" onClick={()=>removeVocabulary(item.id)} className="text-muted-foreground hover:text-foreground"><Trash2 className="size-3.5"/></button></div>{item.meaning?<p className="mt-4 text-sm">{item.meaning}</p>:null}{item.context?<p className="mt-3 rounded-lg bg-secondary/50 p-3 text-xs leading-5 text-muted-foreground">{item.context}</p>:null}<div className="mt-4 flex flex-wrap gap-2">{statuses.map(s=><button key={s} type="button" onClick={()=>updateVocabularyStatus(item.id,s)} className={cn("rounded-full border px-2.5 py-1 text-[10px]",item.status===s?"border-transparent bg-primary text-primary-foreground":"border-border text-muted-foreground")}>{s}</button>)}</div></article>)}{!visible.length?<div className="surface col-span-full py-12 text-center text-sm text-muted-foreground">这个筛选下还没有词。</div>:null}</div></section><p className="text-xs"><Link to="/library" className="text-sage-foreground hover:underline">返回资料库</Link></p></div>;
+}
