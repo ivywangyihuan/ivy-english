@@ -80,10 +80,10 @@ function HomePage() {
         </div>
       </section>
 
-      <div className="grid gap-5 lg:grid-cols-3">
-        <section className="lg:col-span-1">
+      <div className="grid items-stretch gap-5 lg:grid-cols-3">
+        <section className="flex min-h-0 flex-col lg:col-span-1">
           <SectionTitle title="继续上次" />
-          <div className="surface hover-lift flex h-full flex-col justify-between gap-5 p-5 sm:p-6">
+          <div className="surface hover-lift flex flex-1 flex-col justify-between gap-5 p-5 sm:p-6">
             <div>
               <p className="text-sm">IELTS Reading</p>
               <p className="mt-1 text-xs text-muted-foreground">Cambridge 18 · Test 2 · Passage 3</p>
@@ -100,9 +100,9 @@ function HomePage() {
           </div>
         </section>
 
-        <section className="lg:col-span-2">
+        <section className="flex min-h-0 flex-col lg:col-span-2">
           <SectionTitle title="开始学习" />
-          <div className="grid grid-cols-2 gap-3 sm:gap-4">
+          <div className="grid flex-1 auto-rows-fr grid-cols-2 gap-3 sm:gap-4">
             {quickStart.map((card) => (
               <Link
                 key={card.title}
