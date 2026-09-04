@@ -33,10 +33,12 @@ const quickStart = [
 function HomePage() {
   const { plan, isShortPlan, setShortPlan, signals, questions } = useAppState();
   const totalMinutes = plan.reduce((a, b) => a + b.minutes, 0);
-  const recentQuestions = questions
-    .filter((question) => question.sourceType === "recent")
-    .sort((a, b) => (b.recentDate ?? "").localeCompare(a.recentDate ?? ""))
-    .slice(0, 4);
+  const recentQuestions = (["听力", "口语", "阅读", "写作"] as const).flatMap((module) => {
+    const latest = questions
+      .filter((question) => question.sourceType === "recent" && question.module === module)
+      .sort((a, b) => (b.recentDate ?? "").localeCompare(a.recentDate ?? ""))[0];
+    return latest ? [latest] : [];
+  });
 
   return (
     <div className="space-y-10">
