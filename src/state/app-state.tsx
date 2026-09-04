@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { learningSignals as seedSignals, questions as seedQuestions, studySessions as seedSessions } from "@/data/mock";
 import type { LearningSignal, Question, SignalStatus, StudySession } from "@/data/mock";
 
@@ -70,14 +70,25 @@ const shortPlan: PlanItem[] = [
 ];
 
 const Ctx = createContext<AppState | null>(null);
+const learningStageStorageKey = "ivy-english-learning-stage";
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
   const [sessions, setSessions] = useState<StudySession[]>(seedSessions);
   const [questionList, setQuestionList] = useState<Question[]>(seedQuestions);
   const [signals, setSignals] = useState<LearningSignal[]>(seedSignals);
-  const [learningStage, setLearningStage] = useState<LearningStageKey>("foundation");
+  const [learningStage, setLearningStageState] = useState<LearningStageKey>("foundation");
   const [isShortPlan, setShortPlan] = useState(false);
   const [captureOpen, setCaptureOpen] = useState(false);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem(learningStageStorageKey) as LearningStageKey | null;
+    if (saved && learningStages.some((stage) => stage.key === saved)) setLearningStageState(saved);
+  }, []);
+
+  const setLearningStage = useCallback((stage: LearningStageKey) => {
+    setLearningStageState(stage);
+    window.localStorage.setItem(learningStageStorageKey, stage);
+  }, []);
 
   const addSession = useCallback((s: Omit<StudySession, "id">) => {
     setSessions((prev) => [{ ...s, id: `local-${Date.now()}` }, ...prev]);
@@ -125,6 +136,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       signals,
       updateSignalStatus,
       learningStage,
+      setLearningStage,
       isShortPlan,
       captureOpen,
     ],
