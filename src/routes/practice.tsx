@@ -165,10 +165,10 @@ function PracticePage(){
         {title:"我的材料",hint:"PDF · 老师的材料",icon:FolderOpen}
       ]}/>
       <Group title="IELTS Reading" items={[
-        {title:"Cambridge / 官方",hint:"机考熟悉模式 · Ivy 示例",icon:BookMarked,badge:"CBT",href:"/exam?mode=familiarisation"},
+        {title:"Cambridge / 官方",hint:"单 Passage · 默认 20 分钟",icon:BookMarked,badge:"CBT",href:"/exam-v2?mode=familiarisation&scope=passage"},
         {title:"近期题型",hint:"考生回忆整理",icon:ClipboardList,to:{tab:"recent",subject:"阅读"}},
         {title:"我的题库",hint:"收藏 · 错题",icon:FolderOpen},
-        {title:"完整 CBT",hint:"考试模式 · 严格计时",icon:Timer,badge:"CBT",href:"/exam?mode=exam"}
+        {title:"完整 CBT",hint:"完整 Reading · 60 分钟",icon:Timer,badge:"CBT",href:"/exam-v2?mode=exam&scope=full"}
       ]}/>
       <section>
         <SectionTitle title="最近一次"/>
