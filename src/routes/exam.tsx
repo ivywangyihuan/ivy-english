@@ -32,6 +32,7 @@ export const Route = createFileRoute("/exam")({
 });
 
 type Answers = Record<string, string>;
+type FamiliarisationTimerMode = "off" | "elapsed";
 
 const section = demoReadingExam.sections[0]!;
 const headingQuestions = section.questions.filter((question) => question.type === "matching-headings");
@@ -282,6 +283,9 @@ function ExamPage() {
   const { mode } = Route.useSearch();
   const [answers, setAnswers] = useState<Answers>({});
   const [timeLeft, setTimeLeft] = useState(demoReadingExam.durationMinutes * 60);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [familiarisationTimerMode, setFamiliarisationTimerMode] = useState<FamiliarisationTimerMode>("off");
+  const [timerMenuOpen, setTimerMenuOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [reviewOpen, setReviewOpen] = useState(false);
   const [submitOpen, setSubmitOpen] = useState(false);
@@ -298,24 +302,45 @@ function ExamPage() {
     try {
       const saved = window.localStorage.getItem(storageKey);
       if (!saved) return;
-      const parsed = JSON.parse(saved) as { answers?: Answers; highlights?: string[]; note?: string };
+      const parsed = JSON.parse(saved) as {
+        answers?: Answers;
+        highlights?: string[];
+        note?: string;
+        familiarisationTimerMode?: FamiliarisationTimerMode;
+        elapsedSeconds?: number;
+      };
       if (parsed.answers) setAnswers(parsed.answers);
       if (parsed.highlights) setHighlights(parsed.highlights);
       if (parsed.note) setNote(parsed.note);
+      if (parsed.familiarisationTimerMode === "off" || parsed.familiarisationTimerMode === "elapsed") {
+        setFamiliarisationTimerMode(parsed.familiarisationTimerMode);
+      }
+      if (typeof parsed.elapsedSeconds === "number" && Number.isFinite(parsed.elapsedSeconds) && parsed.elapsedSeconds >= 0) {
+        setElapsedSeconds(Math.floor(parsed.elapsedSeconds));
+      }
     } catch {
       // Ignore malformed local demo state.
     }
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem(storageKey, JSON.stringify({ answers, highlights, note }));
-  }, [answers, highlights, note]);
+    window.localStorage.setItem(
+      storageKey,
+      JSON.stringify({ answers, highlights, note, familiarisationTimerMode, elapsedSeconds }),
+    );
+  }, [answers, highlights, note, familiarisationTimerMode, elapsedSeconds]);
 
   useEffect(() => {
     if (mode !== "exam" || timeLeft <= 0) return;
     const timer = window.setInterval(() => setTimeLeft((value) => Math.max(0, value - 1)), 1000);
     return () => window.clearInterval(timer);
   }, [mode, timeLeft]);
+
+  useEffect(() => {
+    if (mode !== "familiarisation" || familiarisationTimerMode !== "elapsed") return;
+    const timer = window.setInterval(() => setElapsedSeconds((value) => value + 1), 1000);
+    return () => window.clearInterval(timer);
+  }, [mode, familiarisationTimerMode]);
 
   const answeredCount = useMemo(() => Object.values(answers).filter((answer) => answer.trim()).length, [answers]);
   const unanswered = section.questions.filter((question) => !answers[question.id]?.trim()).map((question) => question.number);
@@ -391,17 +416,76 @@ function ExamPage() {
             </div>
           </div>
 
-          <div
-            className={cn(
-              "flex items-center gap-2 rounded-sm border px-4 py-2 text-[15px] font-semibold",
-              mode === "exam" && timeLeft < 300
-                ? "border-[#ba4b43] bg-[#fff2f1] text-[#8b201b]"
-                : "border-[#bdbdbd] bg-white",
-            )}
-          >
-            <Clock3 className="size-4" />
-            <span className={mode === "exam" ? "font-mono" : "text-xs font-medium"}>{mode === "exam" ? formatTime(timeLeft) : "Untimed"}</span>
-          </div>
+          {mode === "exam" ? (
+            <div
+              className={cn(
+                "flex items-center gap-2 rounded-sm border px-4 py-2 text-[15px] font-semibold",
+                timeLeft < 300
+                  ? "border-[#ba4b43] bg-[#fff2f1] text-[#8b201b]"
+                  : "border-[#bdbdbd] bg-white",
+              )}
+            >
+              <Clock3 className="size-4" />
+              <span className="font-mono">{formatTime(timeLeft)}</span>
+            </div>
+          ) : (
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setTimerMenuOpen((open) => !open)}
+                className="flex items-center gap-2 rounded-sm border border-[#bdbdbd] bg-white px-4 py-2 text-[15px] font-semibold hover:bg-[#f2f2f2]"
+                aria-expanded={timerMenuOpen}
+              >
+                <Clock3 className="size-4" />
+                <span className={familiarisationTimerMode === "elapsed" ? "font-mono" : "text-xs font-medium"}>
+                  {familiarisationTimerMode === "elapsed" ? formatTime(elapsedSeconds) : "Untimed"}
+                </span>
+              </button>
+
+              {timerMenuOpen ? (
+                <div className="absolute left-1/2 top-[46px] z-[60] w-64 -translate-x-1/2 rounded-sm border border-[#aaa] bg-white p-2 shadow-xl">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFamiliarisationTimerMode("off");
+                      setTimerMenuOpen(false);
+                    }}
+                    className={cn(
+                      "flex w-full items-start gap-3 rounded-sm px-3 py-2.5 text-left hover:bg-[#f2f2f2]",
+                      familiarisationTimerMode === "off" && "bg-[#f2f6f8]",
+                    )}
+                  >
+                    <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center">
+                      {familiarisationTimerMode === "off" ? <Check className="size-4" /> : null}
+                    </span>
+                    <span>
+                      <span className="block text-xs font-semibold">不计时</span>
+                      <span className="mt-0.5 block text-[10px] leading-4 text-[#666]">隐藏时间，不记录本次耗时</span>
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFamiliarisationTimerMode("elapsed");
+                      setTimerMenuOpen(false);
+                    }}
+                    className={cn(
+                      "mt-1 flex w-full items-start gap-3 rounded-sm px-3 py-2.5 text-left hover:bg-[#f2f2f2]",
+                      familiarisationTimerMode === "elapsed" && "bg-[#f2f6f8]",
+                    )}
+                  >
+                    <span className="mt-0.5 flex size-4 shrink-0 items-center justify-center">
+                      {familiarisationTimerMode === "elapsed" ? <Check className="size-4" /> : null}
+                    </span>
+                    <span>
+                      <span className="block text-xs font-semibold">正数计时</span>
+                      <span className="mt-0.5 block text-[10px] leading-4 text-[#666]">从 00:00 向上记录实际用时</span>
+                    </span>
+                  </button>
+                </div>
+              ) : null}
+            </div>
+          )}
 
           <div className="flex flex-1 justify-end gap-2">
             <button type="button" onClick={() => setHelpOpen(true)} className="flex h-9 items-center gap-2 rounded-sm border border-[#b9b9b9] bg-white px-3 text-xs hover:bg-[#efefef]">
@@ -573,7 +657,11 @@ function ExamPage() {
                 <p>Select text in the passage to highlight it or add it to your notes.</p>
                 <p>Matching headings can be completed by dragging a heading into an answer box. You can also click a heading and then click the answer box.</p>
                 <p>Use the numbered boxes at the bottom to move directly to a question. Answered questions are shown in blue.</p>
-                <p>{mode === "exam" ? "Exam mode uses a strict countdown." : "Familiarisation mode is untimed so you can learn the controls without time pressure."}</p>
+                <p>
+                  {mode === "exam"
+                    ? "Exam mode uses a strict countdown."
+                    : "In Familiarisation mode, click the timer to choose between no timer and an elapsed timer that records how long you spend."}
+                </p>
                 <p>This Ivy sample uses original practice content, not an official IELTS test paper.</p>
               </div>
             </div>
@@ -589,7 +677,15 @@ function ExamPage() {
               <div className="p-6">
                 <div className="flex items-center gap-3">
                   <div className={cn("flex size-11 items-center justify-center rounded-full", unanswered.length ? "bg-[#fff0dd] text-[#8d5c18]" : "bg-[#e8f3ec] text-[#286344]")}>{unanswered.length ? <FileText className="size-5" /> : <Check className="size-5" />}</div>
-                  <div><p className="text-sm font-semibold">{answeredCount} / {section.questions.length} answered</p><p className="mt-1 text-xs text-[#666]">{unanswered.length ? `${unanswered.length} question${unanswered.length > 1 ? "s are" : " is"} still unanswered.` : "All questions are answered."}</p></div>
+                  <div>
+                    <p className="text-sm font-semibold">{answeredCount} / {section.questions.length} answered</p>
+                    <p className="mt-1 text-xs text-[#666]">{unanswered.length ? `${unanswered.length} question${unanswered.length > 1 ? "s are" : " is"} still unanswered.` : "All questions are answered."}</p>
+                    {mode === "familiarisation" ? (
+                      <p className="mt-2 text-xs text-[#555]">
+                        {familiarisationTimerMode === "elapsed" ? `Time spent: ${formatTime(elapsedSeconds)}` : "Time spent: not recorded"}
+                      </p>
+                    ) : null}
+                  </div>
                 </div>
                 <div className="mt-6 flex justify-end gap-2">
                   <button type="button" onClick={() => setSubmitOpen(false)} className="h-9 rounded-sm border border-[#aaa] px-4 text-xs hover:bg-[#eee]">Continue test</button>
