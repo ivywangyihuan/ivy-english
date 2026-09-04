@@ -25,7 +25,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               key={item.to}
               to={item.to}
               activeOptions={{ exact: item.to === "/" }}
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-sidebar-accent/60 hover:text-foreground"
+              className="flex touch-manipulation items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors duration-100 hover:bg-sidebar-accent/60 hover:text-foreground"
               activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground" }}
             >
               <item.icon className="size-4" />
@@ -38,14 +38,14 @@ export function AppShell({ children }: { children: ReactNode }) {
             href="https://www.notion.so"
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-sidebar-accent/60 hover:text-foreground"
+            className="flex touch-manipulation items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors duration-100 hover:bg-sidebar-accent/60 hover:text-foreground"
           >
             <Library className="size-4" />资料库
             <ExternalLink className="ml-auto size-3" />
           </a>
           <Link
             to="/settings"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-sidebar-accent/60 hover:text-foreground"
+            className="flex touch-manipulation items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors duration-100 hover:bg-sidebar-accent/60 hover:text-foreground"
             activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground" }}
           >
             <Settings className="size-4" />设置
@@ -57,20 +57,37 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="mx-auto w-full max-w-5xl px-5 pt-8 pb-32 sm:px-8 md:pt-10 md:pb-20">{children}</div>
       </main>
 
-      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-paper/95 backdrop-blur md:hidden">
-        <div className="grid grid-cols-4">
+      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-paper/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
+        <div className="grid grid-cols-6">
           {nav.map((item) => (
             <Link
               key={item.to}
               to={item.to}
               activeOptions={{ exact: item.to === "/" }}
-              className={cn("flex flex-col items-center gap-1 py-3 text-[11px] text-muted-foreground transition-colors")}
+              className={cn("flex touch-manipulation flex-col items-center gap-1 py-2.5 text-[10px] text-muted-foreground transition-colors duration-100")}
               activeProps={{ className: "text-sage-foreground" }}
             >
-              <item.icon className="size-5" />
+              <item.icon className="size-[18px]" />
               {item.mobileLabel}
             </Link>
           ))}
+          <a
+            href="https://www.notion.so"
+            target="_blank"
+            rel="noreferrer"
+            className="flex touch-manipulation flex-col items-center gap-1 py-2.5 text-[10px] text-muted-foreground transition-colors duration-100 active:text-sage-foreground"
+          >
+            <Library className="size-[18px]" />
+            资料库
+          </a>
+          <Link
+            to="/settings"
+            className="flex touch-manipulation flex-col items-center gap-1 py-2.5 text-[10px] text-muted-foreground transition-colors duration-100"
+            activeProps={{ className: "text-sage-foreground" }}
+          >
+            <Settings className="size-[18px]" />
+            设置
+          </Link>
         </div>
       </nav>
 
