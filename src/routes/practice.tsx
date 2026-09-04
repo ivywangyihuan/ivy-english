@@ -30,7 +30,7 @@ const tabs:{key:ModuleKey;label:string;icon:LucideIcon}[]=[
   {key:"writing",label:"写作",icon:PenLine}
 ];
 
-interface Item{title:string;hint?:string;icon:LucideIcon;badge?:string;to?:{tab:"recent";subject:string}}
+interface Item{title:string;hint?:string;icon:LucideIcon;badge?:string;to?:{tab:"recent";subject:string};href?:string}
 
 function ItemCard({item}:{item:Item}){
   const inner=<>
@@ -44,6 +44,7 @@ function ItemCard({item}:{item:Item}){
     </div>
   </>;
   const cls="surface hover-lift flex flex-col p-5 text-left";
+  if(item.href)return <a href={item.href} className={cls}>{inner}</a>;
   return item.to?<Link to="/bank" search={item.to} className={cls}>{inner}</Link>:<button type="button" className={cls}>{inner}</button>;
 }
 
@@ -164,10 +165,10 @@ function PracticePage(){
         {title:"我的材料",hint:"PDF · 老师的材料",icon:FolderOpen}
       ]}/>
       <Group title="IELTS Reading" items={[
-        {title:"Cambridge / 官方",hint:"Cambridge 17–20",icon:BookMarked},
+        {title:"Cambridge / 官方",hint:"机考熟悉模式 · Ivy 示例",icon:BookMarked,badge:"CBT",href:"/exam?mode=familiarisation"},
         {title:"近期题型",hint:"考生回忆整理",icon:ClipboardList,to:{tab:"recent",subject:"阅读"}},
         {title:"我的题库",hint:"收藏 · 错题",icon:FolderOpen},
-        {title:"完整 CBT",hint:"60 分钟 · 3 篇",icon:Timer}
+        {title:"完整 CBT",hint:"考试模式 · 严格计时",icon:Timer,badge:"CBT",href:"/exam?mode=exam"}
       ]}/>
       <section>
         <SectionTitle title="最近一次"/>
