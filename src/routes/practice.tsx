@@ -190,9 +190,10 @@ function PracticePage(){
         {title:"观点表达",hint:"一段话讲清立场",icon:FileText}
       ]}/>
       <Group title="IELTS Writing" items={[
-        {title:"Task 1",hint:"图表描述",icon:FileText},
-        {title:"Task 2",hint:"议论文",icon:PenLine},
+        {title:"Task 1",hint:"图表描述 · 机考熟悉模式",icon:FileText,badge:"CBT",href:"/writing-exam?mode=familiarisation&task=1"},
+        {title:"Task 2",hint:"议论文 · 机考熟悉模式",icon:PenLine,badge:"CBT",href:"/writing-exam?mode=familiarisation&task=2"},
         {title:"近期考题",hint:"考生回忆整理",icon:ClipboardList,to:{tab:"recent",subject:"写作"}},
+        {title:"完整模拟",hint:"Task 1 + Task 2 · 60 分钟",icon:Timer,badge:"CBT",href:"/writing-exam?mode=exam&task=1"},
         {title:"历史作文",hint:"过去写过的",icon:History}
       ]}/>
       <section>
