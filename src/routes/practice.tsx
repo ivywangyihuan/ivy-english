@@ -133,8 +133,8 @@ function PracticePage(){
         {title:"分级听力",hint:"ELLLO 等",icon:ListMusic}
       ]}/>
       <Group title="IELTS Listening" items={[
-        {title:"Section 练习",hint:"原创 Section 1 · 机考熟悉模式",icon:Layers,badge:"CBT",href:"/listening-exam?mode=familiarisation"},
-        {title:"完整模拟",hint:"考试规则 · 单次播放",icon:Timer,badge:"CBT",href:"/listening-exam?mode=exam"},
+        {title:"Section 练习",hint:"原创 Section 1 · 可暂停 / 跳转 / 重放",icon:Layers,badge:"CBT",href:"/listening-exam-v2?mode=familiarisation&scope=section"},
+        {title:"完整模拟",hint:"30 分钟 · 单次播放规则",icon:Timer,badge:"CBT",href:"/listening-exam-v2?mode=exam&scope=full"},
         {title:"历史记录",hint:"过去的成绩与复盘",icon:History}
       ]}/>
       <Callout>现在以真实英语输入为主，IELTS 练习保持低频接触。</Callout>
@@ -190,10 +190,10 @@ function PracticePage(){
         {title:"观点表达",hint:"一段话讲清立场",icon:FileText}
       ]}/>
       <Group title="IELTS Writing" items={[
-        {title:"Task 1",hint:"图表描述 · 机考熟悉模式",icon:FileText,badge:"CBT",href:"/writing-exam?mode=familiarisation&task=1"},
-        {title:"Task 2",hint:"议论文 · 机考熟悉模式",icon:PenLine,badge:"CBT",href:"/writing-exam?mode=familiarisation&task=2"},
+        {title:"Task 1",hint:"只练 Task 1 · 默认 20 分钟",icon:FileText,badge:"CBT",href:"/writing-exam-v2?mode=familiarisation&scope=task1"},
+        {title:"Task 2",hint:"只练 Task 2 · 默认 40 分钟",icon:PenLine,badge:"CBT",href:"/writing-exam-v2?mode=familiarisation&scope=task2"},
         {title:"近期考题",hint:"考生回忆整理",icon:ClipboardList,to:{tab:"recent",subject:"写作"}},
-        {title:"完整模拟",hint:"Task 1 + Task 2 · 60 分钟",icon:Timer,badge:"CBT",href:"/writing-exam?mode=exam&task=1"},
+        {title:"完整模拟",hint:"Task 1 + Task 2 · 60 分钟",icon:Timer,badge:"CBT",href:"/writing-exam-v2?mode=exam&scope=full"},
         {title:"历史作文",hint:"过去写过的",icon:History}
       ]}/>
       <section>
