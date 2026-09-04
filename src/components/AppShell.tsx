@@ -43,12 +43,13 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Library className="size-4" />资料库
             <ExternalLink className="ml-auto size-3" />
           </a>
-          <button
-            type="button"
+          <Link
+            to="/settings"
             className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-sidebar-accent/60 hover:text-foreground"
+            activeProps={{ className: "bg-sidebar-accent text-sidebar-accent-foreground" }}
           >
             <Settings className="size-4" />设置
-          </button>
+          </Link>
         </div>
       </aside>
 
