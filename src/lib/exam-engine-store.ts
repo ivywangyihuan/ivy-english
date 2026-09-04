@@ -9,6 +9,21 @@ export interface ExamAnswerRecord {
   isCorrect?: boolean
 }
 
+export interface ReadingAnnotation {
+  id: string
+  passageId: string
+  type: 'highlight' | 'note' | 'vocabulary'
+  text: string
+  createdAt: string
+}
+
+export interface ListeningPlaybackState {
+  section: number
+  currentTime: number
+  duration: number
+  completed: boolean
+}
+
 export interface ExamSession {
   id: string
   module: ExamModule
@@ -19,6 +34,8 @@ export interface ExamSession {
   durationSeconds: number
   answers: ExamAnswerRecord[]
   score?: number
+  annotations?: ReadingAnnotation[]
+  listeningState?: ListeningPlaybackState
   notes?: string[]
   highlights?: string[]
   vocabulary?: string[]
@@ -55,6 +72,22 @@ export function createExamSession(
 export function saveExamSession(session: ExamSession) {
   const sessions = readSessions().filter((item) => item.id !== session.id)
   writeSessions([session, ...sessions])
+}
+
+export function updateExamAnnotations(id: string, annotations: ReadingAnnotation[]) {
+  const sessions = readSessions().map((session) =>
+    session.id === id ? { ...session, annotations } : session,
+  )
+
+  writeSessions(sessions)
+}
+
+export function updateListeningState(id: string, listeningState: ListeningPlaybackState) {
+  const sessions = readSessions().map((session) =>
+    session.id === id ? { ...session, listeningState } : session,
+  )
+
+  writeSessions(sessions)
 }
 
 export function completeExamSession(
