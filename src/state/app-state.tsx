@@ -8,6 +8,40 @@ interface PlanItem {
   hint: string;
 }
 
+export type LearningStageKey = "foundation" | "familiarisation" | "targeted" | "exam";
+
+export const learningStages: {
+  key: LearningStageKey;
+  label: string;
+  english: string;
+  description: string;
+}[] = [
+  {
+    key: "foundation",
+    label: "英语基础阶段",
+    english: "English Foundation",
+    description: "以真实英语输入、表达习惯和基础能力为主，低频接触 IELTS。",
+  },
+  {
+    key: "familiarisation",
+    label: "IELTS 熟悉阶段",
+    english: "IELTS Familiarisation",
+    description: "开始熟悉题型、机考界面和评分要求，但不进入高强度刷题。",
+  },
+  {
+    key: "targeted",
+    label: "IELTS 定向训练阶段",
+    english: "Targeted Training",
+    description: "围绕薄弱项、题型和分项目标做更系统的专项训练。",
+  },
+  {
+    key: "exam",
+    label: "IELTS 考试阶段",
+    english: "Exam Mode",
+    description: "临近考试时使用，增加完整计时练习、模考和考前复盘。",
+  },
+];
+
 interface AppState {
   sessions: StudySession[];
   addSession: (s: Omit<StudySession, "id">) => void;
@@ -15,6 +49,8 @@ interface AppState {
   markPracticed: (id: string) => void;
   signals: LearningSignal[];
   updateSignalStatus: (id: string, status: SignalStatus) => void;
+  learningStage: LearningStageKey;
+  setLearningStage: (stage: LearningStageKey) => void;
   plan: PlanItem[];
   isShortPlan: boolean;
   setShortPlan: (v: boolean) => void;
@@ -39,6 +75,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [sessions, setSessions] = useState<StudySession[]>(seedSessions);
   const [questionList, setQuestionList] = useState<Question[]>(seedQuestions);
   const [signals, setSignals] = useState<LearningSignal[]>(seedSignals);
+  const [learningStage, setLearningStage] = useState<LearningStageKey>("foundation");
   const [isShortPlan, setShortPlan] = useState(false);
   const [captureOpen, setCaptureOpen] = useState(false);
 
@@ -72,6 +109,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       markPracticed,
       signals,
       updateSignalStatus,
+      learningStage,
+      setLearningStage,
       plan: isShortPlan ? shortPlan : fullPlan,
       isShortPlan,
       setShortPlan,
@@ -85,6 +124,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       markPracticed,
       signals,
       updateSignalStatus,
+      learningStage,
       isShortPlan,
       captureOpen,
     ],
