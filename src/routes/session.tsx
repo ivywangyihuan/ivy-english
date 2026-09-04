@@ -4,6 +4,7 @@ import { AlertCircle, ArrowLeft, CheckCircle2, ExternalLink, FileText, Headphone
 import { PageHeader } from "@/components/ui-kit";
 import { Button } from "@/components/ui/button";
 import { useAppState } from "@/state/app-state";
+import { demoWritingTasks } from "@/data/writing-demo";
 import { getSessionDetail, type SessionQuestionDetail } from "@/lib/session-detail-store";
 import { keyFromLabel, moduleMeta, type LearningModuleKey } from "@/lib/learning-navigation";
 import { listRecordings, type SavedRecording } from "@/lib/media-store";
@@ -113,6 +114,23 @@ function LegacyQuestionHistory({module,retryHref}:{module:LearningModuleKey;retr
   </section>;
 }
 
+function LegacyWritingHistory({retryHref}:{retryHref:string}){
+  return <section className="mt-8 border-t border-border pt-8">
+    <p className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">Review</p>
+    <h2 className="display mt-1 text-xl">题目与作文</h2>
+    <div className="mt-4 rounded-2xl border border-dashed border-border bg-secondary/25 p-5 sm:p-6">
+      <div className="flex gap-3">
+        <AlertCircle className="mt-0.5 size-4 shrink-0 text-muted-foreground"/>
+        <div>
+          <p className="text-sm">这是一条旧版写作记录，当时只保存了字数和学习时间。</p>
+          <p className="mt-2 text-xs leading-5 text-muted-foreground">仓库里没有找到这篇 328 words 作文的正文或原题，所以这里不能恢复或补造。现在完成新的 Writing 练习后，会保存当时的题目、完整作文正文、字数和用时。</p>
+          <a href={retryHref} className="mt-4 inline-flex h-9 items-center gap-2 rounded-full border border-border bg-background px-4 text-xs hover:border-sage"><RotateCcw className="size-3.5"/>重新写一篇并完整记录</a>
+        </div>
+      </div>
+    </div>
+  </section>;
+}
+
 function SessionPage(){
   const {id,from,module:searchModule}=Route.useSearch();
   const {sessions}=useAppState();
@@ -141,6 +159,16 @@ function SessionPage(){
   const retryHref=isIelts?meta.examHref:`/practice?module=${module}`;
   const mediaIsUrl=Boolean(detail?.mediaLabel&&/^https?:\/\//i.test(detail.mediaLabel));
   const questionBased=(module==="reading"||module==="listening")&&isIelts;
+  const legacyWriting=module==="writing"&&isIelts&&!detail?.userResponse&&!session.notes;
+  const writingPrompt=module==="writing"&&detail?.kind==="ielts"
+    ? detail.subtype==="writing-task1"
+      ? demoWritingTasks["1"].prompt
+      : detail.subtype==="writing-task2"
+        ? demoWritingTasks["2"].prompt
+        : detail.subtype==="writing-full"
+          ? `Task 1\n${demoWritingTasks["1"].prompt}\n\nTask 2\n${demoWritingTasks["2"].prompt}`
+          : detail.prompt
+    : detail?.prompt;
 
   return <div className="space-y-8">
     <div className="flex flex-wrap items-center justify-between gap-3">
@@ -161,12 +189,13 @@ function SessionPage(){
       </div>
 
       {questionBased&&detail?.questions?.length?<QuestionHistory questions={detail.questions} retryHref={retryHref}/>:questionBased?<LegacyQuestionHistory module={module} retryHref={retryHref}/>:null}
+      {legacyWriting?<LegacyWritingHistory retryHref={retryHref}/>:null}
 
-      {detail?.prompt?<section className="mt-7"><p className="text-xs text-muted-foreground">题目 / Prompt</p><p className="mt-2 rounded-xl bg-secondary/45 p-4 text-sm leading-6">{detail.prompt}</p></section>:null}
+      {writingPrompt&&!legacyWriting?<section className="mt-7"><p className="text-xs text-muted-foreground">题目 / Prompt</p><p className="mt-2 whitespace-pre-wrap rounded-xl bg-secondary/45 p-4 text-sm leading-6">{writingPrompt}</p></section>:null}
 
       {detail?.sourceTitle||detail?.sourceText||detail?.mediaLabel?<section className="mt-7"><p className="text-xs text-muted-foreground">学习材料</p><div className="mt-2 rounded-xl border border-border p-4"><div className="flex items-center gap-2 text-sm">{module==="listening"?<Headphones className="size-4 text-sage"/>:<FileText className="size-4 text-sage"/>}<span>{detail.sourceTitle??"本次材料"}</span></div>{detail.sourceText?<p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-muted-foreground">{detail.sourceText}</p>:null}{detail.mediaLabel?<div className="mt-3 text-xs text-muted-foreground">{mediaIsUrl?<a href={detail.mediaLabel} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-sage-foreground hover:underline"><ExternalLink className="size-3"/>打开原始素材</a>:detail.mediaLabel}</div>:null}</div></section>:null}
 
-      {!questionBased&&(detail?.userResponse?<section className="mt-7"><p className="text-xs text-muted-foreground">你的回答</p><p className="mt-2 whitespace-pre-wrap rounded-xl bg-[#f7f6f1] p-4 text-sm leading-7">{detail.userResponse}</p></section>:session.notes?<section className="mt-7"><p className="text-xs text-muted-foreground">学习内容 / 备注</p><p className="mt-2 whitespace-pre-wrap text-sm leading-6">{session.notes}</p></section>:null)}
+      {!questionBased&&!legacyWriting&&(detail?.userResponse?<section className="mt-7"><p className="text-xs text-muted-foreground">你的回答</p><p className="mt-2 whitespace-pre-wrap rounded-xl bg-[#f7f6f1] p-4 text-sm leading-7">{detail.userResponse}</p></section>:session.notes?<section className="mt-7"><p className="text-xs text-muted-foreground">学习内容 / 备注</p><p className="mt-2 whitespace-pre-wrap text-sm leading-6">{session.notes}</p></section>:null)}
 
       {!questionBased&&detail?.questions?.length?<QuestionHistory questions={detail.questions} retryHref={retryHref}/>:null}
 
