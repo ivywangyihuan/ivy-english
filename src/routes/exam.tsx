@@ -10,7 +10,10 @@ import {
   Highlighter,
   Menu,
   Minus,
+  Pause,
+  Play,
   Plus,
+  RotateCcw,
   Settings2,
   StickyNote,
   X,
@@ -285,6 +288,7 @@ function ExamPage() {
   const [timeLeft, setTimeLeft] = useState(demoReadingExam.durationMinutes * 60);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [familiarisationTimerMode, setFamiliarisationTimerMode] = useState<FamiliarisationTimerMode>("off");
+  const [elapsedRunning, setElapsedRunning] = useState(false);
   const [timerMenuOpen, setTimerMenuOpen] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [reviewOpen, setReviewOpen] = useState(false);
@@ -308,6 +312,7 @@ function ExamPage() {
         note?: string;
         familiarisationTimerMode?: FamiliarisationTimerMode;
         elapsedSeconds?: number;
+        elapsedRunning?: boolean;
       };
       if (parsed.answers) setAnswers(parsed.answers);
       if (parsed.highlights) setHighlights(parsed.highlights);
@@ -318,6 +323,7 @@ function ExamPage() {
       if (typeof parsed.elapsedSeconds === "number" && Number.isFinite(parsed.elapsedSeconds) && parsed.elapsedSeconds >= 0) {
         setElapsedSeconds(Math.floor(parsed.elapsedSeconds));
       }
+      if (typeof parsed.elapsedRunning === "boolean") setElapsedRunning(parsed.elapsedRunning);
     } catch {
       // Ignore malformed local demo state.
     }
@@ -326,9 +332,9 @@ function ExamPage() {
   useEffect(() => {
     window.localStorage.setItem(
       storageKey,
-      JSON.stringify({ answers, highlights, note, familiarisationTimerMode, elapsedSeconds }),
+      JSON.stringify({ answers, highlights, note, familiarisationTimerMode, elapsedSeconds, elapsedRunning }),
     );
-  }, [answers, highlights, note, familiarisationTimerMode, elapsedSeconds]);
+  }, [answers, highlights, note, familiarisationTimerMode, elapsedSeconds, elapsedRunning]);
 
   useEffect(() => {
     if (mode !== "exam" || timeLeft <= 0) return;
@@ -337,10 +343,10 @@ function ExamPage() {
   }, [mode, timeLeft]);
 
   useEffect(() => {
-    if (mode !== "familiarisation" || familiarisationTimerMode !== "elapsed") return;
+    if (mode !== "familiarisation" || familiarisationTimerMode !== "elapsed" || !elapsedRunning) return;
     const timer = window.setInterval(() => setElapsedSeconds((value) => value + 1), 1000);
     return () => window.clearInterval(timer);
-  }, [mode, familiarisationTimerMode]);
+  }, [mode, familiarisationTimerMode, elapsedRunning]);
 
   const answeredCount = useMemo(() => Object.values(answers).filter((answer) => answer.trim()).length, [answers]);
   const unanswered = section.questions.filter((question) => !answers[question.id]?.trim()).map((question) => question.number);
@@ -440,15 +446,18 @@ function ExamPage() {
                 <span className={familiarisationTimerMode === "elapsed" ? "font-mono" : "text-xs font-medium"}>
                   {familiarisationTimerMode === "elapsed" ? formatTime(elapsedSeconds) : "Untimed"}
                 </span>
+                {familiarisationTimerMode === "elapsed" ? (
+                  <span className={cn("size-1.5 rounded-full", elapsedRunning ? "bg-[#2e6f4e]" : "bg-[#9b9b9b]")} aria-hidden="true" />
+                ) : null}
               </button>
 
               {timerMenuOpen ? (
-                <div className="absolute left-1/2 top-[46px] z-[60] w-64 -translate-x-1/2 rounded-sm border border-[#aaa] bg-white p-2 shadow-xl">
+                <div className="absolute left-1/2 top-[46px] z-[60] w-72 -translate-x-1/2 rounded-sm border border-[#aaa] bg-white p-2 shadow-xl">
                   <button
                     type="button"
                     onClick={() => {
                       setFamiliarisationTimerMode("off");
-                      setTimerMenuOpen(false);
+                      setElapsedRunning(false);
                     }}
                     className={cn(
                       "flex w-full items-start gap-3 rounded-sm px-3 py-2.5 text-left hover:bg-[#f2f2f2]",
@@ -460,15 +469,12 @@ function ExamPage() {
                     </span>
                     <span>
                       <span className="block text-xs font-semibold">不计时</span>
-                      <span className="mt-0.5 block text-[10px] leading-4 text-[#666]">隐藏时间，不记录本次耗时</span>
+                      <span className="mt-0.5 block text-[10px] leading-4 text-[#666]">隐藏时间；已有计时会保留但暂停</span>
                     </span>
                   </button>
                   <button
                     type="button"
-                    onClick={() => {
-                      setFamiliarisationTimerMode("elapsed");
-                      setTimerMenuOpen(false);
-                    }}
+                    onClick={() => setFamiliarisationTimerMode("elapsed")}
                     className={cn(
                       "mt-1 flex w-full items-start gap-3 rounded-sm px-3 py-2.5 text-left hover:bg-[#f2f2f2]",
                       familiarisationTimerMode === "elapsed" && "bg-[#f2f6f8]",
@@ -479,9 +485,50 @@ function ExamPage() {
                     </span>
                     <span>
                       <span className="block text-xs font-semibold">正数计时</span>
-                      <span className="mt-0.5 block text-[10px] leading-4 text-[#666]">从 00:00 向上记录实际用时</span>
+                      <span className="mt-0.5 block text-[10px] leading-4 text-[#666]">记录实际用时，可随时开始、停止和继续</span>
                     </span>
                   </button>
+
+                  {familiarisationTimerMode === "elapsed" ? (
+                    <div className="mt-2 border-t border-[#ddd] p-2 pt-3">
+                      <div className="flex items-center justify-between px-1">
+                        <div>
+                          <p className="font-mono text-lg font-semibold leading-none">{formatTime(elapsedSeconds)}</p>
+                          <p className="mt-1 text-[10px] text-[#666]">{elapsedRunning ? "正在计时" : elapsedSeconds > 0 ? "已停止，可继续" : "尚未开始"}</p>
+                        </div>
+                        <span className={cn("rounded-full px-2 py-1 text-[10px] font-medium", elapsedRunning ? "bg-[#e8f3ec] text-[#286344]" : "bg-[#eee] text-[#666]")}>{elapsedRunning ? "RUNNING" : "PAUSED"}</span>
+                      </div>
+
+                      <div className="mt-3 grid grid-cols-3 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setElapsedSeconds(0);
+                            setElapsedRunning(false);
+                          }}
+                          className="flex h-9 items-center justify-center gap-1.5 rounded-sm border border-[#bbb] bg-white text-[11px] hover:bg-[#f2f2f2]"
+                        >
+                          <RotateCcw className="size-3.5" /> 重置
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setElapsedRunning(true)}
+                          disabled={elapsedRunning}
+                          className="flex h-9 items-center justify-center gap-1.5 rounded-sm border border-[#557b92] bg-[#eef5f8] text-[11px] font-medium text-[#264f67] hover:bg-[#e4eff4] disabled:cursor-default disabled:opacity-45"
+                        >
+                          <Play className="size-3.5" /> {elapsedSeconds > 0 ? "继续" : "开始"}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setElapsedRunning(false)}
+                          disabled={!elapsedRunning}
+                          className="flex h-9 items-center justify-center gap-1.5 rounded-sm border border-[#bbb] bg-white text-[11px] hover:bg-[#f2f2f2] disabled:cursor-default disabled:opacity-45"
+                        >
+                          <Pause className="size-3.5" /> 停止
+                        </button>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
             </div>
@@ -660,7 +707,7 @@ function ExamPage() {
                 <p>
                   {mode === "exam"
                     ? "Exam mode uses a strict countdown."
-                    : "In Familiarisation mode, click the timer to choose between no timer and an elapsed timer that records how long you spend."}
+                    : "In Familiarisation mode, the elapsed timer can be started, stopped, continued or reset from the timer menu."}
                 </p>
                 <p>This Ivy sample uses original practice content, not an official IELTS test paper.</p>
               </div>
@@ -682,7 +729,7 @@ function ExamPage() {
                     <p className="mt-1 text-xs text-[#666]">{unanswered.length ? `${unanswered.length} question${unanswered.length > 1 ? "s are" : " is"} still unanswered.` : "All questions are answered."}</p>
                     {mode === "familiarisation" ? (
                       <p className="mt-2 text-xs text-[#555]">
-                        {familiarisationTimerMode === "elapsed" ? `Time spent: ${formatTime(elapsedSeconds)}` : "Time spent: not recorded"}
+                        {elapsedSeconds > 0 ? `Recorded time: ${formatTime(elapsedSeconds)}${elapsedRunning ? " · running" : ""}` : "Time spent: not recorded"}
                       </p>
                     ) : null}
                   </div>
