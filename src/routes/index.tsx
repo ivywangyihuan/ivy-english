@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Ear, Headphones, Mic, PenLine, BookOpenText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Callout, MiniBars, SectionTitle, StatusPill } from "@/components/ui-kit";
-import { useAppState } from "@/state/app-state";
+import { learningStages, useAppState } from "@/state/app-state";
 import { weekBreakdown } from "@/data/mock";
 
 export const Route = createFileRoute("/")({
@@ -31,8 +31,9 @@ const quickStart = [
 ];
 
 function HomePage() {
-  const { plan, isShortPlan, setShortPlan, signals, questions } = useAppState();
+  const { plan, isShortPlan, setShortPlan, signals, questions, learningStage } = useAppState();
   const totalMinutes = plan.reduce((a, b) => a + b.minutes, 0);
+  const currentStage = learningStages.find((stage) => stage.key === learningStage) ?? learningStages[0]!;
   const recentQuestions = (["听力", "口语", "阅读", "写作"] as const).flatMap((module) => {
     const latest = questions
       .filter((question) => question.sourceType === "recent" && question.module === module)
@@ -45,7 +46,7 @@ function HomePage() {
       <header>
         <div className="mb-2 flex items-center gap-2 text-[11px] font-medium text-sage-foreground">
           <span className="size-1.5 rounded-full bg-sage" />
-          9月3日 · 英语基础阶段
+          9月3日 · {currentStage.label}
         </div>
         <h1 className="display text-3xl sm:text-4xl">晚上好，Ivy ♡</h1>
         <p className="mt-2 text-sm text-muted-foreground">按你舒服的节奏推进，今天也只做真正有用的练习。</p>
