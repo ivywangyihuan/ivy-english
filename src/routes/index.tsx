@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Ear, FileText, Headphones, Mic, PenLine, BookOpenText } from "lucide-react";
+import { ArrowRight, Ear, Headphones, Mic, PenLine, BookOpenText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Callout, MiniBars, SectionTitle, StatusPill } from "@/components/ui-kit";
 import { useAppState } from "@/state/app-state";
@@ -31,8 +31,12 @@ const quickStart = [
 ];
 
 function HomePage() {
-  const { plan, isShortPlan, setShortPlan, signals } = useAppState();
+  const { plan, isShortPlan, setShortPlan, signals, questions } = useAppState();
   const totalMinutes = plan.reduce((a, b) => a + b.minutes, 0);
+  const recentQuestions = questions
+    .filter((question) => question.sourceType === "recent")
+    .sort((a, b) => (b.recentDate ?? "").localeCompare(a.recentDate ?? ""))
+    .slice(0, 4);
 
   return (
     <div className="space-y-10">
@@ -140,8 +144,8 @@ function HomePage() {
         </div>
       </section>
 
-      <div className="grid gap-5 lg:grid-cols-2">
-        <section>
+      <div className="grid items-stretch gap-5 lg:grid-cols-2">
+        <section className="flex min-h-0 flex-col">
           <SectionTitle
             title="最近需要注意"
             subtitle="反复出现的卡点，比一次分数更值得追踪。"
@@ -151,7 +155,7 @@ function HomePage() {
               </Link>
             }
           />
-          <div className="surface divide-y divide-border overflow-hidden">
+          <div className="surface flex-1 divide-y divide-border overflow-hidden">
             {signals.slice(0, 3).map((signal) => (
               <Link
                 key={signal.id}
@@ -170,7 +174,7 @@ function HomePage() {
           </div>
         </section>
 
-        <section>
+        <section className="flex min-h-0 flex-col">
           <SectionTitle
             title="最近考场题"
             subtitle="近期考生回忆整理 · 非官方真题"
@@ -184,28 +188,25 @@ function HomePage() {
               </Link>
             }
           />
-          <div className="surface p-5 sm:p-6">
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Link
-                to="/bank"
-                search={{ tab: "recent", subject: "口语" }}
-                className="rounded-xl border border-border bg-secondary/50 p-4 transition-colors hover:border-sage"
-              >
-                <div className="flex items-center gap-2 text-sm">
-                  <Mic className="size-4 text-sage" strokeWidth={1.6} />Speaking
-                </div>
-                <p className="mt-2 text-xs text-muted-foreground">Sep–Dec 2026 · 本季口语题库</p>
-              </Link>
-              <Link
-                to="/bank"
-                search={{ tab: "recent", subject: "写作" }}
-                className="rounded-xl border border-border bg-secondary/50 p-4 transition-colors hover:border-sage"
-              >
-                <div className="flex items-center gap-2 text-sm">
-                  <FileText className="size-4 text-sage" strokeWidth={1.6} />Writing
-                </div>
-                <p className="mt-2 text-xs text-muted-foreground">近期 Task 1 / Task 2 考场回忆</p>
-              </Link>
+          <div className="surface flex-1 p-4 sm:p-5">
+            <div className="grid h-full grid-cols-2 grid-rows-2 gap-3">
+              {recentQuestions.map((question) => (
+                <Link
+                  key={question.id}
+                  to="/bank"
+                  search={{ tab: "recent", subject: question.module }}
+                  className="flex min-h-0 flex-col justify-between rounded-xl border border-border bg-secondary/45 p-3.5 transition-colors hover:border-sage hover:bg-secondary/70"
+                >
+                  <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+                    <span className="rounded-full bg-sage-soft px-2 py-0.5 text-sage-foreground">{question.module}</span>
+                    {question.part ? <span>{question.part}</span> : null}
+                  </div>
+                  <div className="mt-3">
+                    <p className="line-clamp-2 text-xs leading-relaxed text-foreground">{question.title}</p>
+                    <p className="mt-1 text-[10px] tabular-nums text-muted-foreground">{question.recentDate ?? "近期出现"}</p>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
