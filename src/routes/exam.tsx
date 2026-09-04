@@ -6,6 +6,7 @@ import {
   CircleHelp,
   Clock3,
   FileText,
+  GripVertical,
   Highlighter,
   Menu,
   Minus,
@@ -33,6 +34,8 @@ export const Route = createFileRoute("/exam")({
 type Answers = Record<string, string>;
 
 const section = demoReadingExam.sections[0]!;
+const headingQuestions = section.questions.filter((question) => question.type === "matching-headings");
+const regularQuestions = section.questions.filter((question) => question.type !== "matching-headings");
 const storageKey = "ivy-english-exam-demo-reading";
 
 function formatTime(seconds: number) {
@@ -124,7 +127,6 @@ function TextAnswer({ question, answer, onAnswer }: { question: ExamQuestion; an
 
 function QuestionRenderer({ question, answer, onAnswer }: { question: ExamQuestion; answer?: string; onAnswer: (value: string) => void }) {
   const optionTypes = ["multiple-choice", "true-false-not-given", "yes-no-not-given"];
-  const selectTypes = ["matching-headings", "matching-information"];
 
   return (
     <>
@@ -136,11 +138,143 @@ function QuestionRenderer({ question, answer, onAnswer }: { question: ExamQuesti
         <p className="pt-0.5 text-[15px] leading-6 text-[#222]">{question.stem}</p>
       </div>
       {optionTypes.includes(question.type) ? <OptionButtons question={question} answer={answer} onAnswer={onAnswer} /> : null}
-      {selectTypes.includes(question.type) ? <SelectAnswer question={question} answer={answer} onAnswer={onAnswer} /> : null}
+      {question.type === "matching-information" ? <SelectAnswer question={question} answer={answer} onAnswer={onAnswer} /> : null}
       {["text-input", "summary-completion", "short-answer"].includes(question.type) ? (
         <TextAnswer question={question} answer={answer} onAnswer={onAnswer} />
       ) : null}
     </>
+  );
+}
+
+function MatchingHeadingsBlock({
+  questions,
+  answers,
+  currentQuestion,
+  onFocus,
+  onAnswer,
+  registerRef,
+}: {
+  questions: ExamQuestion[];
+  answers: Answers;
+  currentQuestion: number;
+  onFocus: (number: number) => void;
+  onAnswer: (id: string, value: string) => void;
+  registerRef: (number: number, node: HTMLDivElement | null) => void;
+}) {
+  const [armedHeading, setArmedHeading] = useState<string | null>(null);
+  const options = questions[0]?.options ?? [];
+  const usedValues = new Set(questions.map((question) => answers[question.id]).filter(Boolean));
+
+  function assign(question: ExamQuestion, value: string) {
+    if (!value) return;
+    onAnswer(question.id, value);
+    setArmedHeading(null);
+  }
+
+  return (
+    <div className="rounded-sm border border-[#c9c9c9] bg-white">
+      <div className="border-b border-[#d6d6d6] px-5 py-4">
+        <p className="text-[13px] font-semibold">Questions {questions[0]?.number}–{questions.at(-1)?.number}</p>
+        <p className="mt-1 text-[13px] leading-5 text-[#555]">Choose the correct heading for each paragraph. Drag a heading into a box, or select a heading and then click a box.</p>
+      </div>
+
+      <div className="border-b border-[#d6d6d6] bg-[#f7f7f7] p-4">
+        <p className="mb-3 text-center text-[13px] font-semibold">List of Headings</p>
+        <div className="space-y-2">
+          {options.map((option) => {
+            const used = usedValues.has(option.value);
+            const active = armedHeading === option.value;
+            return (
+              <button
+                key={option.value}
+                type="button"
+                draggable={!used}
+                disabled={used}
+                onDragStart={(event) => event.dataTransfer.setData("text/plain", option.value)}
+                onClick={() => setArmedHeading((current) => (current === option.value ? null : option.value))}
+                className={cn(
+                  "flex w-full items-center gap-3 rounded-sm border px-3 py-2 text-left text-[13px] leading-5 transition-colors",
+                  used
+                    ? "cursor-not-allowed border-[#ddd] bg-[#ededed] text-[#999]"
+                    : active
+                      ? "border-[#39729a] bg-[#eaf3f8] shadow-[0_0_0_1px_#39729a]"
+                      : "border-[#bdbdbd] bg-white hover:border-[#777]",
+                )}
+              >
+                <GripVertical className="size-4 shrink-0 text-[#777]" />
+                <span className="w-6 shrink-0 font-semibold">{option.value}</span>
+                <span>{option.label}</span>
+                {used ? <span className="ml-auto text-[10px] uppercase tracking-wide">used</span> : null}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="divide-y divide-[#ddd]">
+        {questions.map((question) => {
+          const answer = answers[question.id];
+          const selected = options.find((option) => option.value === answer);
+          return (
+            <div
+              key={question.id}
+              ref={(node) => registerRef(question.number, node)}
+              onClick={() => onFocus(question.number)}
+              className={cn(
+                "scroll-m-8 p-5 transition-shadow",
+                currentQuestion === question.number && "bg-[#f8fbfd] shadow-[inset_3px_0_0_#4e7894]",
+              )}
+            >
+              <div className="flex items-center gap-3">
+                <span className="flex size-7 shrink-0 items-center justify-center rounded-sm bg-[#2a2a2a] text-xs font-semibold text-white">{question.number}</span>
+                <span className="text-[15px]">{question.stem}</span>
+              </div>
+              <div
+                role="button"
+                tabIndex={0}
+                onDragOver={(event) => event.preventDefault()}
+                onDrop={(event) => {
+                  event.preventDefault();
+                  assign(question, event.dataTransfer.getData("text/plain"));
+                }}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  if (armedHeading) assign(question, armedHeading);
+                  onFocus(question.number);
+                }}
+                onKeyDown={(event) => {
+                  if ((event.key === "Enter" || event.key === " ") && armedHeading) assign(question, armedHeading);
+                }}
+                className={cn(
+                  "mt-3 min-h-12 rounded-sm border-2 border-dashed px-3 py-2.5 text-[13px] outline-none transition-colors",
+                  selected ? "border-solid border-[#5f8196] bg-[#eef5f8]" : armedHeading ? "border-[#6d94ab] bg-[#f4f9fb]" : "border-[#aaa] bg-white",
+                )}
+              >
+                {selected ? (
+                  <div className="flex items-center gap-2">
+                    <strong className="shrink-0">{selected.value}</strong>
+                    <span className="min-w-0 flex-1">{selected.label}</span>
+                    <button
+                      type="button"
+                      aria-label={`Clear answer for question ${question.number}`}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        onAnswer(question.id, "");
+                      }}
+                      className="flex size-7 shrink-0 items-center justify-center rounded-sm hover:bg-black/5"
+                    >
+                      <X className="size-3.5" />
+                    </button>
+                  </div>
+                ) : (
+                  <span className="text-[#777]">Drop heading here</span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -178,16 +312,29 @@ function ExamPage() {
   }, [answers, highlights, note]);
 
   useEffect(() => {
-    if (timeLeft <= 0) return;
+    if (mode !== "exam" || timeLeft <= 0) return;
     const timer = window.setInterval(() => setTimeLeft((value) => Math.max(0, value - 1)), 1000);
     return () => window.clearInterval(timer);
-  }, [timeLeft]);
+  }, [mode, timeLeft]);
 
   const answeredCount = useMemo(() => Object.values(answers).filter((answer) => answer.trim()).length, [answers]);
   const unanswered = section.questions.filter((question) => !answers[question.id]?.trim()).map((question) => question.number);
 
   function setAnswer(id: string, value: string) {
     setAnswers((previous) => ({ ...previous, [id]: value }));
+  }
+
+  function setMatchingHeading(id: string, value: string) {
+    setAnswers((previous) => {
+      const next = { ...previous };
+      if (value) {
+        headingQuestions.forEach((question) => {
+          if (question.id !== id && next[question.id] === value) next[question.id] = "";
+        });
+      }
+      next[id] = value;
+      return next;
+    });
   }
 
   function jumpTo(number: number) {
@@ -244,9 +391,16 @@ function ExamPage() {
             </div>
           </div>
 
-          <div className={cn("flex items-center gap-2 rounded-sm border px-4 py-2 font-mono text-[15px] font-semibold", timeLeft < 300 ? "border-[#ba4b43] bg-[#fff2f1] text-[#8b201b]" : "border-[#bdbdbd] bg-white")}>
+          <div
+            className={cn(
+              "flex items-center gap-2 rounded-sm border px-4 py-2 text-[15px] font-semibold",
+              mode === "exam" && timeLeft < 300
+                ? "border-[#ba4b43] bg-[#fff2f1] text-[#8b201b]"
+                : "border-[#bdbdbd] bg-white",
+            )}
+          >
             <Clock3 className="size-4" />
-            {formatTime(timeLeft)}
+            <span className={mode === "exam" ? "font-mono" : "text-xs font-medium"}>{mode === "exam" ? formatTime(timeLeft) : "Untimed"}</span>
           </div>
 
           <div className="flex flex-1 justify-end gap-2">
@@ -307,7 +461,18 @@ function ExamPage() {
 
           <section className="min-h-0 overflow-y-auto bg-[#fbfbfb] px-7 py-6">
             <div className="mx-auto max-w-2xl space-y-4">
-              {section.questions.map((question) => (
+              {headingQuestions.length ? (
+                <MatchingHeadingsBlock
+                  questions={headingQuestions}
+                  answers={answers}
+                  currentQuestion={currentQuestion}
+                  onFocus={setCurrentQuestion}
+                  onAnswer={setMatchingHeading}
+                  registerRef={(number, node) => { questionRefs.current[number] = node; }}
+                />
+              ) : null}
+
+              {regularQuestions.map((question) => (
                 <div
                   key={question.id}
                   ref={(node) => { questionRefs.current[question.number] = node; }}
@@ -345,7 +510,7 @@ function ExamPage() {
                   )}
                 >
                   {question.number}
-                  {answered && currentQuestion !== question.number ? <span className="absolute -right-1 -top-1 size-2 rounded-full bg-[#2e6f4e]" /> : null}
+                  {answered && currentQuestion !== question.number ? <span className="absolute right-0.5 top-0.5 size-2 rounded-full bg-[#2e6f4e]" /> : null}
                 </button>
               );
             })}
@@ -406,8 +571,10 @@ function ExamPage() {
               </div>
               <div className="space-y-4 p-6 text-sm leading-6 text-[#444]">
                 <p>Select text in the passage to highlight it or add it to your notes.</p>
+                <p>Matching headings can be completed by dragging a heading into an answer box. You can also click a heading and then click the answer box.</p>
                 <p>Use the numbered boxes at the bottom to move directly to a question. Answered questions are shown in blue.</p>
-                <p>This first Ivy sample is a familiarisation build using original practice content, not an official IELTS test paper.</p>
+                <p>{mode === "exam" ? "Exam mode uses a strict countdown." : "Familiarisation mode is untimed so you can learn the controls without time pressure."}</p>
+                <p>This Ivy sample uses original practice content, not an official IELTS test paper.</p>
               </div>
             </div>
           </div>
