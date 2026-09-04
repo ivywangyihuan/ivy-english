@@ -25,6 +25,7 @@ export interface ExamQuestion {
   prefix?: string;
   suffix?: string;
   maxWords?: number;
+  correctAnswers?: string[];
 }
 
 export interface ExamSection {
@@ -97,6 +98,7 @@ export const demoReadingExam: ExamDefinition = {
           instruction: "Choose the correct heading for Paragraph B from the list of headings below.",
           stem: "Paragraph B",
           options: headings,
+          correctAnswers: ["iv"],
         },
         {
           id: "q2",
@@ -105,6 +107,7 @@ export const demoReadingExam: ExamDefinition = {
           instruction: "Choose the correct heading for Paragraph C from the list of headings below.",
           stem: "Paragraph C",
           options: headings,
+          correctAnswers: ["ii"],
         },
         {
           id: "q3",
@@ -113,6 +116,7 @@ export const demoReadingExam: ExamDefinition = {
           instruction: "Which paragraph contains the following information? Choose A–F.",
           stem: "an example in which pedestrian behaviour changed after shade was added",
           options: ["A", "B", "C", "D", "E", "F"].map((value) => ({ value, label: value })),
+          correctAnswers: ["D"],
         },
         {
           id: "q4",
@@ -121,6 +125,7 @@ export const demoReadingExam: ExamDefinition = {
           instruction: "Do the following statements agree with the information given in Reading Passage 1?",
           stem: "Twentieth-century planners generally regarded shade as a separate category of public infrastructure.",
           options: ["TRUE", "FALSE", "NOT GIVEN"].map((value) => ({ value, label: value })),
+          correctAnswers: ["FALSE"],
         },
         {
           id: "q5",
@@ -129,6 +134,7 @@ export const demoReadingExam: ExamDefinition = {
           instruction: "Do the following statements agree with the views expressed by the writer?",
           stem: "The writer believes planting trees should be the only response to urban heat.",
           options: ["YES", "NO", "NOT GIVEN"].map((value) => ({ value, label: value })),
+          correctAnswers: ["NO"],
         },
         {
           id: "q6",
@@ -142,6 +148,7 @@ export const demoReadingExam: ExamDefinition = {
             { value: "C", label: "To make public spaces look more visually consistent" },
             { value: "D", label: "To calculate how quickly newly planted trees will grow" },
           ],
+          correctAnswers: ["B"],
         },
         {
           id: "q7",
@@ -150,6 +157,7 @@ export const demoReadingExam: ExamDefinition = {
           instruction: "Complete the sentence below. Choose NO MORE THAN TWO WORDS from the passage.",
           stem: "Young trees may need several years before they develop a useful ________.",
           maxWords: 2,
+          correctAnswers: ["canopy", "a useful canopy"],
         },
         {
           id: "q8",
@@ -158,6 +166,7 @@ export const demoReadingExam: ExamDefinition = {
           instruction: "Complete the summary. Choose ONE WORD ONLY from the passage.",
           stem: "A pilot route used shade sails between a station and a hospital. Measurements showed lower surface temperatures, and ________ counts indicated that people preferred the shaded side in the hottest period.",
           maxWords: 1,
+          correctAnswers: ["pedestrian"],
         },
         {
           id: "q9",
@@ -166,6 +175,7 @@ export const demoReadingExam: ExamDefinition = {
           instruction: "Answer the question below. Choose NO MORE THAN THREE WORDS from the passage.",
           stem: "What type of underground infrastructure can compete with tree roots?",
           maxWords: 3,
+          correctAnswers: ["underground services", "services"],
         },
         {
           id: "q10",
@@ -179,6 +189,7 @@ export const demoReadingExam: ExamDefinition = {
             { value: "C", label: "Public transport is the main cause of heat exposure." },
             { value: "D", label: "Aesthetic design should take priority over health data." },
           ],
+          correctAnswers: ["A"],
         },
       ],
     },
