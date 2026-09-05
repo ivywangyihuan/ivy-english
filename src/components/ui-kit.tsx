@@ -11,7 +11,7 @@ export function SectionTitle({ title, subtitle, action }: { title: string; subti
 }
 
 export function StatusPill({ status }: { status: SignalStatus | string }) {
-  const tone = status === "正在进步" ? "border-[var(--journal-turquoise)] bg-[var(--journal-aqua)] text-[var(--journal-ink)]" : status === "已稳定" ? "border-[#63C94A] bg-[var(--journal-mint)] text-[var(--journal-ink)]" : "border-[var(--journal-line)] bg-[var(--journal-paper)] text-[#52608C]";
+  const tone = status === "正在进步" ? "border-[var(--journal-ink)] bg-[#EEF4FF] text-[var(--journal-ink)]" : status === "已稳定" ? "border-[#63C94A] bg-[var(--journal-mint)] text-[var(--journal-ink)]" : "border-[var(--journal-line)] bg-[var(--journal-paper)] text-[#52608C]";
   return <span className={cn("inline-flex shrink-0 items-center rounded-sm border px-2.5 py-0.5 text-[11px] tracking-wide", tone)}>{status}</span>;
 }
 
@@ -30,7 +30,7 @@ export function formatCnDate(iso: string) {
 
 export function MiniBars({ data }: { data: { label: string; minutes: number }[] }) {
   const max = Math.max(...data.map((d) => d.minutes), 1);
-  return <div className="space-y-3">{data.map((d) => <div key={d.label} className="flex items-center gap-3"><span className="w-10 shrink-0 text-xs text-[#63709A]">{d.label}</span><div className="h-2 flex-1 overflow-hidden bg-[#EEF4FF]"><div className="h-full bg-[var(--journal-turquoise)] transition-all duration-500" style={{ width: `${Math.max((d.minutes / max) * 100, 2)}%` }} /></div><span className="w-14 shrink-0 text-right text-xs tabular-nums text-[#63709A]">{d.minutes} min</span></div>)}</div>;
+  return <div className="space-y-3">{data.map((d) => <div key={d.label} className="flex items-center gap-3"><span className="w-10 shrink-0 text-xs text-[#63709A]">{d.label}</span><div className="h-2 flex-1 overflow-hidden bg-[#EEF4FF]"><div className="h-full bg-[var(--page-subject,var(--journal-ink))] transition-all duration-500" style={{ width: `${Math.max((d.minutes / max) * 100, 2)}%` }} /></div><span className="w-14 shrink-0 text-right text-xs tabular-nums text-[#63709A]">{d.minutes} min</span></div>)}</div>;
 }
 
 export function TrendChart({ data }: { data: { label: string; minutes: number }[] }) {
@@ -50,7 +50,7 @@ export function TrendChart({ data }: { data: { label: string; minutes: number }[
   const polyline = points.map((point) => `${point.x},${point.y}`).join(" ");
 
   return <div>
-    <div className="w-full overflow-hidden text-[var(--journal-turquoise)]">
+    <div className="w-full overflow-hidden text-[var(--page-subject,var(--journal-ink))]">
       <svg viewBox={`0 0 ${width} ${height}`} className="h-44 w-full" role="img" aria-label="学习时间趋势折线图">
         <line x1={insetX} y1={top + chartHeight} x2={width - insetX} y2={top + chartHeight} stroke="var(--journal-line)" strokeWidth="1" />
         <polyline points={polyline} fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -67,5 +67,5 @@ export function TrendChart({ data }: { data: { label: string; minutes: number }[
 }
 
 export function Chip({ active, children, onClick }: { active?: boolean; children: ReactNode; onClick?: () => void }) {
-  return <button type="button" onClick={onClick} className={cn("shrink-0 rounded-sm border px-3 py-1.5 text-xs transition-all", active ? "border-[var(--journal-turquoise)] bg-[var(--journal-aqua)] text-[var(--journal-ink)] shadow-[2px_2px_0_rgba(0,155,159,.10)]" : "border-[var(--journal-line)] bg-[var(--journal-paper)] text-[#52608C] hover:border-[var(--journal-turquoise)] hover:text-[var(--journal-ink)]")}>{children}</button>;
+  return <button type="button" onClick={onClick} className={cn("shrink-0 rounded-sm border px-3 py-1.5 text-xs transition-all", active ? "border-[var(--journal-ink)] bg-[#EEF4FF] text-[var(--journal-ink)] shadow-[2px_2px_0_rgba(63,99,242,.10)]" : "border-[var(--journal-line)] bg-[var(--journal-paper)] text-[#52608C] hover:border-[var(--journal-ink)] hover:text-[var(--journal-ink)]")}>{children}</button>;
 }
