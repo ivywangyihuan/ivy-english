@@ -11,12 +11,31 @@
   --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #EEF4FF;
   --sidebar-accent-foreground: #17306D;
+  --journal-paper-shadow-small: 3px 4px 0 rgba(63, 99, 242, .09);
 }
 
 /* Global chrome uses Deep Ink. Turquoise is reserved for Listening. */
 .journal-app .journal-link,
 .journal-workspace .journal-link {
   color: var(--journal-ink);
+}
+
+.journal-app .journal-button,
+.journal-workspace .journal-button {
+  border-color: var(--journal-ink);
+  background: var(--journal-ink);
+  color: #FFFFFF;
+  box-shadow: 3px 3px 0 var(--journal-line);
+}
+
+.journal-app .journal-button:hover,
+.journal-workspace .journal-button:hover {
+  box-shadow: 5px 5px 0 var(--journal-line);
+}
+
+.journal-app .journal-button:active,
+.journal-workspace .journal-button:active {
+  box-shadow: 2px 2px 0 var(--journal-line);
 }
 
 .journal-app .hover-lift:hover,
@@ -65,6 +84,22 @@
 .journal-workspace .subject-button {
   background: var(--page-subject, var(--subject-color, var(--journal-ink)));
   border-color: var(--page-subject, var(--subject-color, var(--journal-ink)));
+  color: #FFFFFF !important;
+}
+
+/* Any high-saturation semantic fill used as an action gets white ink. */
+.journal-app button[class*="bg-[var(--journal-pink)]"],
+.journal-app a[class*="bg-[var(--journal-pink)]"],
+.journal-app button[class*="bg-[var(--journal-blue)]"],
+.journal-app a[class*="bg-[var(--journal-blue)]"],
+.journal-app button[class*="bg-[var(--journal-turquoise)]"],
+.journal-app a[class*="bg-[var(--journal-turquoise)]"],
+.journal-workspace button[class*="bg-[var(--journal-pink)]"],
+.journal-workspace a[class*="bg-[var(--journal-pink)]"],
+.journal-workspace button[class*="bg-[var(--journal-blue)]"],
+.journal-workspace a[class*="bg-[var(--journal-blue)]"],
+.journal-workspace button[class*="bg-[var(--journal-turquoise)]"],
+.journal-workspace a[class*="bg-[var(--journal-turquoise)]"] {
   color: #FFFFFF !important;
 }
 
@@ -121,7 +156,16 @@
   color: var(--page-subject) !important;
 }
 
-/* Neutral pages use Deep Ink for timeline markers instead of Listening turquoise. */
+/* Neutral pages never use Listening turquoise as a generic selected/action color. */
+.journal-app .journal-page:not(.journal-subject-listening):not(.journal-subject-speaking):not(.journal-subject-reading):not(.journal-subject-writing) [class*="text-[var(--journal-turquoise)]"] {
+  color: var(--journal-ink) !important;
+}
+
+.journal-app .journal-page:not(.journal-subject-listening):not(.journal-subject-speaking):not(.journal-subject-reading):not(.journal-subject-writing) button[class*="border-[var(--journal-turquoise)]"],
+.journal-app .journal-page:not(.journal-subject-listening):not(.journal-subject-speaking):not(.journal-subject-reading):not(.journal-subject-writing) a[class*="border-[var(--journal-turquoise)]"] {
+  border-color: var(--journal-ink) !important;
+}
+
 .journal-app .journal-page:not(.journal-subject-listening):not(.journal-subject-speaking):not(.journal-subject-reading):not(.journal-subject-writing) .journal-ledger span.absolute.size-2 {
   background: var(--journal-ink) !important;
 }
