@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { learningSignals as seedSignals, questions as seedQuestions, studySessions as seedSessions } from "@/data/mock";
+import { questions as seedQuestions } from "@/data/mock";
 import type { LearningSignal, Module, Question, SignalStatus, StudySession } from "@/data/mock";
 
 interface PlanItem {
@@ -106,7 +106,11 @@ const keys = {
   mistakes: "ivy-english-mistakes-v1",
   vocabulary: "ivy-english-vocabulary-v1",
   library: "ivy-english-library-v1",
+  demoMigration: "ivy-english-demo-history-migrated-v1",
 };
+
+const LEGACY_DEMO_SESSION_IDS = new Set(["s1", "s2", "s3", "s4", "s5"]);
+const LEGACY_DEMO_SIGNAL_IDS = new Set(["g1", "g2", "g3", "g4"]);
 
 function readSaved<T>(key: string, fallback: T): T {
   try {
@@ -117,10 +121,17 @@ function readSaved<T>(key: string, fallback: T): T {
   }
 }
 
+function stripLegacyDemoRecords(sessions: StudySession[], signals: LearningSignal[]) {
+  return {
+    sessions: sessions.filter((item) => !LEGACY_DEMO_SESSION_IDS.has(item.id)),
+    signals: signals.filter((item) => !LEGACY_DEMO_SIGNAL_IDS.has(item.id)),
+  };
+}
+
 export function AppStateProvider({ children }: { children: ReactNode }) {
-  const [sessions, setSessions] = useState<StudySession[]>(seedSessions);
+  const [sessions, setSessions] = useState<StudySession[]>([]);
   const [questionList, setQuestionList] = useState<Question[]>(seedQuestions);
-  const [signals, setSignals] = useState<LearningSignal[]>(seedSignals);
+  const [signals, setSignals] = useState<LearningSignal[]>([]);
   const [mistakes, setMistakes] = useState<MistakeRecord[]>([]);
   const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([]);
   const [libraryItems, setLibraryItems] = useState<LibraryItem[]>([]);
@@ -132,12 +143,23 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const savedStage = window.localStorage.getItem(keys.stage) as LearningStageKey | null;
     if (savedStage && learningStages.some((stage) => stage.key === savedStage)) setLearningStageState(savedStage);
-    setSessions(readSaved(keys.sessions, seedSessions));
+
+    const savedSessions = readSaved(keys.sessions, [] as StudySession[]);
+    const savedSignals = readSaved(keys.signals, [] as LearningSignal[]);
+    const cleaned = stripLegacyDemoRecords(savedSessions, savedSignals);
+
+    setSessions(cleaned.sessions);
     setQuestionList(readSaved(keys.questions, seedQuestions));
-    setSignals(readSaved(keys.signals, seedSignals));
+    setSignals(cleaned.signals);
     setMistakes(readSaved(keys.mistakes, [] as MistakeRecord[]));
     setVocabulary(readSaved(keys.vocabulary, [] as VocabularyItem[]));
     setLibraryItems(readSaved(keys.library, [] as LibraryItem[]));
+
+    if (!window.localStorage.getItem(keys.demoMigration)) {
+      window.localStorage.setItem(keys.sessions, JSON.stringify(cleaned.sessions));
+      window.localStorage.setItem(keys.signals, JSON.stringify(cleaned.signals));
+      window.localStorage.setItem(keys.demoMigration, new Date().toISOString());
+    }
     setHydrated(true);
   }, []);
 
