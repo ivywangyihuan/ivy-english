@@ -1,67 +1,97 @@
-# Ivy English · Study Journal Design Specification v1.1
+# Ivy English · Study Journal Design Specification v1.2
 
-Status: **Frozen visual direction for the Study Journal redesign**  
+Status: **FROZEN visual-system baseline**  
 Branch: `feature/learning-flow-v2`  
 Companion tokens: `docs/ivy-english-study-journal-tokens-v1.md`  
+Copywriting status: **DEFERRED until the visual migration and functional cleanup are substantially complete.**  
 Scope: Home, Practice, History / Session, Progress, Mistakes, Vocabulary, Library, Settings, Bank, Daily Speaking / Listening / Reading / Writing.  
-Exception: IELTS CBT exam surfaces keep a formal exam-system visual language.
+Exception: active IELTS CBT exam surfaces keep a formal exam-system visual language.
 
 ---
 
 ## 1. Product visual idea
 
-Ivy English should feel like a **personal English study journal that keeps growing over time**, not a generic learning SaaS dashboard.
+Ivy English is a **personal English study journal that accumulates real learning traces over time**, not a generic learning SaaS dashboard.
 
 The visual language combines:
 
 - personal study journal
 - editorial scrapbook
 - bright stationery
-- clipped paper / receipt / sticky-note / index-card logic
-- handwritten annotations used sparingly
-- clear information hierarchy underneath the playful surface
+- grid paper / ruled paper / index cards / sticky notes / receipts
+- real material cues such as tape, filing lines and paper offset
+- handwritten annotation used sparingly
+- clear product hierarchy underneath the expressive surface
 
-### Core rule
+### Core principle
 
-**Organised scrapbook, not random collage.**
+**Material first, decoration second.**
 
-Every decorative element should create hierarchy, communicate state, reinforce the learning-journal metaphor, or add a small amount of personality. If it does none of these, remove it.
+A surface should feel like a specific kind of paper because of its structure, proportions, lines, edge treatment and placement — not merely because a pastel background was applied to a rounded card.
+
+### Design test
+
+Every visual gesture must do at least one of these:
+
+1. communicate hierarchy;
+2. communicate state or action;
+3. reinforce the study-journal material metaphor;
+4. preserve a meaningful learning trace;
+5. add a small amount of personality without reducing clarity.
+
+If it does none of these, remove it.
 
 ---
 
-## 2. Non-negotiable color direction
+## 2. Color system
 
-### 2.1 Brightness
+### 2.1 Non-negotiable brightness rule
 
-The user explicitly prefers **clear, high-lightness colors with no gray cast**.
+The palette is **clear, high-brightness and free of gray cast**.
 
-Do not use dusty sage, gray-green, smoky blue, muted mauve, beige-gray, desaturated “premium neutral” palettes, or visible gray overlays.
+Do not introduce dusty sage, gray-green, smoky blue, muted mauve, beige-gray, desaturated “premium neutral” palettes, dirty vintage overlays or gray decorative shadows.
 
-Neutral areas should feel like clean warm paper.
+Neutral space should feel like clean warm paper.
 
-### 2.2 Final palette
+### 2.2 Structural colors
 
-| Name | Hex | Primary use |
+| Token / name | Hex | Use |
 |---|---:|---|
-| Paper Cream | `#FFF9F0` | main canvas, quiet paper areas |
-| Ink Blue | `#3F63F2` | strong blue identity, Writing identity, printed marks |
-| Marker Pink | `#FF5DB1` | Speaking identity, marker strokes, handwritten emphasis |
-| Note Mint | `#E8FFD8` | Reading light paper, completion notes |
-| Butter Yellow | `#FFF3A6` | review notes, reminders |
-| Peach Tape | `#FFD4B5` | tape, clipped-paper accents |
-| Lavender Note | `#E9D8FF` | Writing light paper, secondary notes |
-| Fresh Aqua | `#D6FFF7` | Listening light paper |
-| Apple Green | `#AEEB8C` | Reading identity, positive progress |
-| Turquoise Green | `#7FEFD4` | secondary turquoise stationery |
-| Turquoise | `#009B9F` | Listening identity, strong secondary brand accent |
+| Paper Cream | `#FFF9F0` | main canvas |
+| Clean Paper | `#FFFCF7` | primary paper surface |
+| Deep Ink | `#17306D` | primary headings, structural text, dark printed marks |
+| Marker Pink | `#FF5DB1` | Speaking identity and handwritten emphasis |
+| Turquoise | `#009B9F` | Listening identity and cross-product secondary accent |
+| Writing Blue | `#3F63F2` | Writing identity and bright blue print accent |
+| Reading Green | `#63C94A` | Reading identity |
 
-Core product identity remains Paper Cream + Ink Blue + Marker Pink + Turquoise.
+### 2.3 Stationery colors
+
+| Name | Hex | Use |
+|---|---:|---|
+| Note Mint | `#E8FFD8` | Reading light paper, completion notes |
+| Butter Yellow | `#FFF3A6` | neutral reminder / continuation paper |
+| Peach Tape | `#FFD4B5` | tape and clipped-paper accents |
+| Lavender Note | `#E9D8FF` | Writing light paper |
+| Fresh Aqua | `#D6FFF7` | Listening light paper |
+| Apple Green | `#AEEB8C` | support green / stationery, not Reading primary |
+| Turquoise Green | `#7FEFD4` | secondary turquoise stationery |
+| Grid Line | `#BFD5FF` | light grid / ruled structure |
+| Strong Grid Line | `#92B7FF` | stronger paper edge / grid accent |
+
+### 2.4 Core identity
+
+The recurring product identity is:
+
+**Paper Cream + Deep Ink + Marker Pink + Turquoise**
+
+Subject colors are semantic identities layered onto that shared system.
 
 ---
 
 ## 3. Frozen subject identities
 
-Listening / Speaking / Reading / Writing now have **persistent semantic colors**. This supersedes the earlier pilot idea of treating all stationery colors as interchangeable.
+Subject identity is persistent across the product.
 
 ### Listening
 
@@ -71,427 +101,579 @@ Listening / Speaking / Reading / Writing now have **persistent semantic colors**
 ### Speaking
 
 - strong: Marker Pink `#FF5DB1`
-- light paper: a high-lightness Marker Pink / Paper Cream mix
+- light paper: high-lightness Marker Pink / Paper Cream mix
 
 ### Reading
 
-- strong: Apple Green `#AEEB8C`
+- strong: Reading Green `#63C94A`
 - light paper: Note Mint `#E8FFD8`
+- do not revert the primary Reading accent to pale `#AEEB8C`
 
 ### Writing
 
-- strong: Ink Blue `#3F63F2`
+- strong: Writing Blue `#3F63F2`
 - light paper: Lavender Note `#E9D8FF`
 
-### Where subject identity must persist
+### Subject color appears on
 
-Use the corresponding subject color for:
-
-- module entry buttons
-- subject-specific primary buttons
-- selected tabs / chips
+- subject-specific primary actions
+- selected subject tabs / chips
 - progress series
-- history labels
-- subject note borders or shadows
+- history subject labels
+- subject-specific paper edges / filing lines
 - active subject navigation
-- small subject-specific states and indicators
+- small semantic indicators
+- standard subject icon strokes
 
-Do not swap these identities from page to page.
+### Subject color does not automatically appear on
 
-Non-subject information may still use Paper Cream, yellow, peach, lavender, aqua and other stationery colors according to material meaning.
+- generic History / Continue / All Subjects surfaces
+- cross-subject summary cards
+- Today Plan checklist rows
+- generic navigation controls
+
+Subject colors are identity, not decoration.
 
 ---
 
-## 4. Surface and paper system
+## 4. Icon system
 
-The page should not look like one flat app background with identical rounded cards.
+Listening / Speaking / Reading / Writing icons use **linework only** in their subject color by default.
 
-### Canvas
+Frozen rule:
 
-Base: Paper Cream `#FFF9F0`.
+- no filled square icon tile behind the standard four subject icons;
+- no colored rectangular badge used merely to hold an icon;
+- icon stroke = subject color;
+- paper remains the dominant material;
+- functional controls may use filled backgrounds only when the filled state communicates an actual control state.
 
-An extremely subtle paper texture is allowed. Never make the page dirty, antique or gray.
+---
 
-### Clean paper
+## 5. Semantic decoration rule
 
-For long reading, writing and dense information:
+Decorative elements with an implied meaning must only appear when that meaning is real.
 
-- bright warm paper
-- near-flat surface
-- light blue / turquoise-derived border
-- minimal directional shadow
-- highest readability
+### Arrows
 
-### Grid paper
+Use arrows when they point to or accompany a real action, destination, flow or next step.
 
-Use selectively for planning, saved fragments, vocabulary, Home hero details, and small collected areas. Do not put long essays or reading passages on a grid background.
+Do not use an arrow as random scrapbook decoration.
 
-### Receipt / guest-check paper
+### Exclamation marks / alert marks
 
-Use for structured compact data:
+Use `!` for genuine emphasis, attention or a deliberately emphatic handwritten statement.
+
+Do not scatter alert-like marks merely to fill empty space.
+
+### Hearts
+
+Decorative hearts are **not part of the current frozen visual system**. Copy may be reconsidered later, but visual filler hearts should not be added during migration.
+
+### Tape
+
+Tape implies a paper item is pinned, attached, collected or temporarily fixed.
+
+Do not place tape on every card.
+
+### Clips
+
+Clips are appropriate for attachments, saved documents, image / PDF material and filed fragments. They should not be generic ornaments.
+
+### Handwritten notes
+
+Handwritten text should express a real annotation, encouragement, emphasis or personal note. It must not replace essential UI text.
+
+---
+
+## 6. Paper material system
+
+The app should visibly contain several distinct paper types rather than one universal card component.
+
+### 6.1 Canvas
+
+- Paper Cream `#FFF9F0`
+- extremely subtle clean-paper texture allowed
+- never dirty, antique or gray
+
+### 6.2 Clean Paper
+
+Use for dense, long or high-readability content:
+
+- essays
+- reading passages
+- long session details
+- forms
+- data panels
+
+Treatment:
+
+- Clean Paper `#FFFCF7`
+- 1 px blue / turquoise-derived edge
+- restrained directional offset shadow
+- 6–10 px radius maximum
+
+### 6.3 Grid Paper
+
+Use selectively for:
+
+- Home hero
+- saved fragments
+- question-bank boards
+- vocabulary / planning contexts
+- small collected-paper areas
+
+Do not place long essays or full reading passages on grid paper.
+
+### 6.4 Receipt / Checklist / Guest Check
+
+Use for structured compact information:
 
 - Today Plan
-- weekly totals
 - session summary
 - result summary
+- short structured totals
 
-A torn or zigzag edge must remain **visibly outlined** against the Paper Cream canvas. The edge may never disappear because the paper and page are too similar.
+Frozen treatment:
 
-### Sticky note
+- **flat, straight bottom edge**
+- full rectangular outline
+- near-square corners (`0–3 px`)
+- dashed / ruled separators allowed
+- no torn / zigzag edge in the current system
 
-A sticky note is materially different from a generic app card.
+### 6.5 Sticky Note
 
-Required cues:
+Use when the content metaphor is “pinned / remembered / collected”.
 
-- nearly square corners
-- slight paper rotation on desktop
-- short tape strip when the content feels pinned / collected
-- small directional subject-colored shadow when subject-specific
-- no large soft blur shadow
+Typical content:
 
-Use sticky notes for saved / remembered fragments such as recent question-bank memories, short reminders, vocabulary encounters, and small review notes.
+- short reminders
+- recent question memories
+- learning problems
+- vocabulary encounters
+- compact historical fragments
+
+Required material cues:
+
+- near-square corners (`0–3 px`)
+- slight desktop rotation only when useful
+- directional low-opacity paper shadow
+- short tape strip when the note is actually treated as pinned / collected
+- optional subtle ruled lines
+- subject-colored edge / shadow only when subject-specific
 
 Do not put long paragraphs inside decorative sticky notes.
 
-### Tape / clips
+### 6.6 Index Card
 
-Tape and clips are accents, not default containers. Usually 1–3 obvious collage gestures per viewport is enough.
+Use for structured entries and selectable study objects:
+
+- practice options
+- vocabulary words
+- filed history fragments
+- categorized learning items
+
+Treatment:
+
+- bright clean paper rather than a full saturated fill
+- subject color may appear as top rule, edge, small label or type
+- minimal radius
+- directional paper offset
+- ruled structure allowed
+
+### 6.7 Neutral Note
+
+Cross-subject surfaces such as `Continue` use a non-subject stationery paper such as Butter Yellow or Clean Paper.
+
+A neutral note must not inherit the most recent subject’s full background color.
 
 ---
 
-## 5. Typography
+## 7. Home-specific frozen rules
+
+Home is the strongest Study Journal expression and is the current visual baseline.
+
+### Hero
+
+- Grid Paper
+- Ivy English title in Deep Ink
+- bright marker annotation allowed
+- annotation symbols must obey the semantic-decoration rule
+
+### Today Plan
+
+This is a **cross-subject checklist**, so it intentionally does not color every row by subject.
+
+Frozen treatment:
+
+- paper = Receipt / Checklist
+- flat straight bottom edge
+- left task titles = Deep Ink `#17306D`
+- supporting copy = blue-family secondary text
+- right durations = Turquoise `#009B9F`
+- row dividers = light blue dashed / ruled line
+- the main CTA is cross-product, so Turquoise / Deep Ink is appropriate
+
+### Continue / Resume
+
+- neutral paper, currently Butter Yellow
+- not Listening / Speaking / Reading / Writing colored as a whole
+- tape only if the item is visually treated as a saved / pinned note
+- subject identity may appear as a small label if needed
+
+### Quick Start
+
+- 2 × 2 subject layout on desktop and mobile
+- subject soft paper may be used
+- subject icon = line-only, no square icon background
+- material cues must make the item read as paper / note rather than a rounded SaaS card
+
+### Weekly progress
+
+- restrained analysis-paper treatment
+- each subject progress series uses its frozen subject color
+- data remains more important than decoration
+
+### Recent Question Bank
+
+- real Sticky Note language is appropriate
+- subject identity through edge / small label / shadow
+- tape is allowed because these are collected question memories
+
+---
+
+## 8. Typography
 
 ### Product / body voice
 
-Use Manrope + Noto Sans SC / system sans for body copy, controls, navigation, forms, tables and study content.
+- `Manrope`, `Noto Sans SC`, system sans fallback
+- controls, body, forms, navigation, dense learning content
 
 ### Editorial / journal voice
 
-Use Fraunces + Songti SC / serif fallback for Ivy English, page titles, section headings, session titles and selected large numbers.
+- `Fraunces`, `Songti SC`, Georgia fallback
+- brand title, page titles, section headings, session titles, selected large numbers
 
 ### Handwritten voice
 
-Use Caveat + Kaiti / cursive fallback only for short annotations, marker notes, arrows, tiny encouragement and decorative emphasis.
+- `Caveat`, `Kaiti SC`, `STKaiti`, cursive fallback
+- short annotations only
+- never use for navigation, instructions, long content or essential controls
 
-Never use handwriting for essential controls, instructions, long copy or navigation.
+### Language
 
-### Language rule
+Interaction text is primarily Chinese. Keep official IELTS concepts in English when natural: IELTS Listening, Part 1 / 2 / 3, Task 1 / 2, Familiarisation, Review.
 
-Normal interaction text is primarily Chinese. Keep official IELTS concepts in English where natural: IELTS Listening, Part 1 / 2 / 3, Task 1 / 2, Familiarisation, Review.
+**Exact product copy is intentionally deferred.** Current text is provisional and must not be treated as frozen brand voice.
 
 ---
 
-## 6. Borders, corners and shadows
+## 9. Geometry
 
-### Corners
+Do not use one universal SaaS radius.
 
-Avoid one universal SaaS radius.
+- clean paper: `6–10 px`
+- receipt / checklist: `0–3 px`
+- sticky note: `0–3 px`
+- index card: `0–3 px`
+- stamp / ticket: `0–4 px`
+- controls: `8–12 px`
+- pills: only for truly compact tags / states
 
-- clean paper: 6–10 px
-- receipt: 0–6 px plus torn edge
-- sticky note: 0–3 px
-- stamp / index: nearly square
-- controls: 8–12 px
-- pills only for compact tags
+Large `20–24 px` rounded cards are not the Study Journal default.
 
-Large 20–24 px rounded cards are not the default journal container.
+---
+
+## 10. Borders, rules and shadows
 
 ### Borders
 
-Use Ink Blue / Turquoise-derived paper edges, grid lines and ruled lines at low opacity. Avoid neutral gray framing when journal styling is active.
+- standard paper edge: `1 px`
+- stamp: `2 px`
+- grid / ruled line: `1 px` low opacity
+- structural lines derive from blue / turquoise rather than neutral gray
 
 ### Shadows
 
-Shadows suggest stacked paper rather than floating product cards:
+Paper shadows communicate stacking, not floating software cards.
+
+Preferred characteristics:
 
 - directional offset
 - low opacity
 - little or no blur
-- subject-colored tint is allowed for subject sticky notes
+- bright blue / turquoise / subject tint
 
-No large soft gray shadows.
-
----
-
-## 7. Component vocabulary
-
-Reusable Study Journal primitives include or may include:
-
-- `JournalPaper`
-- `GridPaper`
-- `ReceiptCard`
-- `StickyNote`
-- `TapeLabel`
-- `MarkerNote`
-- `Stamp`
-- subject button / subject chip utilities
-- `PaperTabs`
-- `PaperInput`
-- `VoiceMemoCard`
-- `AnswerSheet`
-- `IndexTab`
-
-Components must be responsive and must not encode one page’s content directly.
+Do not use large soft gray shadows.
 
 ---
 
-## 8. Buttons and controls
+## 11. Buttons and controls
 
 ### Global actions
 
-Cross-product actions that do not belong to one subject may use Ink or Turquoise.
+Cross-product actions may use Turquoise or Deep Ink.
 
 ### Subject actions
 
-Primary actions that clearly belong to one subject use the frozen subject identity:
-
-- Listening → Turquoise
-- Speaking → Marker Pink
-- Reading → Apple Green with dark Ink text
-- Writing → Ink Blue
-
-The same rule applies to subject-specific tabs and module entry controls.
+- Listening → `#009B9F`
+- Speaking → `#FF5DB1`
+- Reading → `#63C94A` with dark readable Ink text
+- Writing → `#3F63F2`
 
 ### Secondary actions
 
-Use bright paper with the relevant subject outline / text when subject-specific; otherwise Ink / Turquoise.
+Use bright paper with subject outline / text when subject-specific; otherwise use Deep Ink / Turquoise.
 
 ### Destructive actions
 
-Use functional red, never Marker Pink.
+Use functional red. Marker Pink must never stand in for destructive red.
 
-Never sacrifice hit area, focus visibility or obvious affordance for the collage illusion.
+### Usability
+
+Do not sacrifice hit target, focus state, contrast or obvious clickability for collage aesthetics.
 
 ---
 
-## 9. Inputs and writing surfaces
+## 12. Inputs and long-form study surfaces
 
-Long-form input should feel like real writing paper while keeping native usability:
+Long-form content prioritizes reading / writing comfort.
+
+Allowed:
 
 - clean paper
-- optional ruled lines
+- ruled lines when they help
 - generous padding
-- highly legible body font
-- clear focus state
+- strong focus state
+- highly legible sans body copy
 
-Avoid decorative backgrounds behind long essays.
+Avoid decorative collage backgrounds behind essays and full reading passages.
 
 ---
 
-## 10. Progress and data visualization
+## 13. Progress and data visualization
 
 Progress is an **analysis journal**, not a decorative scrapbook page.
 
-Charts must remain accurate and easy to read.
+Rules:
 
-For subject charts, use the frozen subject identity color. When several subjects appear together, use the four subject colors consistently.
-
-Marker Pink may only function as a generic annotation color when the context is clearly not Speaking.
-
-Decorative handwritten notes may annotate charts outside the plotting area.
+- data accuracy first
+- subject charts use frozen subject colors
+- four-subject charts use the same four mappings everywhere
+- annotations remain outside plotting areas where possible
+- do not use decoration to imply data that is not actually measured
 
 ---
 
-## 11. Page-specific visual strength
+## 14. Page expression levels
 
 ### Home — high expression
 
-- strongest scrapbook identity
-- Today Plan as receipt / guest check
-- one handwritten daily note
-- subject-coded quick-start papers
-- weekly summary as stationery object
-- recent question-bank items as real sticky notes rather than rounded cards
+Strongest journal identity.
 
 ### Practice — medium expression
 
-- four frozen subject identities
-- Daily vs IELTS hierarchy
-- History / Progress / Exam as clear index controls
-- Focus Timer may use receipt / ticket language
+Practice options may use Index Cards / paper tabs; controls remain clear.
 
-### Session Detail / History — low-to-medium expression
+### History / Session — low-to-medium expression
 
-Content first:
-
-- question / answer sheets
-- writing manuscript
-- listening material ticket
-- voice memo blocks
-- real annotations
+The recorded content is the hero: prompt, answer, transcript, recording, essay, annotations.
 
 ### Progress — low expression
 
-Data first; restrained stationery framing.
+Analysis first.
 
 ### Mistakes / Vocabulary / Library — medium expression
 
 - Mistakes → correction notebook
 - Vocabulary → index cards / encounter slips
-- Library → clipped-paper / folder-tab system
+- Library → folder tabs / clipped paper / attached-file language
 
 ---
 
-## 12. IELTS CBT exception
+## 15. IELTS CBT exception
 
-Active Reading / Listening / Writing CBT surfaces do **not** inherit the full scrapbook style.
+Active Reading / Listening / Writing CBT surfaces do **not** inherit full scrapbook styling.
 
 Transition deliberately from:
 
 **Ivy Study Journal → Formal IELTS Computer Test Environment**
 
-Active CBT pages remain formal, structured and focused.
+Inside the live exam:
 
-Journal identity is allowed around the exam entry and saved-result / exit surfaces, but not inside active answering areas.
+- no tape
+- no stickers
+- no handwritten encouragement
+- no playful paper overlap
+- formal and focused layout
 
-No decorative tape, stickers, handwritten encouragement or playful overlap inside the live exam surface.
-
----
-
-## 13. Speaking rule
-
-Daily Speaking may use full Study Journal language: prompt slips, voice memo cards, handwritten status notes and bright subject-pink controls.
-
-IELTS Speaking Simulation is more restrained and prioritizes question navigation, recording state, prep timer, answer timer and microphone state.
+Journal styling may return on exam entry, completion, result and saved-history surfaces.
 
 ---
 
-## 14. Motion
+## 16. Speaking rule
 
-Animation should behave like stationery:
+Daily Speaking may use full Study Journal language: prompt slips, voice-memo cards, bright pink subject controls and meaningful handwritten status notes.
+
+IELTS Speaking Simulation is more restrained and prioritizes:
+
+- question navigation
+- completed-question state
+- microphone state
+- preparation timer
+- answer timer
+- recording state
+
+---
+
+## 17. Motion
 
 Allowed:
 
 - subtle paper lift
-- tiny tape / sticker shift
-- stamp appearing after completion
-- sheet reveal
-- marker underline drawing in
+- small sheet reveal
+- purposeful stamp appearance
+- marker underline drawing
+- tiny tape / paper shift on direct interaction
 
-Avoid bouncing cards, constant floating stickers, large rotations, confetti and decorative motion during focused study.
+Avoid:
+
+- continuous floating
+- bouncing stickers
+- confetti
+- large rotations
+- decorative motion during focused study
 
 ---
 
-## 15. Mobile rules
+## 18. Mobile rules
 
-Mobile is a **small personal notebook**, not a scaled-down desktop collage.
+Mobile is a **small personal notebook**, not a scaled desktop collage.
 
 Required:
 
-- mostly single-column paper flow
-- fewer overlaps / rotations
-- large thumb-friendly controls
-- four core subjects visible as a `2 × 2` grid rather than horizontal-scroll-only
+- mostly single-column flow
+- four core subjects visible as `2 × 2`
+- fewer rotations / overlaps
+- larger thumb-friendly controls
 - safe-area support
 - keyboard-safe writing / transcript screens
-- mobile subject identities remain the same as desktop
+- same subject identities as desktop
+- material metaphor preserved with fewer decorative gestures
 
-Formal CBT may explicitly require desktop / tablet landscape when necessary for authentic practice.
+Formal CBT may require desktop / tablet landscape when authentic practice needs it.
 
 ---
 
-## 16. Accessibility
+## 19. Accessibility
 
-- body copy requires strong contrast
-- pastel surfaces require dark readable text
-- never communicate correct / wrong / complete using color alone
+- body text requires strong contrast
+- pastel surfaces use dark readable text
+- correct / wrong / complete must never rely on color alone
 - keyboard focus remains visible
-- handwritten text is decorative only
-- Marker Pink cannot become low-contrast body text
-- Reading’s Apple Green primary buttons use dark Ink text rather than white
+- handwritten text is non-essential
+- Marker Pink is not long-form body text
+- Reading Green buttons use dark Ink text where white contrast is insufficient
 
 ---
 
-## 17. Pilot sequence
+## 20. Copywriting status
 
-1. Home
-2. Practice
-3. Session Detail
+**Copywriting is not frozen in v1.2.**
 
-Only after these three pilots are accepted should the full-site migration proceed.
+Do not spend migration time polishing slogans, microcopy, encouragement lines or section titles unless wording blocks functionality.
 
-### Home acceptance
+After the visual system and major function / flow work are complete, perform a dedicated copywriting pass for:
 
-Home should confirm:
+- Home messaging
+- section headings
+- handwritten annotations
+- empty states
+- completion feedback
+- navigation labels
+- Daily English prompts / helper text
 
-- high-brightness identity
-- visible receipt torn edge
-- strong sticky-note material language
-- consistent four-subject color identities
-- mobile `2 × 2` subject layout
-- no gray cast
-
-### Practice acceptance
-
-Confirm subject-color controls, Daily / IELTS hierarchy, Focus Timer and responsive behavior.
-
-### Session acceptance
-
-Confirm long-form readability for listening material, speaking recordings, reading answers and writing essays.
+The later copy pass must also re-evaluate whether each punctuation mark, arrow or emphasis symbol is semantically justified.
 
 ---
 
-## 18. Full migration order
+## 21. Migration order
 
-After Pilot approval:
+After Home baseline:
 
-1. Home
-2. Practice
-3. History / Session
-4. Progress / Progress Detail
-5. Mistakes
-6. Vocabulary
-7. Library
-8. Settings
-9. Bank / Question Detail
-10. Daily Speaking
-11. Daily Listening / Reading / Writing
-12. CBT entry / exit surfaces
+1. Practice
+2. History / Session
+3. Progress / Progress Detail
+4. Mistakes
+5. Vocabulary
+6. Library
+7. Settings
+8. Bank / Question Detail
+9. Daily Speaking
+10. Daily Listening / Reading / Writing
+11. CBT entry / exit surfaces
+12. dedicated copywriting pass
+13. final full-site visual consistency pass
 
 Active CBT exam surfaces remain formal.
 
 ---
 
-## 19. Design review checklist
+## 22. Design review checklist
 
 Before accepting a redesigned page, ask:
 
 1. Is the main action obvious within three seconds?
 2. Can the page still be understood without decoration?
-3. Does each paper / tape / handwritten detail serve a purpose?
-4. Are all colors bright and free of gray cast?
-5. Are the four subject colors consistent with the frozen mapping?
-6. Do saved fragments actually feel like paper / sticky notes instead of SaaS cards?
-7. Are torn receipt edges visibly outlined?
-8. Is long-form text comfortable to read?
-9. Does mobile simplify rather than merely shrink desktop?
-10. Would the page remain pleasant after daily use for six months?
-11. Is the active IELTS exam surface protected from unnecessary decoration?
+3. Does every paper type have a real material / information role?
+4. Does every arrow / tape / clip / alert mark have semantic justification?
+5. Are colors bright and free of gray cast?
+6. Are the four subject colors consistent with the frozen mapping?
+7. Are standard subject icons line-only without colored square tiles?
+8. Do neutral surfaces remain neutral rather than borrowing a subject background?
+9. Does a Sticky Note actually look pinned / collected rather than like a SaaS card?
+10. Does a Receipt / Checklist use the flat straight-edge rule?
+11. Is long-form text comfortable to read?
+12. Does mobile simplify rather than shrink desktop?
+13. Is the active IELTS exam surface protected from unnecessary decoration?
+14. Would this remain pleasant after daily use for six months?
 
 If several answers are no, simplify before adding more decoration.
 
 ---
 
-## 20. Frozen decisions
+## 23. Frozen decisions summary
 
 Unless Ivy explicitly changes them:
 
-- direction: Personal Study Journal + Editorial Scrapbook
-- no gray-toned / dusty palette
-- high-lightness color system
+- direction = Personal Study Journal + Editorial Scrapbook
+- material first, decoration second
+- high-brightness palette; no gray / dusty cast
 - Paper Cream `#FFF9F0`
-- Ink Blue `#3F63F2`
+- Clean Paper `#FFFCF7`
+- Deep Ink `#17306D`
 - Marker Pink `#FF5DB1`
+- Turquoise `#009B9F`
+- Writing Blue `#3F63F2`
+- Reading Green `#63C94A`
 - Note Mint `#E8FFD8`
 - Butter Yellow `#FFF3A6`
 - Peach Tape `#FFD4B5`
 - Lavender Note `#E9D8FF`
 - Fresh Aqua `#D6FFF7`
-- Apple Green `#AEEB8C`
+- Apple Green `#AEEB8C` = support green only
 - Turquoise Green `#7FEFD4`
-- Turquoise `#009B9F`
 - Listening = Turquoise / Fresh Aqua
-- Speaking = Marker Pink / bright pink-paper mix
-- Reading = Apple Green / Note Mint
-- Writing = Ink Blue / Lavender Note
-- Study Journal and formal IELTS CBT remain visually distinct modes
+- Speaking = Marker Pink / bright pink paper
+- Reading = Reading Green / Note Mint
+- Writing = Writing Blue / Lavender Note
+- subject icons = line-only, no standard filled square backgrounds
+- Continue / generic History / cross-subject surfaces = neutral stationery, not subject-colored surfaces
+- Today Plan task titles = Deep Ink; durations = Turquoise
+- Receipt / checklist paper = flat straight edge, full outline
+- Sticky Notes use tape only when “pinned / collected” is real
+- arrows / alert symbols / clips are semantic, never filler
+- decorative hearts are not part of the current frozen visual system
+- Study Journal mode and formal IELTS CBT mode remain visually distinct
+- exact copywriting remains deferred until after the main visual / functional migration
