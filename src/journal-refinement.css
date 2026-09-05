@@ -198,7 +198,7 @@
 }
 
 .journal-app .journal-stat:nth-child(2) {
-  background: var(--journal-lavender);
+  background: #EAF6FF;
   transform: rotate(.18deg);
 }
 
