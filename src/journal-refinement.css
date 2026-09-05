@@ -1,0 +1,322 @@
+.journal-app,
+.journal-workspace {
+  --primary: #17306D;
+  --primary-foreground: #FFFFFF;
+  --accent: #EEF4FF;
+  --accent-foreground: #17306D;
+  --sage: #17306D;
+  --sage-soft: #EEF4FF;
+  --sage-foreground: #17306D;
+  --sidebar-primary: #17306D;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #EEF4FF;
+  --sidebar-accent-foreground: #17306D;
+  --journal-paper-shadow-small: 3px 4px 0 rgba(63, 99, 242, .09);
+}
+
+/* Global chrome uses Deep Ink. Turquoise is reserved for Listening. */
+.journal-app .journal-link,
+.journal-workspace .journal-link {
+  color: var(--journal-ink);
+}
+
+.journal-app .journal-button,
+.journal-workspace .journal-button {
+  border-color: var(--journal-ink);
+  background: var(--journal-ink);
+  color: #FFFFFF;
+  box-shadow: 3px 3px 0 var(--journal-line);
+}
+
+.journal-app .journal-button:hover,
+.journal-workspace .journal-button:hover {
+  box-shadow: 5px 5px 0 var(--journal-line);
+}
+
+.journal-app .journal-button:active,
+.journal-workspace .journal-button:active {
+  box-shadow: 2px 2px 0 var(--journal-line);
+}
+
+.journal-app .hover-lift:hover,
+.journal-workspace .hover-lift:hover {
+  border-color: var(--page-subject, var(--journal-ink));
+  box-shadow: 6px 7px 0 color-mix(in srgb, var(--page-subject, var(--journal-blue)) 10%, transparent);
+}
+
+.journal-app .journal-tab:hover,
+.journal-workspace .journal-tab:hover {
+  border-color: var(--page-subject, var(--journal-ink));
+  color: var(--journal-ink);
+}
+
+.journal-app .journal-tab[data-active="true"],
+.journal-workspace .journal-tab[data-active="true"] {
+  border-color: var(--page-subject, var(--journal-ink));
+  background: color-mix(in srgb, var(--page-subject, var(--journal-blue)) 10%, var(--journal-paper));
+  color: var(--journal-ink);
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--page-subject, var(--journal-blue)) 14%, transparent);
+}
+
+.journal-app .journal-list-row:hover,
+.journal-workspace .journal-list-row:hover {
+  background: color-mix(in srgb, var(--page-subject, var(--journal-blue)) 7%, var(--journal-paper)) !important;
+}
+
+.journal-app .journal-folder,
+.journal-workspace .journal-folder {
+  box-shadow: 4px 5px 0 rgba(63, 99, 242, .08);
+}
+
+.journal-app .journal-subject-accent,
+.journal-workspace .journal-subject-accent {
+  color: var(--page-subject, var(--journal-ink)) !important;
+}
+
+.journal-app .journal-subject-border,
+.journal-workspace .journal-subject-border {
+  border-color: var(--page-subject, var(--journal-ink)) !important;
+}
+
+.journal-app .journal-subject-button,
+.journal-workspace .journal-subject-button,
+.journal-app .subject-button,
+.journal-workspace .subject-button {
+  background: var(--page-subject, var(--subject-color, var(--journal-ink)));
+  border-color: var(--page-subject, var(--subject-color, var(--journal-ink)));
+  color: #FFFFFF !important;
+}
+
+/* Any high-saturation semantic fill used as an action gets white ink. */
+.journal-app button[class*="bg-[var(--journal-pink)]"],
+.journal-app a[class*="bg-[var(--journal-pink)]"],
+.journal-app button[class*="bg-[var(--journal-blue)]"],
+.journal-app a[class*="bg-[var(--journal-blue)]"],
+.journal-app button[class*="bg-[var(--journal-turquoise)]"],
+.journal-app a[class*="bg-[var(--journal-turquoise)]"],
+.journal-workspace button[class*="bg-[var(--journal-pink)]"],
+.journal-workspace a[class*="bg-[var(--journal-pink)]"],
+.journal-workspace button[class*="bg-[var(--journal-blue)]"],
+.journal-workspace a[class*="bg-[var(--journal-blue)]"],
+.journal-workspace button[class*="bg-[var(--journal-turquoise)]"],
+.journal-workspace a[class*="bg-[var(--journal-turquoise)]"] {
+  color: #FFFFFF !important;
+}
+
+/* Immersive workspaces own their subject color instead of inheriting Listening turquoise. */
+.journal-workspace.journal-subject-listening {
+  --page-subject: var(--subject-listening);
+  --page-subject-soft: var(--subject-listening-soft);
+  --primary: var(--subject-listening);
+  --primary-foreground: #FFFFFF;
+}
+
+.journal-workspace.journal-subject-speaking {
+  --page-subject: var(--subject-speaking);
+  --page-subject-soft: var(--subject-speaking-soft);
+  --primary: var(--subject-speaking);
+  --primary-foreground: #FFFFFF;
+}
+
+.journal-workspace.journal-subject-reading {
+  --page-subject: var(--subject-reading);
+  --page-subject-soft: var(--subject-reading-soft);
+  --primary: var(--subject-reading);
+  --primary-foreground: #FFFFFF;
+}
+
+.journal-workspace.journal-subject-writing {
+  --page-subject: var(--subject-writing);
+  --page-subject-soft: var(--subject-writing-soft);
+  --primary: var(--subject-writing);
+  --primary-foreground: #FFFFFF;
+}
+
+.journal-workspace [class*="bg-[#2e3e33]"] {
+  background: var(--page-subject, var(--journal-ink)) !important;
+  color: #FFFFFF !important;
+  border-color: var(--page-subject, var(--journal-ink)) !important;
+  box-shadow: 3px 3px 0 color-mix(in srgb, var(--page-subject, var(--journal-blue)) 22%, var(--journal-paper));
+}
+
+.journal-workspace button.bg-primary,
+.journal-workspace a.bg-primary,
+.journal-app button.bg-primary,
+.journal-app a.bg-primary {
+  color: #FFFFFF !important;
+}
+
+/* A subject practice page keeps its focus ticket in the current subject color. */
+.journal-app .journal-page[class*="journal-subject-"] > .journal-receipt {
+  border-color: var(--page-subject) !important;
+  box-shadow: 4px 5px 0 color-mix(in srgb, var(--page-subject) 12%, transparent);
+}
+
+.journal-app .journal-page[class*="journal-subject-"] > .journal-receipt svg {
+  color: var(--page-subject) !important;
+}
+
+/* Neutral pages never use Listening turquoise as a generic selected/action color. */
+.journal-app .journal-page:not(.journal-subject-listening):not(.journal-subject-speaking):not(.journal-subject-reading):not(.journal-subject-writing) [class*="text-[var(--journal-turquoise)]"] {
+  color: var(--journal-ink) !important;
+}
+
+.journal-app .journal-page:not(.journal-subject-listening):not(.journal-subject-speaking):not(.journal-subject-reading):not(.journal-subject-writing) button[class*="border-[var(--journal-turquoise)]"],
+.journal-app .journal-page:not(.journal-subject-listening):not(.journal-subject-speaking):not(.journal-subject-reading):not(.journal-subject-writing) a[class*="border-[var(--journal-turquoise)]"] {
+  border-color: var(--journal-ink) !important;
+}
+
+.journal-app .journal-page:not(.journal-subject-listening):not(.journal-subject-speaking):not(.journal-subject-reading):not(.journal-subject-writing) .journal-ledger span.absolute.size-2 {
+  background: var(--journal-ink) !important;
+}
+
+/* Progress: four separate scraps instead of one large dashboard panel. */
+.journal-app .journal-receipt:has(.journal-stat) {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0 !important;
+}
+
+.journal-app .journal-receipt:has(.journal-stat) > .grid {
+  gap: .8rem;
+}
+
+.journal-app .journal-stat {
+  position: relative;
+  min-height: 9.5rem;
+  overflow: hidden;
+  border: 1px solid var(--journal-line);
+  border-top: 4px solid var(--page-subject, var(--journal-ink));
+  padding: 1.15rem;
+  box-shadow: 4px 5px 0 rgba(63, 99, 242, .08);
+}
+
+.journal-app .journal-stat:nth-child(1) {
+  background: var(--journal-yellow);
+  transform: rotate(-.25deg);
+}
+
+.journal-app .journal-stat:nth-child(2) {
+  background: #EAF6FF;
+  transform: rotate(.18deg);
+}
+
+.journal-app .journal-stat:nth-child(3) {
+  background: var(--journal-peach);
+  transform: rotate(-.15deg);
+}
+
+.journal-app .journal-stat:nth-child(4) {
+  background-color: var(--journal-paper);
+  background-image: repeating-linear-gradient(to bottom, transparent 0 27px, rgba(63, 99, 242, .10) 28px);
+  transform: rotate(.22deg);
+}
+
+.journal-app .journal-stat:nth-child(1)::after,
+.journal-app .journal-stat:nth-child(3)::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: -1px;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(225deg, var(--journal-canvas) 0 49%, rgba(63, 99, 242, .20) 50% 52%, transparent 53%);
+  pointer-events: none;
+}
+
+.journal-app .journal-receipt:has(.journal-stat) > .mt-7 {
+  margin-top: 1rem !important;
+  border: 1px solid var(--journal-line) !important;
+  background-color: var(--journal-paper);
+  background-image: linear-gradient(to right, rgba(63, 99, 242, .10) 1px, transparent 1px), linear-gradient(to bottom, rgba(63, 99, 242, .10) 1px, transparent 1px);
+  background-size: 22px 22px;
+  padding: 1.15rem !important;
+  box-shadow: 4px 5px 0 rgba(63, 99, 242, .07);
+}
+
+/* Subject progress sheets keep the subject as an accent, while paper types still vary. */
+.journal-app .journal-page[class*="journal-subject-"] .journal-stat {
+  border-top-color: var(--page-subject);
+}
+
+.journal-app .journal-page[class*="journal-subject-"] > .journal-paper {
+  border-color: color-mix(in srgb, var(--page-subject) 42%, var(--journal-line));
+}
+
+/* Global shell selection is navy, not Listening turquoise. */
+.journal-app aside nav a[aria-current="page"],
+.journal-app nav[aria-label] a[aria-current="page"],
+.journal-app > nav a[aria-current="page"] {
+  color: var(--journal-ink) !important;
+}
+
+.journal-app button[aria-label="打开快捷菜单"],
+.journal-app button[aria-label="关闭快捷菜单"] {
+  border-color: var(--journal-ink) !important;
+  background: var(--journal-ink) !important;
+  color: #FFFFFF !important;
+  box-shadow: 3px 3px 0 var(--journal-line) !important;
+}
+
+@media (max-width: 767px) {
+  .journal-app,
+  .journal-workspace {
+    max-width: 100vw;
+    overflow-x: clip;
+  }
+
+  /* Keep the practice timer frame fixed in one place while its inner mode changes. */
+  .journal-app div.relative:has(> button[aria-expanded] svg.lucide-clock-3) > div.fixed,
+  .journal-workspace div.relative:has(> button[aria-expanded] svg.lucide-clock-3) > div.fixed {
+    left: 1rem !important;
+    right: 1rem !important;
+    top: auto !important;
+    bottom: calc(env(safe-area-inset-bottom) + 5.75rem) !important;
+    width: auto !important;
+    height: min(29rem, calc(100dvh - env(safe-area-inset-bottom) - 8rem));
+    max-height: none !important;
+    transform: none !important;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* Mobile notes must never make the page horizontally scroll. */
+  .journal-app .journal-sticky,
+  .journal-workspace .journal-sticky,
+  .journal-app .journal-index-card,
+  .journal-workspace .journal-index-card {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .journal-app .journal-sticky > *,
+  .journal-workspace .journal-sticky > *,
+  .journal-app .journal-index-card > *,
+  .journal-workspace .journal-index-card > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .journal-app .journal-sticky p,
+  .journal-app .journal-sticky span,
+  .journal-workspace .journal-sticky p,
+  .journal-workspace .journal-sticky span {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .journal-app .journal-stat {
+    min-height: 8.6rem;
+    transform: none !important;
+    box-shadow: 3px 4px 0 rgba(63, 99, 242, .07);
+  }
+
+  .journal-app .journal-receipt:has(.journal-stat) > .mt-7 {
+    background-size: 18px 18px;
+    box-shadow: 3px 4px 0 rgba(63, 99, 242, .06);
+  }
+}
