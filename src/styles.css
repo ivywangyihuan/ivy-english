@@ -20,9 +20,17 @@
 .journal-paper::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background-image:radial-gradient(circle at 18% 20%,rgba(63,99,242,.025) 0 1px,transparent 1.2px),radial-gradient(circle at 78% 68%,rgba(255,93,177,.022) 0 1px,transparent 1.2px);background-size:20px 20px,24px 24px;mix-blend-mode:multiply;opacity:.6;}
 .journal-grid{background-color:var(--journal-paper);background-image:linear-gradient(to right,rgba(63,99,242,.13) 1px,transparent 1px),linear-gradient(to bottom,rgba(63,99,242,.13) 1px,transparent 1px);background-size:24px 24px;}
 .journal-receipt{border:1px solid rgba(63,99,242,.34);border-radius:2px;box-shadow:var(--journal-paper-shadow);}
-.journal-sticky{position:relative;border:1px solid color-mix(in srgb,var(--subject-color,var(--journal-blue)) 48%,transparent);border-radius:2px;background:var(--subject-soft,var(--journal-yellow));box-shadow:4px 5px 0 color-mix(in srgb,var(--subject-color,var(--journal-blue)) 14%,transparent);}
+
+.journal-note-neutral{border-radius:2px!important;box-shadow:4px 5px 0 rgba(255,93,177,.08)!important;background-image:repeating-linear-gradient(to bottom,transparent 0 27px,rgba(63,99,242,.10) 28px)!important;}
+.journal-note-neutral::before{content:"";position:absolute;left:50%;top:-7px;z-index:3;height:14px;width:58px;transform:translateX(-50%) rotate(-1.2deg);background:color-mix(in srgb,var(--journal-peach) 84%,white);border-left:1px solid rgba(63,99,242,.12);border-right:1px solid rgba(63,99,242,.12);opacity:.92;}
+
+.journal-sticky{position:relative;border:1px solid color-mix(in srgb,var(--subject-color,var(--journal-blue)) 48%,transparent);border-radius:2px;background-color:var(--subject-soft,var(--journal-yellow));background-image:repeating-linear-gradient(to bottom,transparent 0 27px,color-mix(in srgb,var(--subject-color,var(--journal-blue)) 10%,transparent) 28px);box-shadow:4px 5px 0 color-mix(in srgb,var(--subject-color,var(--journal-blue)) 14%,transparent);}
 .journal-sticky::before{content:"";position:absolute;left:50%;top:-8px;z-index:2;height:15px;width:58px;transform:translateX(-50%) rotate(-1.5deg);background:color-mix(in srgb,var(--journal-peach) 84%,white);border-left:1px solid color-mix(in srgb,var(--subject-color,var(--journal-blue)) 18%,transparent);border-right:1px solid color-mix(in srgb,var(--subject-color,var(--journal-blue)) 18%,transparent);opacity:.92;}
 .journal-sticky:hover{transform:translateY(-1px) rotate(0deg);box-shadow:6px 7px 0 color-mix(in srgb,var(--subject-color,var(--journal-blue)) 17%,transparent);}
+
+.journal-index-card{border:1px solid color-mix(in srgb,var(--subject-color) 44%,transparent);border-radius:2px;background-color:var(--journal-paper);background-image:repeating-linear-gradient(to bottom,transparent 0 29px,color-mix(in srgb,var(--subject-color) 9%,transparent) 30px);box-shadow:4px 5px 0 color-mix(in srgb,var(--subject-color) 13%,transparent);}
+.journal-index-card::before{content:"";position:absolute;left:18px;right:18px;top:14px;height:3px;background:var(--subject-color);opacity:.88;}
+
 .journal-rule{background-image:linear-gradient(to bottom,transparent calc(100% - 1px),rgba(63,99,242,.17) 1px);background-size:100% 28px;}
 .journal-link{color:var(--journal-turquoise);font-weight:600;text-decoration-thickness:1px;text-underline-offset:4px;}
 .journal-button{border:1px solid var(--journal-ink);background:var(--journal-ink);color:white;box-shadow:3px 3px 0 var(--journal-turquoise-green);transition:transform 120ms ease,box-shadow 120ms ease;}
@@ -33,7 +41,8 @@
 .subject-speaking{--subject-color:var(--subject-speaking);--subject-soft:var(--subject-speaking-soft);--subject-contrast:var(--journal-ink);}
 .subject-reading{--subject-color:var(--subject-reading);--subject-soft:var(--subject-reading-soft);--subject-contrast:var(--journal-ink);}
 .subject-writing{--subject-color:var(--subject-writing);--subject-soft:var(--subject-writing-soft);--subject-contrast:white;}
-.subject-surface{background:var(--subject-soft)!important;border-color:color-mix(in srgb,var(--subject-color) 52%,transparent)!important;}
+.subject-surface{position:relative;background-color:var(--subject-soft)!important;background-image:repeating-linear-gradient(to bottom,transparent 0 31px,color-mix(in srgb,var(--subject-color) 8%,transparent) 32px)!important;border-color:color-mix(in srgb,var(--subject-color) 50%,transparent)!important;border-radius:2px!important;box-shadow:4px 5px 0 color-mix(in srgb,var(--subject-color) 13%,transparent)!important;}
+.subject-surface::before{content:"";position:absolute;left:50%;top:-7px;z-index:3;height:13px;width:54px;transform:translateX(-50%) rotate(-1deg);background:color-mix(in srgb,var(--journal-peach) 82%,white);border-left:1px solid color-mix(in srgb,var(--subject-color) 15%,transparent);border-right:1px solid color-mix(in srgb,var(--subject-color) 15%,transparent);opacity:.86;}
 .subject-text{color:var(--subject-color)!important;}
 .subject-border{border-color:var(--subject-color)!important;}
 .subject-chip{display:inline-flex;align-items:center;background:var(--subject-soft);border:1px solid color-mix(in srgb,var(--subject-color) 55%,transparent);color:var(--journal-ink);}
@@ -41,6 +50,6 @@
 .subject-button:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 color-mix(in srgb,var(--subject-color) 24%,var(--journal-paper));}
 .subject-button:active{transform:translate(1px,1px);box-shadow:2px 2px 0 color-mix(in srgb,var(--subject-color) 22%,var(--journal-paper));}
 
-@media (max-width:767px){.journal-paper,.journal-receipt{box-shadow:3px 4px 0 rgba(63,99,242,.08)}.journal-grid{background-size:20px 20px}.journal-paper::after{opacity:.38}.journal-sticky{box-shadow:3px 4px 0 color-mix(in srgb,var(--subject-color,var(--journal-blue)) 12%,transparent)}.journal-sticky::before{width:48px;height:13px;top:-7px}}
+@media (max-width:767px){.journal-paper,.journal-receipt{box-shadow:3px 4px 0 rgba(63,99,242,.08)}.journal-grid{background-size:20px 20px}.journal-paper::after{opacity:.38}.journal-sticky,.journal-index-card,.subject-surface{box-shadow:3px 4px 0 color-mix(in srgb,var(--subject-color,var(--journal-blue)) 10%,transparent)!important}.journal-sticky::before,.journal-note-neutral::before,.subject-surface::before{width:46px;height:12px;top:-6px}}
 
 button[aria-label*=', answered'] > span.absolute { top: 0.125rem !important; right: 0.125rem !important; }
