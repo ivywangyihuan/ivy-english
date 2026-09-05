@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, BookOpenText, Check, Headphones, Mic, PenLine, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpenText, Check, Headphones, Mic, PenLine } from "lucide-react";
 import { GridPaper, JournalHeading, JournalPaper, MarkerNote, ReceiptCard, Stamp, StickyNote, TapeLabel } from "@/components/journal-ui";
 import { learningStages, useAppState } from "@/state/app-state";
 import { keyFromLabel } from "@/lib/learning-navigation";
@@ -47,9 +47,9 @@ function HomePage(){
             <h1 className="display mt-5 text-4xl leading-none text-[var(--journal-ink)] sm:text-5xl">Ivy English</h1>
             <p className="mt-3 max-w-xl text-sm leading-6 text-[#38436F]">一本会随着练习慢慢长大的个人英语学习手帐。</p>
           </div>
-          <div className="hidden rotate-2 sm:block"><MarkerNote>small steps, bright days ♡</MarkerNote></div>
+          <div className="hidden rotate-2 sm:block"><MarkerNote>small steps, bright days !</MarkerNote></div>
         </div>
-        <div className="relative z-10 mt-6 flex flex-wrap items-center gap-3 text-xs text-[#38436F]"><Sparkles className="size-4 text-[var(--journal-pink)]"/><span>今天也只做真正有用的练习。</span></div>
+        <div className="relative z-10 mt-6 text-xs text-[#38436F]">今天也只做真正有用的练习。</div>
       </GridPaper>
 
       <div className="grid items-start gap-6 lg:grid-cols-[1.05fr_.95fr]">
@@ -58,18 +58,18 @@ function HomePage(){
             <div><p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--journal-turquoise)]">Today&apos;s plan</p><h2 className="display mt-1 text-2xl text-[var(--journal-ink)]">今天</h2></div>
             <Stamp tone="turquoise">{totalMinutes} MIN</Stamp>
           </div>
-          <div className="divide-y divide-dashed divide-[color:var(--journal-line)]">{plan.map((item,index)=>{const theme=themeByModule[item.module]?.className??"";return <div key={item.module} className={`${theme} flex items-center gap-3 py-4`}><span className="font-handwritten text-xl text-[var(--journal-pink)]">{String(index+1).padStart(2,"0")}</span><div className="min-w-0 flex-1"><p className={`text-sm font-medium ${theme?"subject-text":"text-[var(--journal-ink)]"}`}>{item.module}</p><p className="mt-0.5 text-xs leading-5 text-[#52608C]">{item.hint}</p></div><span className={`shrink-0 text-xs font-semibold tabular-nums ${theme?"subject-text":"text-[var(--journal-turquoise)]"}`}>{item.minutes} min</span></div>})}</div>
-          <div className="subject-listening mt-5 flex flex-wrap items-center gap-4 pb-2"><Link to="/practice" search={{module:"listening"}} className="subject-button inline-flex h-11 items-center px-5 text-xs font-semibold">开始今天的学习 <ArrowRight className="ml-2 size-3.5"/></Link><button type="button" onClick={()=>setShortPlan(!isShortPlan)} className="text-xs font-medium text-[var(--journal-turquoise)] underline decoration-[var(--journal-turquoise-green)] underline-offset-4">{isShortPlan?"恢复完整计划":"我今天只有 20 分钟"}</button></div>
+          <div className="divide-y divide-dashed divide-[color:var(--journal-line)]">{plan.map((item,index)=><div key={item.module} className="flex items-center gap-3 py-4"><span className="font-handwritten text-xl text-[var(--journal-pink)]">{String(index+1).padStart(2,"0")}</span><div className="min-w-0 flex-1"><p className="text-sm font-medium text-[var(--journal-ink)]">{item.module}</p><p className="mt-0.5 text-xs leading-5 text-[#52608C]">{item.hint}</p></div><span className="shrink-0 text-xs font-semibold tabular-nums text-[var(--journal-turquoise)]">{item.minutes} min</span></div>)}</div>
+          <div className="mt-5 flex flex-wrap items-center gap-4 pb-2"><Link to="/practice" search={{module:"listening"}} className="journal-button inline-flex h-11 items-center px-5 text-xs font-semibold">开始今天的学习 <ArrowRight className="ml-2 size-3.5"/></Link><button type="button" onClick={()=>setShortPlan(!isShortPlan)} className="text-xs font-medium text-[var(--journal-turquoise)] underline decoration-[var(--journal-turquoise-green)] underline-offset-4">{isShortPlan?"恢复完整计划":"我今天只有 20 分钟"}</button></div>
         </ReceiptCard>
 
         <JournalPaper tone="yellow" tilt={1} className="p-5 sm:p-6">
-          <div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--journal-turquoise)]">Continue</p><h2 className="display mt-1 text-xl text-[var(--journal-ink)]">继续上次</h2></div><MarkerNote className="rotate-[-4deg]">pick it up here →</MarkerNote></div>
+          <div className="flex items-start justify-between gap-4"><div><p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--journal-turquoise)]">Continue</p><h2 className="display mt-1 text-xl text-[var(--journal-ink)]">继续上次</h2></div><MarkerNote className="rotate-[-4deg]">pick it up here !</MarkerNote></div>
           {latestSession?<div className="mt-6"><p className="text-base font-medium leading-6 text-[var(--journal-ink)]">{latestSession.activity}</p><p className="mt-1 text-xs text-[#53618B]">{latestSession.date}{latestSession.tool?` · ${latestSession.tool}`:""}</p><div className="mt-5 flex flex-wrap gap-2"><span className="bg-white/70 px-3 py-1.5 text-xs text-[var(--journal-ink)]">{latestSession.durationMinutes} min</span>{latestSession.score?<span className="bg-white/75 px-3 py-1.5 text-xs font-semibold text-[var(--journal-ink)]">{latestSession.score}</span>:null}</div><Link to="/session" search={{id:latestSession.id,from:"home",module:keyFromLabel(latestSession.module)}} className="mt-6 inline-flex items-center text-xs font-semibold text-[var(--journal-turquoise)] underline decoration-[var(--journal-turquoise-green)] underline-offset-4">查看这次学习 <ArrowRight className="ml-1 size-3"/></Link></div>:<div className="mt-6"><p className="text-sm leading-6 text-[#53618B]">这里还没有留下学习痕迹。</p><Link to="/practice" search={{module:"listening"}} className="mt-5 inline-flex items-center text-xs font-semibold text-[var(--journal-turquoise)] underline underline-offset-4">开始第一次练习 <ArrowRight className="ml-1 size-3"/></Link></div>}
         </JournalPaper>
       </div>
 
       <section>
-        <JournalHeading eyebrow="Quick start" title="今天想练什么？" note={<MarkerNote className="text-[1.1rem]">choose one and go ♡</MarkerNote>}/>
+        <JournalHeading eyebrow="Quick start" title="今天想练什么？" note={<MarkerNote className="text-[1.1rem]">choose one and go !</MarkerNote>}/>
         <div className="grid grid-cols-2 gap-3 sm:gap-4">{quickStart.map((card,index)=><JournalPaper key={card.title} tone="paper" tilt={index%2===0?-1:1} className={`${card.theme} subject-surface min-h-40 overflow-hidden p-5 sm:min-h-44 sm:p-6`}><Link to="/practice" search={{module:card.module}} className="relative z-10 flex h-full min-h-28 flex-col justify-between"><div className="flex items-start justify-between gap-3"><card.icon className="subject-text size-6" strokeWidth={1.9}/><span className="subject-text text-[9px] font-semibold tracking-[0.18em]">{card.label}</span></div><div className="mt-7"><p className="display text-xl text-[var(--journal-ink)]">{card.title}</p><p className="mt-1 text-[11px] leading-5 text-[#4E5980]">{card.hint}</p><span className="subject-text mt-3 inline-flex items-center text-[10px] font-semibold">进入{card.title} <ArrowRight className="ml-1 size-3"/></span></div></Link></JournalPaper>)}</div>
       </section>
 
