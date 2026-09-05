@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
+type Subject = "listening"|"speaking"|"reading"|"writing";
+
 export function JournalPaper({children,className,tone="paper",tilt=0}:{children:ReactNode;className?:string;tone?:"paper"|"mint"|"yellow"|"peach"|"lavender"|"aqua"|"green";tilt?:-1|0|1}){
   const tones={paper:"bg-[var(--journal-paper)]",mint:"bg-[var(--journal-mint)]",yellow:"bg-[var(--journal-yellow)]",peach:"bg-[var(--journal-peach)]",lavender:"bg-[var(--journal-lavender)]",aqua:"bg-[var(--journal-aqua)]",green:"bg-[var(--journal-green)]"};
   const rotations={[-1]:"md:-rotate-[0.45deg]",0:"",1:"md:rotate-[0.45deg]"};
@@ -13,6 +15,12 @@ export function GridPaper({children,className}:{children:ReactNode;className?:st
 
 export function ReceiptCard({children,className}:{children:ReactNode;className?:string}){
   return <div className={cn("journal-receipt relative bg-[var(--journal-paper)]",className)}>{children}</div>;
+}
+
+export function StickyNote({children,className,subject,tilt=0}:{children:ReactNode;className?:string;subject?:Subject;tilt?:-1|0|1}){
+  const subjects:Record<Subject,string>={listening:"subject-listening",speaking:"subject-speaking",reading:"subject-reading",writing:"subject-writing"};
+  const rotations={[-1]:"md:-rotate-[0.65deg]",0:"",1:"md:rotate-[0.65deg]"};
+  return <div className={cn("journal-sticky",subject?subjects[subject]:"",rotations[tilt],className)}>{children}</div>;
 }
 
 export function TapeLabel({children,className,tone="peach"}:{children:ReactNode;className?:string;tone?:"peach"|"pink"|"aqua"|"yellow"}){
