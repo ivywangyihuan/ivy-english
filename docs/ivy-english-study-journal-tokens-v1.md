@@ -144,6 +144,38 @@ Use a non-subject stationery surface such as:
 
 The actual subject can still appear as a small label or accent inside the surface when useful.
 
+### Neutral planning color rule
+
+Mixed-subject planning areas such as `Today's Plan` must read as one coherent form rather than four competing subject-colored rows.
+
+For the current Home pilot:
+
+- left-side task titles use `Journal Ink #17306D`
+- right-side duration values use `Turquoise #009B9F`
+- row helper copy stays in the standard readable ink hierarchy
+- subject colors are reserved for actual subject-specific entry points, progress series, labels, or controls
+
+### Marker / guidance semantics
+
+Visual marks that imply **direction, action, pointing, annotation target, or alert** must have a real semantic reason.
+
+Examples that require meaning:
+
+- arrows
+- pointer marks
+- callout circles / dots
+- highlighted target boxes
+- exclamation marks used as alerts
+- underlines that visually point to a specific action
+
+Rules:
+
+- do not add arrows or pointer-like marks as empty decoration
+- arrows are appropriate on real links / navigation / continuation actions
+- decorative handwritten copy should prefer plain punctuation instead of fake directional marks
+- decorative hearts are not part of the current Home visual language; use `!` where a short energetic handwritten ending is desired
+- system / Vercel Preview comment markers are not product UI and should not influence the production design
+
 ## 5. Spacing
 
 Base rhythm: **4 px**.
@@ -318,8 +350,10 @@ Home Pilot is accepted only if:
 4. Listening / Speaking / Reading / Writing retain their frozen semantic colors consistently;
 5. subject icons are line-only by default and do not sit on colored square tiles;
 6. neutral continuation/history surfaces do not masquerade as a subject module through their background color;
-7. sticky-note content looks physically pinned or collected rather than like another rounded product card;
-8. receipt / checklist paper uses a clean flat bottom edge with a visible straight border;
-9. mobile keeps the identity without desktop collage density;
-10. no visible gray cast is introduced by backgrounds, borders or shadows;
-11. the page still feels usable for daily long-term use rather than like a one-off poster.
+7. mixed-subject plan rows use one coherent text hierarchy instead of four subject colors;
+8. arrows, target marks and alert-like symbols appear only when they carry real meaning;
+9. sticky-note content looks physically pinned or collected rather than like another rounded product card;
+10. receipt / checklist paper uses a clean flat bottom edge with a visible straight border;
+11. mobile keeps the identity without desktop collage density;
+12. no visible gray cast is introduced by backgrounds, borders or shadows;
+13. the page still feels usable for daily long-term use rather than like a one-off poster.
