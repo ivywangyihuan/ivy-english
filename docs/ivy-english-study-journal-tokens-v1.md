@@ -167,7 +167,7 @@ Do not introduce arbitrary spacing when an existing rhythm value works.
 The redesign intentionally avoids one universal SaaS radius.
 
 - clean paper: 6–10 px
-- receipt: 0–6 px plus torn-edge treatment
+- receipt / checklist paper: 0–3 px with a **flat, straight bottom edge**
 - sticky note: 0–3 px
 - index / stamp: near-square or 0–4 px
 - controls: 8–12 px
@@ -176,14 +176,16 @@ The redesign intentionally avoids one universal SaaS radius.
 
 Large 20–24 px rounded cards should not become the default journal container.
 
+Decorative torn / zigzag edges are not part of the current frozen receipt treatment. Prefer a clean flat paper edge with a visible border.
+
 ## 7. Borders
 
 - standard paper edge: 1 px
+- receipt / checklist paper: full rectangular 1 px outline, including a straight bottom border
 - stamp: 2 px
 - grid / ruled line: 1 px at low opacity
 - primary structural line: Ink Blue / Turquoise-derived, never neutral gray when journal styling is active
 - use dashed borders for receipt separators and temporary / review states sparingly
-- torn / zigzag receipt edges must remain visibly outlined; do not allow the paper edge to disappear into Paper Cream canvas
 
 ## 8. Shadows
 
@@ -317,7 +319,7 @@ Home Pilot is accepted only if:
 5. subject icons are line-only by default and do not sit on colored square tiles;
 6. neutral continuation/history surfaces do not masquerade as a subject module through their background color;
 7. sticky-note content looks physically pinned or collected rather than like another rounded product card;
-8. torn receipt edges remain visually outlined against the page canvas;
+8. receipt / checklist paper uses a clean flat bottom edge with a visible straight border;
 9. mobile keeps the identity without desktop collage density;
 10. no visible gray cast is introduced by backgrounds, borders or shadows;
 11. the page still feels usable for daily long-term use rather than like a one-off poster.
