@@ -260,6 +260,55 @@
 }
 
 @media (max-width: 767px) {
+  .journal-app,
+  .journal-workspace {
+    max-width: 100vw;
+    overflow-x: clip;
+  }
+
+  /* Keep the practice timer frame fixed in one place while its inner mode changes. */
+  .journal-app div.relative:has(> button[aria-expanded] svg.lucide-clock-3) > div.fixed,
+  .journal-workspace div.relative:has(> button[aria-expanded] svg.lucide-clock-3) > div.fixed {
+    left: 1rem !important;
+    right: 1rem !important;
+    top: auto !important;
+    bottom: calc(env(safe-area-inset-bottom) + 5.75rem) !important;
+    width: auto !important;
+    height: min(29rem, calc(100dvh - env(safe-area-inset-bottom) - 8rem));
+    max-height: none !important;
+    transform: none !important;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* Mobile notes must never make the page horizontally scroll. */
+  .journal-app .journal-sticky,
+  .journal-workspace .journal-sticky,
+  .journal-app .journal-index-card,
+  .journal-workspace .journal-index-card {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .journal-app .journal-sticky > *,
+  .journal-workspace .journal-sticky > *,
+  .journal-app .journal-index-card > *,
+  .journal-workspace .journal-index-card > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .journal-app .journal-sticky p,
+  .journal-app .journal-sticky span,
+  .journal-workspace .journal-sticky p,
+  .journal-workspace .journal-sticky span {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
   .journal-app .journal-stat {
     min-height: 8.6rem;
     transform: none !important;
