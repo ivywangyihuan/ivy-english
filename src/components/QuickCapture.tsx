@@ -20,7 +20,7 @@ export function QuickCaptureButton() {
       type="button"
       aria-label="记录一次学习"
       onClick={() => setCaptureOpen(true)}
-      className="fixed right-8 bottom-8 z-40 hidden size-12 items-center justify-center rounded-full border border-[var(--journal-turquoise)] bg-[var(--journal-turquoise)] text-white shadow-[3px_3px_0_rgba(127,239,212,.45)] transition-transform duration-150 hover:scale-105 md:flex"
+      className="fixed right-8 bottom-8 z-40 hidden size-12 items-center justify-center rounded-full border border-[var(--journal-ink)] bg-[var(--journal-ink)] text-white shadow-[3px_3px_0_rgba(63,99,242,.20)] transition-transform duration-150 hover:scale-105 md:flex"
     >
       <Plus className="size-5" />
     </button>
