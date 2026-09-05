@@ -70,12 +70,59 @@ Stationery:
 Structure:
 
 - `--journal-line: #BFD5FF`
+- `--journal-line-strong: #92B7FF`
 - `--journal-body: #1F2340`
 - functional danger: `#D34D4D`
 
 No gray-toned decorative palette is allowed.
 
-## 4. Spacing
+## 4. Frozen subject identity colors
+
+Listening / Speaking / Reading / Writing now have persistent semantic colors across the product.
+
+These colors should appear consistently on:
+
+- module entry buttons
+- module action buttons
+- module tabs / chips
+- progress series
+- history labels
+- subject-specific note edges
+- active states and selected module navigation
+
+### Listening
+
+- strong: `Turquoise #009B9F`
+- light paper: `Fresh Aqua #D6FFF7`
+- CSS: `--subject-listening`, `--subject-listening-soft`
+
+### Speaking
+
+- strong: `Marker Pink #FF5DB1`
+- light paper: high-lightness Paper Cream / Marker Pink mix
+- CSS: `--subject-speaking`, `--subject-speaking-soft`
+
+### Reading
+
+- strong: `Apple Green #AEEB8C`
+- light paper: `Note Mint #E8FFD8`
+- CSS: `--subject-reading`, `--subject-reading-soft`
+
+### Writing
+
+- strong: `Ink Blue #3F63F2`
+- light paper: `Lavender Note #E9D8FF`
+- CSS: `--subject-writing`, `--subject-writing-soft`
+
+### Subject-color rule
+
+Subject colors are persistent identities, not random decoration.
+
+Do not swap the four subject colors from page to page.
+
+A page may still use Paper Cream, yellow, peach and other stationery colors for non-subject information, but whenever an action clearly belongs to one of the four subjects, its primary accent should use that subject's semantic color.
+
+## 5. Spacing
 
 Base rhythm: **4 px**.
 
@@ -93,13 +140,13 @@ Preferred tokens:
 
 Do not introduce arbitrary spacing when an existing rhythm value works.
 
-## 5. Geometry
+## 6. Geometry
 
 The redesign intentionally avoids one universal SaaS radius.
 
 - clean paper: 6–10 px
 - receipt: 0–6 px plus torn-edge treatment
-- sticky note: 2–6 px
+- sticky note: 0–3 px
 - index / stamp: near-square or 0–4 px
 - controls: 8–12 px
 - compact pill tags: fully rounded allowed
@@ -107,15 +154,16 @@ The redesign intentionally avoids one universal SaaS radius.
 
 Large 20–24 px rounded cards should not become the default journal container.
 
-## 6. Borders
+## 7. Borders
 
 - standard paper edge: 1 px
 - stamp: 2 px
 - grid / ruled line: 1 px at low opacity
 - primary structural line: Ink Blue / Turquoise-derived, never neutral gray when journal styling is active
 - use dashed borders for receipt separators and temporary / review states sparingly
+- torn / zigzag receipt edges must remain visibly outlined; do not allow the paper edge to disappear into Paper Cream canvas
 
-## 7. Shadows
+## 8. Shadows
 
 Paper shadows are directional, bright and low-opacity.
 
@@ -132,8 +180,26 @@ Rules:
 - no large blurred gray floating-card shadow
 - paper may feel stacked, not elevated like a modal
 - mobile shadows are reduced
+- sticky notes may use the relevant subject color at low opacity for their offset shadow
 
-## 8. Texture
+## 9. Sticky-note treatment
+
+A sticky note must look materially different from a SaaS card.
+
+Required cues:
+
+- near-square corners
+- small directional paper shadow
+- slight desktop rotation, normally under ±0.75°
+- a short tape strip at the top edge when the note is used as a pinned / collected item
+- subject-colored edge or shadow when the note belongs to Listening / Speaking / Reading / Writing
+- no large soft blur shadow
+
+A note should still be easy to scan and click.
+
+Question-bank memory cards, quick reminders and small historical fragments should prefer `StickyNote` over generic rounded cards when the content metaphor is “something saved / pinned / remembered”.
+
+## 10. Texture
 
 Texture must remain nearly invisible.
 
@@ -151,11 +217,12 @@ Not allowed:
 - heavy noise
 - obvious paper-photo backgrounds behind reading content
 
-## 9. Rotation and collage density
+## 11. Rotation and collage density
 
 Desktop:
 
 - ordinary paper tilt: max about ±0.5°
+- sticky notes: max about ±0.75°
 - accent tape / stamp can exceed this slightly
 - generally no more than 1–3 obvious collage gestures per viewport
 
@@ -165,26 +232,37 @@ Mobile:
 - prioritize vertical flow
 - decorative overlap should be rare
 
-## 10. Buttons
+## 12. Buttons
 
-Primary journal CTA:
+### Global journal CTA
 
-- dark Ink surface
-- white label
-- small Turquoise Green offset shadow
+- Ink / Turquoise may be used for cross-product actions that do not belong to one subject.
+- white or high-contrast label
+- small bright offset shadow
 - 40–44 px minimum height
 
-Secondary:
+### Subject CTA
+
+Use the persistent subject identity color:
+
+- Listening button → Turquoise
+- Speaking button → Marker Pink
+- Reading button → Apple Green with dark Ink text
+- Writing button → Ink Blue
+
+The `subject-button` utility should be preferred for these controls.
+
+### Secondary
 
 - bright paper
-- Ink / Turquoise border or text
+- relevant subject outline / text where the action belongs to a subject
+- otherwise Ink / Turquoise
 
-Marker Pink:
+### Marker Pink
 
-- annotation or rare expressive action only
-- not a general CTA color
+Marker Pink is both the Speaking identity and the general handwritten marker color. Context must distinguish these uses. Do not turn all generic CTAs pink.
 
-## 11. Motion
+## 13. Motion
 
 Standard timing:
 
@@ -196,7 +274,7 @@ Use ease-out style motion.
 
 No continuous floating or bouncing decoration.
 
-## 12. Responsive breakpoints
+## 14. Responsive breakpoints
 
 Follow Tailwind defaults currently used by the app, with product rules:
 
@@ -206,14 +284,16 @@ Follow Tailwind defaults currently used by the app, with product rules:
 - desktop: mild layering and paired paper layouts allowed
 - formal IELTS CBT remains desktop / tablet-landscape focused
 
-## 13. Pilot acceptance
+## 15. Pilot acceptance
 
 Home Pilot is accepted only if:
 
 1. first screen immediately feels brighter and more personal than the old SaaS UI;
 2. main actions remain obvious;
 3. Paper Cream + Ink Blue + Marker Pink + Turquoise read as one identity;
-4. supporting colors feel like stationery rather than subject coding;
-5. mobile keeps the identity without desktop collage density;
-6. no visible gray cast is introduced by backgrounds, borders or shadows;
-7. the page still feels usable for daily long-term use rather than like a one-off poster.
+4. Listening / Speaking / Reading / Writing retain their frozen semantic colors consistently;
+5. sticky-note content looks physically pinned or collected rather than like another rounded product card;
+6. torn receipt edges remain visually outlined against the page canvas;
+7. mobile keeps the identity without desktop collage density;
+8. no visible gray cast is introduced by backgrounds, borders or shadows;
+9. the page still feels usable for daily long-term use rather than like a one-off poster.
