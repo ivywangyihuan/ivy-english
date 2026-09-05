@@ -67,8 +67,20 @@ function SessionPage(){
 
   useEffect(()=>{
     let mounted=true;
-    void listRecordings().then(items=>{if(!mounted)return;const ids=new Set(detail?.recordingIds??[]);setRecordings(items.filter(item=>ids.has(item.id)).map(item=>({...item,url:URL.createObjectURL(item.blob)}))}).catch(()=>setRecordings([]));
-    return()=>{mounted=false;setRecordings(current=>{current.forEach(item=>URL.revokeObjectURL(item.url));return []})};
+    void listRecordings()
+      .then(items=>{
+        if(!mounted)return;
+        const ids=new Set(detail?.recordingIds??[]);
+        setRecordings(items.filter(item=>ids.has(item.id)).map(item=>({...item,url:URL.createObjectURL(item.blob)})));
+      })
+      .catch(()=>setRecordings([]));
+    return()=>{
+      mounted=false;
+      setRecordings(current=>{
+        current.forEach(item=>URL.revokeObjectURL(item.url));
+        return [];
+      });
+    };
   },[detail?.recordingIds]);
 
   if(!session)return <div className="space-y-6"><PageHeader title="学习记录" subtitle="没有找到这条记录。"/><BackLink from={from} module={module}/></div>;
