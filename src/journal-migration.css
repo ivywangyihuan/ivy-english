@@ -32,33 +32,19 @@
   color:var(--journal-body);
   background:var(--journal-canvas);
 }
+.journal-workspace.journal-subject-listening{--primary:#009B9F;--primary-foreground:#FFFFFF;--accent:#D6FFF7;}
+.journal-workspace.journal-subject-speaking{--primary:#FF5DB1;--primary-foreground:#17306D;--accent:color-mix(in srgb,#FF5DB1 18%,#FFF9F0);}
+.journal-workspace.journal-subject-reading{--primary:#63C94A;--primary-foreground:#17306D;--accent:#E8FFD8;}
+.journal-workspace.journal-subject-writing{--primary:#3F63F2;--primary-foreground:#FFFFFF;--accent:#E9D8FF;}
 
 .journal-app .surface,
-.journal-workspace .surface {
-  position:relative;
-  border:1px solid var(--journal-line);
-  border-radius:3px;
-  background:var(--journal-paper);
-  box-shadow:4px 5px 0 rgba(63,99,242,.09);
-}
+.journal-workspace .surface {position:relative;border:1px solid var(--journal-line);border-radius:3px;background:var(--journal-paper);box-shadow:4px 5px 0 rgba(63,99,242,.09);}
 .journal-app .surface::after,
-.journal-workspace .surface::after {
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background-image:radial-gradient(circle at 20% 24%,rgba(63,99,242,.025) 0 1px,transparent 1.2px);
-  background-size:22px 22px;
-  opacity:.45;
-}
+.journal-workspace .surface::after {content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(circle at 20% 24%,rgba(63,99,242,.025) 0 1px,transparent 1.2px);background-size:22px 22px;opacity:.45;}
 .journal-app .surface > *,
 .journal-workspace .surface > * {position:relative;z-index:1;}
 .journal-app .hover-lift:hover,
-.journal-workspace .hover-lift:hover {
-  transform:translate(-1px,-1px);
-  box-shadow:6px 7px 0 rgba(0,155,159,.10);
-  border-color:var(--journal-turquoise);
-}
+.journal-workspace .hover-lift:hover {transform:translate(-1px,-1px);box-shadow:6px 7px 0 rgba(0,155,159,.10);border-color:var(--journal-turquoise);}
 
 .journal-app .journal-page,
 .journal-workspace .journal-page {color:var(--journal-body);}
@@ -70,50 +56,32 @@
 .journal-app select,
 .journal-workspace input,
 .journal-workspace textarea,
-.journal-workspace select {
-  border-color:var(--journal-line);
-  background-color:rgba(255,252,247,.92);
-  color:var(--journal-body);
-  box-shadow:none;
-}
+.journal-workspace select {border-color:var(--journal-line);background-color:rgba(255,252,247,.92);color:var(--journal-body);box-shadow:none;}
 .journal-app input:focus,
 .journal-app textarea:focus,
 .journal-app select:focus,
 .journal-workspace input:focus,
 .journal-workspace textarea:focus,
-.journal-workspace select:focus {
-  outline:none;
-  border-color:var(--journal-blue);
-  box-shadow:0 0 0 2px rgba(63,99,242,.10);
-}
+.journal-workspace select:focus {outline:none;border-color:var(--page-subject,var(--journal-blue));box-shadow:0 0 0 2px color-mix(in srgb,var(--page-subject,var(--journal-blue)) 12%,transparent);}
 
 .journal-app details,
 .journal-workspace details {border-color:var(--journal-line)!important;}
 .journal-app summary,
 .journal-workspace summary {color:#52608C;}
 .journal-app summary:hover,
-.journal-workspace summary:hover {background:rgba(214,255,247,.45)!important;}
+.journal-workspace summary:hover {background:color-mix(in srgb,var(--page-subject,var(--journal-turquoise)) 8%,white)!important;}
 
 .journal-app .journal-tabs,
 .journal-workspace .journal-tabs {display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;}
 .journal-app .journal-tab,
-.journal-workspace .journal-tab {
-  flex:none;
-  border:1px solid var(--journal-line);
-  border-radius:2px;
-  background:var(--journal-paper);
-  color:#52608C;
-  padding:8px 12px;
-  font-size:12px;
-  transition:transform 120ms ease,border-color 120ms ease,background 120ms ease;
-}
+.journal-workspace .journal-tab {flex:none;border:1px solid var(--journal-line);border-radius:2px;background:var(--journal-paper);color:#52608C;padding:8px 12px;font-size:12px;transition:transform 120ms ease,border-color 120ms ease,background 120ms ease;}
 .journal-app .journal-tab:hover,
 .journal-workspace .journal-tab:hover {border-color:var(--journal-turquoise);color:var(--journal-ink);}
 .journal-app .journal-tab[data-active="true"],
 .journal-workspace .journal-tab[data-active="true"] {background:var(--journal-aqua);color:var(--journal-ink);border-color:var(--journal-turquoise);box-shadow:3px 3px 0 rgba(0,155,159,.10);}
 
 .journal-app .journal-stat,
-.journal-workspace .journal-stat {border-top:3px solid var(--journal-blue);background:var(--journal-paper);padding:16px;}
+.journal-workspace .journal-stat {border-top:3px solid var(--page-subject,var(--journal-blue));background:var(--journal-paper);padding:16px;}
 .journal-app .journal-list-row,
 .journal-workspace .journal-list-row {border-color:var(--journal-line)!important;transition:background 120ms ease;}
 .journal-app .journal-list-row:hover,
@@ -140,7 +108,6 @@
 .journal-workspace .journal-subject-button {background:var(--page-subject,var(--journal-turquoise));border:1px solid var(--page-subject,var(--journal-turquoise));color:white;border-radius:3px;box-shadow:3px 3px 0 color-mix(in srgb,var(--page-subject,var(--journal-turquoise)) 20%,white);}
 .journal-app .journal-subject-reading .journal-subject-button,.journal-workspace .journal-subject-reading .journal-subject-button {color:var(--journal-ink);}
 
-/* Migration guardrails for old page markup: remove SaaS geometry without touching active CBT routes. */
 .journal-app .rounded-xl.surface,
 .journal-app .rounded-2xl.surface,
 .journal-workspace .rounded-xl.surface,
@@ -150,24 +117,14 @@
 .journal-workspace article.rounded-2xl.border,
 .journal-workspace div.rounded-2xl.border,
 .journal-workspace article.rounded-3xl.border,
-.journal-workspace div.rounded-3xl.border {
-  border-radius:3px!important;
-  border-color:var(--journal-line)!important;
-  background-color:var(--journal-paper)!important;
-  box-shadow:4px 5px 0 rgba(63,99,242,.08)!important;
-}
+.journal-workspace div.rounded-3xl.border {border-radius:3px!important;border-color:var(--journal-line)!important;background-color:var(--journal-paper)!important;box-shadow:4px 5px 0 color-mix(in srgb,var(--page-subject,var(--journal-blue)) 9%,transparent)!important;}
 .journal-app .rounded-xl.bg-secondary\/50,
 .journal-app .rounded-xl.bg-secondary\/45,
 .journal-app .rounded-xl.bg-secondary\/25,
 .journal-workspace .rounded-xl.bg-secondary\/50,
 .journal-workspace .rounded-xl.bg-secondary\/45,
-.journal-workspace .rounded-xl.bg-secondary\/25 {
-  border-radius:2px!important;
-  border:1px solid var(--journal-line);
-  background-color:var(--journal-paper)!important;
-}
+.journal-workspace .rounded-xl.bg-secondary\/25 {border-radius:2px!important;border:1px solid var(--journal-line);background-color:var(--journal-paper)!important;}
 
-/* Daily workspaces: immersive, but still part of the Study Journal world. */
 .journal-workspace > div.min-h-screen {background:var(--journal-canvas)!important;color:var(--journal-body)!important;}
 .journal-workspace header {border-color:var(--journal-line)!important;}
 .journal-workspace [class*="bg-[#f6f3ec]"] {background:var(--journal-canvas)!important;}
@@ -177,22 +134,21 @@
 .journal-workspace [class*="border-[#d5d8d2]"],
 .journal-workspace [class*="border-[#c8cfc8]"],
 .journal-workspace [class*="border-[#b8c4ba]"] {border-color:var(--journal-line)!important;}
-.journal-workspace [class*="bg-[#2e3e33]"] {background:var(--journal-turquoise)!important;color:white!important;box-shadow:3px 3px 0 rgba(127,239,212,.34);}
+.journal-workspace [class*="bg-[#2e3e33]"] {background:var(--page-subject,var(--journal-turquoise))!important;color:var(--primary-foreground)!important;box-shadow:3px 3px 0 color-mix(in srgb,var(--page-subject,var(--journal-turquoise)) 25%,white);}
 .journal-workspace [class*="bg-[#f3f2ed]"] {background:var(--journal-yellow)!important;}
-.journal-workspace [class*="bg-[#eef5ef]"] {background:var(--journal-mint)!important;border-color:#63C94A!important;}
+.journal-workspace [class*="bg-[#eef5ef]"] {background:var(--page-subject-soft,var(--journal-mint))!important;border-color:var(--page-subject,var(--journal-turquoise))!important;}
 .journal-workspace [class*="text-[#4d6b56]"],
-.journal-workspace [class*="text-[#617067]"] {color:var(--journal-turquoise)!important;}
+.journal-workspace [class*="text-[#617067]"] {color:var(--page-subject,var(--journal-turquoise))!important;}
 .journal-workspace [class*="text-[#707770]"],
 .journal-workspace [class*="text-[#777e78]"],
 .journal-workspace [class*="text-[#788078]"],
 .journal-workspace [class*="text-[#7a817b]"] {color:#63709A!important;}
 .journal-workspace button.rounded-full.border,
-.journal-workspace a.rounded-full.border {border-color:var(--journal-line);background:var(--journal-paper);color:var(--journal-ink);}
-.journal-workspace .rounded-3xl {border-radius:3px!important;}
-.journal-workspace .rounded-2xl {border-radius:3px!important;}
+.journal-workspace a.rounded-full.border {border-color:var(--page-subject,var(--journal-line));background:var(--journal-paper);color:var(--journal-ink);}
+.journal-workspace .rounded-3xl,.journal-workspace .rounded-2xl {border-radius:3px!important;}
 
 @media (max-width:767px){
   .journal-app .surface,.journal-workspace .surface,.journal-app .journal-section-paper,.journal-workspace .journal-section-paper,.journal-app .journal-folder,.journal-workspace .journal-folder{box-shadow:3px 4px 0 rgba(63,99,242,.07)}
   .journal-app .journal-page,.journal-workspace .journal-page{padding-bottom:8px}
-  .journal-workspace article.rounded-3xl.border,.journal-workspace div.rounded-3xl.border,.journal-workspace article.rounded-2xl.border,.journal-workspace div.rounded-2xl.border{box-shadow:3px 4px 0 rgba(63,99,242,.06)!important;}
+  .journal-workspace article.rounded-3xl.border,.journal-workspace div.rounded-3xl.border,.journal-workspace article.rounded-2xl.border,.journal-workspace div.rounded-2xl.border{box-shadow:3px 4px 0 color-mix(in srgb,var(--page-subject,var(--journal-blue)) 7%,transparent)!important;}
 }
