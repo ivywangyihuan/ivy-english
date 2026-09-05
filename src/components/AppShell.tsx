@@ -16,7 +16,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [quickMenuOpen, setQuickMenuOpen] = useState(false);
   const { setCaptureOpen } = useAppState();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
-  const isImmersiveRoute = pathname.startsWith("/exam") || pathname.startsWith("/writing-exam") || pathname.startsWith("/listening-exam") || pathname.startsWith("/speaking-workspace") || pathname.startsWith("/study-workspace");
+  const isExamRoute = pathname.startsWith("/exam") || pathname.startsWith("/writing-exam") || pathname.startsWith("/listening-exam");
+  const isJournalImmersive = pathname.startsWith("/speaking-workspace") || pathname.startsWith("/study-workspace");
   const libraryActive = ["/library","/history","/session","/recordings","/mistakes","/vocabulary"].some((path) => pathname === path || pathname.startsWith(`${path}/`));
   function mainActive(to: (typeof nav)[number]["to"]) {
     if (to === "/") return pathname === "/";
@@ -24,7 +25,8 @@ export function AppShell({ children }: { children: ReactNode }) {
     return pathname === to || pathname.startsWith(`${to}/`);
   }
   function openCapture() { setQuickMenuOpen(false); setCaptureOpen(true); }
-  if (isImmersiveRoute) return <>{children}</>;
+  if (isExamRoute) return <>{children}</>;
+  if (isJournalImmersive) return <div className="journal-workspace journal-canvas min-h-screen">{children}</div>;
 
   return (
     <div className="journal-app journal-canvas relative min-h-screen bg-background">
