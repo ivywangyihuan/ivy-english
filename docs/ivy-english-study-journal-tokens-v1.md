@@ -78,7 +78,7 @@ No gray-toned decorative palette is allowed.
 
 ## 4. Frozen subject identity colors
 
-Listening / Speaking / Reading / Writing now have persistent semantic colors across the product.
+Listening / Speaking / Reading / Writing have persistent semantic colors across the product.
 
 These colors should appear consistently on:
 
@@ -104,9 +104,10 @@ These colors should appear consistently on:
 
 ### Reading
 
-- strong: `Apple Green #AEEB8C`
+- strong: `Fresh Reading Green #63C94A`
 - light paper: `Note Mint #E8FFD8`
 - CSS: `--subject-reading`, `--subject-reading-soft`
+- Reading green must remain clearly visible against Paper Cream and Note Mint. Do not revert it to the very pale `#AEEB8C` as the primary accent; that color remains available as a stationery/support green.
 
 ### Writing
 
@@ -120,7 +121,28 @@ Subject colors are persistent identities, not random decoration.
 
 Do not swap the four subject colors from page to page.
 
-A page may still use Paper Cream, yellow, peach and other stationery colors for non-subject information, but whenever an action clearly belongs to one of the four subjects, its primary accent should use that subject's semantic color.
+A page may still use Paper Cream, Butter Yellow, Peach Tape and other stationery colors for non-subject information, but whenever an action clearly belongs to one of the four subjects, its primary accent should use that subject's semantic color.
+
+### Subject icon rule
+
+Subject icons use **linework only** in the subject color by default.
+
+- no filled square or rectangular icon background in standard module cards
+- no colored tile behind Listening / Speaking / Reading / Writing icons unless a later component has a specific functional reason
+- the icon stroke itself is the semantic color
+- keep the icon visually light so the paper/card remains the dominant material
+
+### Neutral continuation/history rule
+
+Cross-subject surfaces such as `继续上次`, generic history summaries, all-subject recents, and other neutral navigation must **not inherit the color of the most recent subject**.
+
+Use a non-subject stationery surface such as:
+
+- Paper Cream / clean paper
+- Butter Yellow
+- Peach Tape accents
+
+The actual subject can still appear as a small label or accent inside the surface when useful.
 
 ## 5. Spacing
 
@@ -247,7 +269,7 @@ Use the persistent subject identity color:
 
 - Listening button → Turquoise
 - Speaking button → Marker Pink
-- Reading button → Apple Green with dark Ink text
+- Reading button → Fresh Reading Green `#63C94A` with dark Ink text
 - Writing button → Ink Blue
 
 The `subject-button` utility should be preferred for these controls.
@@ -292,8 +314,10 @@ Home Pilot is accepted only if:
 2. main actions remain obvious;
 3. Paper Cream + Ink Blue + Marker Pink + Turquoise read as one identity;
 4. Listening / Speaking / Reading / Writing retain their frozen semantic colors consistently;
-5. sticky-note content looks physically pinned or collected rather than like another rounded product card;
-6. torn receipt edges remain visually outlined against the page canvas;
-7. mobile keeps the identity without desktop collage density;
-8. no visible gray cast is introduced by backgrounds, borders or shadows;
-9. the page still feels usable for daily long-term use rather than like a one-off poster.
+5. subject icons are line-only by default and do not sit on colored square tiles;
+6. neutral continuation/history surfaces do not masquerade as a subject module through their background color;
+7. sticky-note content looks physically pinned or collected rather than like another rounded product card;
+8. torn receipt edges remain visually outlined against the page canvas;
+9. mobile keeps the identity without desktop collage density;
+10. no visible gray cast is introduced by backgrounds, borders or shadows;
+11. the page still feels usable for daily long-term use rather than like a one-off poster.
