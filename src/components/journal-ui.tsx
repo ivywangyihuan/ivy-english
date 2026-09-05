@@ -38,11 +38,11 @@ export function MarkerNote({children,className}:{children:ReactNode;className?:s
   return <span className={cn("font-handwritten text-[1.35rem] leading-none text-[var(--journal-pink)]",className)}>{children}</span>;
 }
 
-export function Stamp({children,className,tone="turquoise"}:{children:ReactNode;className?:string;tone?:"turquoise"|"blue"|"green"}){
+export function Stamp({children,className,tone="blue"}:{children:ReactNode;className?:string;tone?:"turquoise"|"blue"|"green"}){
   const tones={turquoise:"border-[var(--journal-turquoise)] text-[var(--journal-turquoise)]",blue:"border-[var(--journal-blue)] text-[var(--journal-blue)]",green:"border-[#58A83C] text-[#58A83C]"};
   return <span className={cn("inline-flex rotate-[-2deg] items-center border-2 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em]",tones[tone],className)}>{children}</span>;
 }
 
 export function JournalHeading({eyebrow,title,note,action}:{eyebrow?:string;title:string;note?:ReactNode;action?:ReactNode}){
-  return <div className="mb-4 flex flex-wrap items-end justify-between gap-3"><div>{eyebrow?<p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--journal-turquoise)]">{eyebrow}</p>:null}<h2 className="display text-xl text-[var(--journal-ink)] sm:text-2xl">{title}</h2>{note?<div className="mt-1">{note}</div>:null}</div>{action}</div>;
+  return <div className="mb-4 flex flex-wrap items-end justify-between gap-3"><div>{eyebrow?<p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--journal-ink)]">{eyebrow}</p>:null}<h2 className="display text-xl text-[var(--journal-ink)] sm:text-2xl">{title}</h2>{note?<div className="mt-1">{note}</div>:null}</div>{action}</div>;
 }
