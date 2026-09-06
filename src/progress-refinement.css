@@ -3,7 +3,7 @@
   --progress-ink: var(--journal-ink);
 }
 
-/* Progress is a calm analysis notebook. Most surfaces stay paper-white; color is used as ink, not fill. */
+/* Progress stays calm, but a few larger paper surfaces carry very light color. */
 .progress-overview .progress-summary {
   border: 0;
   background: transparent;
@@ -27,14 +27,24 @@
   transform: none !important;
 }
 
-/* Only two subtle paper treatments across the four stats. */
-.progress-overview .journal-stat:nth-child(1),
-.progress-overview .journal-stat:nth-child(3) {
-  background-image: repeating-linear-gradient(to bottom, transparent 0 30px, rgba(63, 99, 242, .055) 31px) !important;
+/* Only the first two summary papers receive a gentle tint. */
+.progress-overview .journal-stat:nth-child(1) {
+  background-color: color-mix(in srgb, var(--journal-yellow) 38%, var(--journal-paper)) !important;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 30px, rgba(63, 99, 242, .05) 31px) !important;
 }
 
-.progress-overview .journal-stat:nth-child(2),
+.progress-overview .journal-stat:nth-child(2) {
+  background-color: #F1F9FF !important;
+  background-image: none !important;
+}
+
+.progress-overview .journal-stat:nth-child(3) {
+  background-color: var(--journal-paper) !important;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 30px, rgba(63, 99, 242, .045) 31px) !important;
+}
+
 .progress-overview .journal-stat:nth-child(4) {
+  background-color: var(--journal-paper) !important;
   background-image: none !important;
 }
 
@@ -47,7 +57,7 @@
   position: relative;
   margin-top: .9rem !important;
   border: 1px solid var(--journal-line) !important;
-  background-color: var(--journal-paper) !important;
+  background-color: #FFFCF3 !important;
   background-image: linear-gradient(to right, rgba(63,99,242,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(63,99,242,.06) 1px, transparent 1px) !important;
   background-size: 24px 24px !important;
   padding: 1.15rem !important;
@@ -58,7 +68,7 @@
   content: none !important;
 }
 
-/* Subject entry cards remain white. The subject color is limited to the existing ink line and text. */
+/* Subject entry cards remain white. Subject colors stay as ink and rules. */
 .progress-overview .progress-skill-card {
   background: var(--journal-paper) !important;
   box-shadow: 3px 4px 0 rgba(23,48,109,.045) !important;
@@ -69,20 +79,32 @@
   opacity: .45;
 }
 
-/* IELTS cards use one restrained record-paper treatment instead of two competing styles. */
+/* IELTS score cards use one restrained warm record-paper treatment. */
 .progress-overview .progress-score-card {
-  background-color: var(--journal-paper) !important;
+  background-color: #FFFCF6 !important;
   background-image: repeating-linear-gradient(to bottom, transparent 0 31px, rgba(63,99,242,.05) 32px) !important;
   box-shadow: 3px 4px 0 rgba(23,48,109,.045) !important;
 }
 
-/* Collection cards share one filing language; a small tab differentiates them without filling the whole card. */
+/* Filing cards use only a whisper of color; tabs do most of the differentiation. */
 .progress-overview .progress-collection-card {
   position: relative;
   overflow: visible;
   border: 1px solid var(--journal-line);
   background: var(--journal-paper) !important;
   box-shadow: 3px 4px 0 rgba(23,48,109,.045);
+}
+
+.progress-overview .progress-collection-card:nth-child(1) {
+  background: color-mix(in srgb, var(--journal-yellow) 13%, var(--journal-paper)) !important;
+}
+
+.progress-overview .progress-collection-card:nth-child(2) {
+  background: color-mix(in srgb, #EAF6FF 24%, var(--journal-paper)) !important;
+}
+
+.progress-overview .progress-collection-card:nth-child(3) {
+  background: color-mix(in srgb, var(--journal-peach) 13%, var(--journal-paper)) !important;
 }
 
 .progress-overview .progress-collection-card::before {
@@ -94,7 +116,7 @@
   height: 14px;
   border: 1px solid rgba(23,48,109,.09);
   background: var(--journal-yellow);
-  opacity: .72;
+  opacity: .62;
 }
 
 .progress-overview .progress-collection-card:nth-child(2)::before {
@@ -105,11 +127,11 @@
   background: var(--journal-peach);
 }
 
-/* Learning issues remain a single review sheet with one restrained yellow margin cue. */
+/* Review sheet receives one subtle yellow wash, not a full sticky-note fill. */
 .progress-overview .progress-issues-paper {
-  background: var(--journal-paper) !important;
+  background: color-mix(in srgb, var(--journal-yellow) 14%, var(--journal-paper)) !important;
   border-left: 3px solid color-mix(in srgb, var(--journal-yellow) 80%, var(--journal-ink)) !important;
-  background-image: repeating-linear-gradient(to bottom, transparent 0 33px, rgba(63,99,242,.045) 34px) !important;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 33px, rgba(63,99,242,.04) 34px) !important;
 }
 
 .progress-overview .progress-issues-paper::before,
@@ -118,6 +140,7 @@
 }
 
 .progress-overview .progress-recent .journal-ledger {
+  background: #FFFCF6;
   box-shadow: 3px 4px 0 rgba(23,48,109,.04);
 }
 
