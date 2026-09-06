@@ -128,6 +128,23 @@ function stripLegacyDemoRecords(sessions: StudySession[], signals: LearningSigna
   };
 }
 
+function normaliseQuestions(saved: Question[]): Question[] {
+  const seedById = new Map(seedQuestions.map((question) => [question.id, question]));
+  const savedById = new Map(saved.map((question) => [question.id, question]));
+  const ids = [...new Set([...seedQuestions.map((question) => question.id), ...saved.map((question) => question.id)])];
+
+  return ids.map((id) => {
+    const seed = seedById.get(id);
+    const stored = savedById.get(id);
+    const merged = { ...seed, ...stored } as Question;
+    const parsedCount = Number(merged.practiceCount);
+    const fallbackCount = seed?.practiceCount ?? 0;
+    const practiceCount = Number.isFinite(parsedCount) && parsedCount >= 0 ? Math.floor(parsedCount) : fallbackCount;
+    const status: Question["status"] = practiceCount === 0 ? "未练习" : practiceCount === 1 ? "练过 1 次" : "练过多次";
+    return { ...merged, practiceCount, status };
+  });
+}
+
 export function AppStateProvider({ children }: { children: ReactNode }) {
   const [sessions, setSessions] = useState<StudySession[]>([]);
   const [questionList, setQuestionList] = useState<Question[]>(seedQuestions);
@@ -147,14 +164,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const savedSessions = readSaved(keys.sessions, [] as StudySession[]);
     const savedSignals = readSaved(keys.signals, [] as LearningSignal[]);
     const cleaned = stripLegacyDemoRecords(savedSessions, savedSignals);
+    const savedQuestions = readSaved(keys.questions, seedQuestions);
+    const normalisedQuestions = normaliseQuestions(savedQuestions);
 
     setSessions(cleaned.sessions);
-    setQuestionList(readSaved(keys.questions, seedQuestions));
+    setQuestionList(normalisedQuestions);
     setSignals(cleaned.signals);
     setMistakes(readSaved(keys.mistakes, [] as MistakeRecord[]));
     setVocabulary(readSaved(keys.vocabulary, [] as VocabularyItem[]));
     setLibraryItems(readSaved(keys.library, [] as LibraryItem[]));
 
+    window.localStorage.setItem(keys.questions, JSON.stringify(normalisedQuestions));
     if (!window.localStorage.getItem(keys.demoMigration)) {
       window.localStorage.setItem(keys.sessions, JSON.stringify(cleaned.sessions));
       window.localStorage.setItem(keys.signals, JSON.stringify(cleaned.signals));
@@ -184,8 +204,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const markPracticed = useCallback((id: string, action: "add" | "undo" = "add") => {
     setQuestionList((prev) => prev.map((q) => {
       if (q.id !== id) return q;
-      const nextCount = action === "undo" ? Math.max(0, q.practiceCount - 1) : q.practiceCount + 1;
-      const status = nextCount === 0 ? "未练习" : nextCount === 1 ? "练过 1 次" : "练过多次";
+      const parsedCount = Number(q.practiceCount);
+      const currentCount = Number.isFinite(parsedCount) && parsedCount >= 0 ? Math.floor(parsedCount) : 0;
+      const nextCount = action === "undo" ? Math.max(0, currentCount - 1) : currentCount + 1;
+      const status: Question["status"] = nextCount === 0 ? "未练习" : nextCount === 1 ? "练过 1 次" : "练过多次";
       return { ...q, practiceCount: nextCount, status };
     }));
   }, []);
