@@ -15,10 +15,10 @@ export const Route = createFileRoute("/settings")({
 });
 
 const stageTones = [
-  { paper: "bg-[var(--journal-yellow)]", tape: "bg-[#EAF6FF]", accent: "bg-[var(--journal-peach)]" },
-  { paper: "bg-[#EAF6FF]", tape: "bg-[var(--journal-yellow)]", accent: "bg-[var(--journal-paper)]" },
+  { paper: "bg-[var(--journal-yellow)]", tape: "bg-[var(--journal-paper)]", accent: "bg-[var(--journal-peach)]" },
+  { paper: "bg-[var(--journal-paper)]", tape: "bg-[var(--journal-yellow)]", accent: "bg-[var(--journal-peach)]" },
   { paper: "bg-[var(--journal-peach)]", tape: "bg-[var(--journal-paper)]", accent: "bg-[var(--journal-yellow)]" },
-  { paper: "journal-ledger bg-[var(--journal-paper)]", tape: "bg-[var(--journal-peach)]", accent: "bg-[#EAF6FF]" },
+  { paper: "journal-ledger bg-[var(--journal-paper)]", tape: "bg-[var(--journal-peach)]", accent: "bg-[var(--journal-yellow)]" },
 ];
 
 function SettingsPage() {
@@ -29,7 +29,7 @@ function SettingsPage() {
     <div className="journal-page space-y-10">
       <PageHeader title="设置" subtitle="只保留真正会影响你学习体验的选项。" />
 
-      <section className="journal-grid relative overflow-hidden border border-[var(--journal-line)] p-5 shadow-[4px_5px_0_rgba(63,99,242,.07)] sm:p-6">
+      <section className="journal-grid relative overflow-hidden border border-[var(--journal-line)] p-5 shadow-[4px_5px_0_rgba(23,48,109,.06)] sm:p-6">
         <span className="absolute right-6 top-0 h-5 w-20 translate-y-[-45%] rotate-2 bg-[var(--journal-peach)] opacity-85" />
         <div className="flex items-start gap-3">
           <SlidersHorizontal className="mt-0.5 size-4 text-[var(--journal-ink)]" strokeWidth={1.6} />
@@ -43,7 +43,7 @@ function SettingsPage() {
             CURRENT
           </span>
         </div>
-        {selectedStage ? <div className="mt-5 inline-flex max-w-full items-center gap-2 border border-[var(--journal-line)] bg-[var(--journal-paper)] px-3 py-2 text-xs text-[var(--journal-ink)] shadow-[2px_3px_0_rgba(63,99,242,.06)]"><span className="font-medium">{selectedStage.label}</span><span className="text-[#63709A]">· {selectedStage.english}</span></div> : null}
+        {selectedStage ? <div className="mt-5 inline-flex max-w-full items-center gap-2 border border-[var(--journal-line)] bg-[var(--journal-paper)] px-3 py-2 text-xs text-[var(--journal-ink)] shadow-[2px_3px_0_rgba(23,48,109,.05)]"><span className="font-medium">{selectedStage.label}</span><span className="text-[#63709A]">· {selectedStage.english}</span></div> : null}
       </section>
 
       <section>
@@ -57,13 +57,13 @@ function SettingsPage() {
                 type="button"
                 onClick={() => setLearningStage(stage.key)}
                 className={cn(
-                  "relative flex min-h-44 overflow-visible border p-5 pt-8 text-left shadow-[4px_5px_0_rgba(63,99,242,.08)] transition-all sm:min-h-48",
+                  "relative flex min-h-44 overflow-visible border p-5 pt-8 text-left shadow-[4px_5px_0_rgba(23,48,109,.07)] transition-all sm:min-h-48",
                   tone.paper,
                   index%2===0?"md:-rotate-[0.15deg]":"md:rotate-[0.15deg]",
                   selected ? "border-[var(--journal-ink)] ring-1 ring-[var(--journal-ink)]" : "border-[var(--journal-line)] hover:-translate-y-0.5 hover:border-[var(--journal-ink)]",
                 )}
               >
-                <span className={cn("absolute left-1/2 top-0 h-4 w-16 -translate-x-1/2 -translate-y-1/2 rotate-[-1deg] border-x border-[rgba(63,99,242,.12)] opacity-90",tone.tape)} />
+                <span className={cn("absolute left-1/2 top-0 h-4 w-16 -translate-x-1/2 -translate-y-1/2 rotate-[-1deg] border-x border-[rgba(23,48,109,.10)] opacity-90",tone.tape)} />
                 <span className={cn("absolute -right-px top-8 h-8 w-3 border-y border-l border-[var(--journal-line)]",tone.accent)} />
                 <div className="flex w-full flex-col justify-between">
                   <div className="flex items-start justify-between gap-3">
@@ -88,7 +88,7 @@ function SettingsPage() {
           })}
         </div>
 
-        <div className="relative mt-5 overflow-visible border border-[var(--journal-line)] bg-[var(--journal-paper)] p-4 shadow-[4px_5px_0_rgba(63,99,242,.06)]">
+        <div className="relative mt-5 overflow-visible border border-[var(--journal-line)] bg-[var(--journal-paper)] p-4 shadow-[4px_5px_0_rgba(23,48,109,.05)]">
           <span className="absolute left-6 top-0 h-3 w-20 -translate-y-1/2 bg-[var(--journal-yellow)]" />
           <p className="journal-ledger p-2 text-[11px] leading-7 text-[#63709A]">
             目前切换阶段会同步首页的阶段标签。等后面接入真实学习数据后，我们再让 Today Plan 和推荐重点跟着阶段变化。
