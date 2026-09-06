@@ -1,0 +1,163 @@
+/* Mobile / progress refinement pass.
+   Loaded after the frozen Study Journal styles so these rules can correct
+   viewport-specific layout without disturbing the formal desktop CBT UI. */
+
+/* Progress uses varied stationery instead of repeated blank paper. */
+.journal-app .journal-page:has(.journal-stat) .journal-index-card.subject-listening {
+  background-color: var(--subject-listening-soft);
+  background-image: repeating-linear-gradient(to bottom, transparent 0 29px, color-mix(in srgb, var(--subject-listening) 9%, transparent) 30px);
+}
+
+.journal-app .journal-page:has(.journal-stat) .journal-index-card.subject-speaking {
+  background-color: var(--subject-speaking-soft);
+  background-image: repeating-linear-gradient(to bottom, transparent 0 29px, color-mix(in srgb, var(--subject-speaking) 8%, transparent) 30px);
+}
+
+.journal-app .journal-page:has(.journal-stat) .journal-index-card.subject-reading {
+  background-color: var(--subject-reading-soft);
+  background-image: repeating-linear-gradient(to bottom, transparent 0 29px, color-mix(in srgb, var(--subject-reading) 9%, transparent) 30px);
+}
+
+.journal-app .journal-page:has(.journal-stat) .journal-index-card.subject-writing {
+  background-color: var(--subject-writing-soft);
+  background-image: repeating-linear-gradient(to bottom, transparent 0 29px, color-mix(in srgb, var(--subject-writing) 8%, transparent) 30px);
+}
+
+.journal-app .journal-page:has(.journal-stat) .journal-folder {
+  border-color: var(--journal-line);
+  color: var(--journal-ink);
+}
+
+.journal-app .journal-page:has(.journal-stat) section .grid > .journal-folder:nth-child(1) {
+  background-color: #FFF7C7;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 29px, rgba(63,99,242,.075) 30px);
+}
+
+.journal-app .journal-page:has(.journal-stat) section .grid > .journal-folder:nth-child(2) {
+  background-color: #FFE8D6;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 29px, rgba(63,99,242,.07) 30px);
+}
+
+.journal-app .journal-page:has(.journal-stat) section .grid > .journal-folder:nth-child(3) {
+  background-color: #EAF6FF;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 29px, rgba(63,99,242,.08) 30px);
+}
+
+.journal-app .journal-page:has(.journal-stat) section .grid > .journal-folder:nth-child(1)::before { background:#FFF0A8; }
+.journal-app .journal-page:has(.journal-stat) section .grid > .journal-folder:nth-child(2)::before { background:#FFD4B5; }
+.journal-app .journal-page:has(.journal-stat) section .grid > .journal-folder:nth-child(3)::before { background:#CDEBFF; }
+
+/* Mobile focus timer: the panel belongs to the Focus paper and opens directly
+   underneath that paper. Its height follows content, so the three mode rows do
+   not leave an artificial blank block. */
+@media (max-width: 767px) {
+  .journal-app .journal-receipt:has(button[aria-expanded] svg.lucide-clock-3),
+  .journal-workspace .journal-receipt:has(button[aria-expanded] svg.lucide-clock-3) {
+    overflow: visible !important;
+    z-index: 30;
+  }
+
+  .journal-app .journal-receipt:has(button[aria-expanded] svg.lucide-clock-3) div.relative:has(> button[aria-expanded] svg.lucide-clock-3),
+  .journal-workspace .journal-receipt:has(button[aria-expanded] svg.lucide-clock-3) div.relative:has(> button[aria-expanded] svg.lucide-clock-3) {
+    position: static !important;
+  }
+
+  .journal-app .journal-receipt:has(button[aria-expanded] svg.lucide-clock-3) div.relative:has(> button[aria-expanded] svg.lucide-clock-3) > div.fixed,
+  .journal-workspace .journal-receipt:has(button[aria-expanded] svg.lucide-clock-3) div.relative:has(> button[aria-expanded] svg.lucide-clock-3) > div.fixed {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: calc(100% + 8px) !important;
+    bottom: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: min(66dvh, 32rem) !important;
+    transform: none !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    padding-bottom: .5rem;
+  }
+}
+
+/* Mobile CBT gate. The live CBT remains formal on desktop; only the phone
+   compatibility gate returns to the Ivy Study Journal language. */
+@media (max-width: 1023px) {
+  div[class~="bg-[#f2f2f2]"] > div[class~="lg:hidden"]:has(a[href*="module=listening"]) {
+    --cbt-gate-subject: var(--subject-listening);
+    --cbt-gate-soft: var(--subject-listening-soft);
+  }
+
+  div[class~="bg-[#f2f2f2]"] > div[class~="lg:hidden"]:has(a[href*="module=reading"]) {
+    --cbt-gate-subject: var(--subject-reading);
+    --cbt-gate-soft: var(--subject-reading-soft);
+  }
+
+  div[class~="bg-[#f2f2f2]"] > div[class~="lg:hidden"]:has(a[href*="module=writing"]) {
+    --cbt-gate-subject: var(--subject-writing);
+    --cbt-gate-soft: var(--subject-writing-soft);
+  }
+
+  div[class~="bg-[#f2f2f2]"] > div[class~="lg:hidden"] {
+    min-height: 100dvh;
+    align-items: center;
+    background-color: var(--journal-canvas);
+    background-image:
+      linear-gradient(to right, rgba(63,99,242,.085) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(63,99,242,.085) 1px, transparent 1px);
+    background-size: 24px 24px;
+    padding: max(2.25rem, env(safe-area-inset-top)) 1.25rem max(2.25rem, env(safe-area-inset-bottom));
+  }
+
+  div[class~="bg-[#f2f2f2]"] > div[class~="lg:hidden"] > div {
+    position: relative;
+    width: 100%;
+    max-width: 30rem;
+    overflow: visible;
+    border: 1px solid color-mix(in srgb, var(--cbt-gate-subject, var(--journal-ink)) 62%, var(--journal-line)) !important;
+    border-radius: 2px !important;
+    background: var(--journal-paper) !important;
+    padding: 2.5rem 1.5rem 1.75rem !important;
+    box-shadow: 7px 8px 0 color-mix(in srgb, var(--cbt-gate-subject, var(--journal-blue)) 14%, transparent) !important;
+    color: var(--journal-ink) !important;
+  }
+
+  div[class~="bg-[#f2f2f2]"] > div[class~="lg:hidden"] > div::before {
+    content: "COMPUTER TEST";
+    position: absolute;
+    left: 50%;
+    top: -12px;
+    transform: translateX(-50%) rotate(-1deg);
+    border: 1px solid color-mix(in srgb, var(--cbt-gate-subject, var(--journal-ink)) 35%, transparent);
+    background: var(--cbt-gate-soft, #EEF4FF);
+    padding: .28rem .8rem;
+    color: var(--journal-ink);
+    font-size: .62rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+  }
+
+  div[class~="bg-[#f2f2f2]"] > div[class~="lg:hidden"] > div > svg {
+    color: var(--cbt-gate-subject, var(--journal-ink)) !important;
+    stroke-width: 1.6;
+  }
+
+  div[class~="bg-[#f2f2f2]"] > div[class~="lg:hidden"] > div > h1 {
+    color: var(--journal-ink) !important;
+    font-family: var(--font-serif);
+    font-weight: 500 !important;
+    letter-spacing: -.015em;
+  }
+
+  div[class~="bg-[#f2f2f2]"] > div[class~="lg:hidden"] > div > p {
+    color: #52608C !important;
+  }
+
+  div[class~="bg-[#f2f2f2]"] > div[class~="lg:hidden"] > div > a {
+    border: 1px solid var(--cbt-gate-subject, var(--journal-ink));
+    border-radius: 2px !important;
+    background: var(--cbt-gate-subject, var(--journal-ink)) !important;
+    color: #fff !important;
+    box-shadow: 3px 3px 0 color-mix(in srgb, var(--cbt-gate-subject, var(--journal-blue)) 22%, var(--journal-paper));
+  }
+}

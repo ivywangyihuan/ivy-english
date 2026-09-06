@@ -1,0 +1,169 @@
+/* Record / archive pages are neutral stationery.
+ * Subject colors belong to active subject study surfaces, not stored records.
+ */
+
+.record-page,
+.journal-page:has(.journal-index-card h1) {
+  --page-subject: var(--journal-ink) !important;
+  --page-subject-soft: var(--journal-paper) !important;
+  --subject-color: var(--journal-ink) !important;
+  --subject-soft: var(--journal-paper) !important;
+}
+
+.record-page :is(.subject-listening,.subject-speaking,.subject-reading,.subject-writing),
+.journal-page:has(.journal-index-card h1) :is(.subject-listening,.subject-speaking,.subject-reading,.subject-writing) {
+  --subject-color: var(--journal-ink) !important;
+  --subject-soft: var(--journal-paper) !important;
+  --subject-contrast: var(--journal-ink) !important;
+}
+
+.record-page .subject-text,
+.record-page .journal-subject-accent,
+.journal-page:has(.journal-index-card h1) .subject-text,
+.journal-page:has(.journal-index-card h1) .journal-subject-accent {
+  color: var(--journal-ink) !important;
+}
+
+.record-page .subject-chip,
+.journal-page:has(.journal-index-card h1) .subject-chip {
+  border-color: var(--journal-line) !important;
+  background: var(--journal-yellow) !important;
+  color: var(--journal-ink) !important;
+}
+
+.record-page :is(.journal-index-card,.subject-surface,.journal-sticky),
+.journal-page:has(.journal-index-card h1) :is(.journal-index-card,.subject-surface,.journal-sticky) {
+  border-color: var(--journal-line) !important;
+  background-color: var(--journal-paper) !important;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 31px, rgba(23,48,109,.04) 32px) !important;
+  box-shadow: 3px 4px 0 rgba(23,48,109,.045) !important;
+}
+
+.record-page .journal-index-card::before,
+.journal-page:has(.journal-index-card h1) .journal-index-card::before {
+  background: var(--journal-ink) !important;
+}
+
+/* Any subject-palette utility accidentally used inside an archive is neutralized. */
+.record-page [class*="text-[var(--journal-turquoise)]"],
+.record-page [class*="text-[var(--journal-blue)]"],
+.record-page [class*="text-[#4AA934]"],
+.record-page [class*="text-[#63C94A]"],
+.journal-page:has(.journal-index-card h1) [class*="text-[var(--journal-turquoise)]"],
+.journal-page:has(.journal-index-card h1) [class*="text-[var(--journal-blue)]"],
+.journal-page:has(.journal-index-card h1) [class*="text-[#4AA934]"],
+.journal-page:has(.journal-index-card h1) [class*="text-[#63C94A]"] {
+  color: var(--journal-ink) !important;
+}
+
+.record-page [class*="border-[var(--journal-turquoise)]"],
+.record-page [class*="border-[var(--journal-blue)]"],
+.record-page [class*="border-[#63C94A]"],
+.journal-page:has(.journal-index-card h1) [class*="border-[var(--journal-turquoise)]"],
+.journal-page:has(.journal-index-card h1) [class*="border-[var(--journal-blue)]"],
+.journal-page:has(.journal-index-card h1) [class*="border-[#63C94A]"] {
+  border-color: var(--journal-ink) !important;
+}
+
+.record-page [class*="bg-[var(--journal-aqua)]"],
+.record-page [class*="bg-[var(--journal-lavender)]"],
+.record-page [class*="bg-[var(--journal-mint)]"],
+.journal-page:has(.journal-index-card h1) [class*="bg-[var(--journal-aqua)]"],
+.journal-page:has(.journal-index-card h1) [class*="bg-[var(--journal-lavender)]"],
+.journal-page:has(.journal-index-card h1) [class*="bg-[var(--journal-mint)]"] {
+  background: var(--journal-paper) !important;
+}
+
+.record-page button[class*="bg-[var(--journal-turquoise)]"],
+.record-page a[class*="bg-[var(--journal-turquoise)]"],
+.journal-page:has(.journal-index-card h1) button[class*="bg-[var(--journal-turquoise)]"],
+.journal-page:has(.journal-index-card h1) a[class*="bg-[var(--journal-turquoise)]"] {
+  border-color: var(--journal-ink) !important;
+  background: var(--journal-ink) !important;
+  color: #fff !important;
+  box-shadow: 3px 3px 0 var(--journal-line) !important;
+}
+
+.record-page input[type="range"],
+.record-page audio,
+.journal-page:has(.journal-index-card h1) input[type="range"],
+.journal-page:has(.journal-index-card h1) audio {
+  accent-color: var(--journal-ink) !important;
+}
+
+/* Session detail: one soft note is enough; the remaining summary scraps stay paper. */
+.journal-page:has(.journal-index-card h1) .journal-stat {
+  border-top-color: var(--journal-ink) !important;
+  background: var(--journal-paper) !important;
+  background-image: none !important;
+  transform: none !important;
+  box-shadow: 3px 4px 0 rgba(23,48,109,.04) !important;
+}
+
+.journal-page:has(.journal-index-card h1) .journal-stat:first-child {
+  background: var(--journal-yellow) !important;
+}
+
+.journal-page:has(.journal-index-card h1) .journal-stat::after,
+.journal-page:has(.journal-index-card h1) .journal-stat::before {
+  content: none !important;
+}
+
+/* Record pages use color sparingly: one neutral note family, no subject wash. */
+.record-page .journal-paper,
+.record-page .journal-section-paper {
+  box-shadow: 3px 4px 0 rgba(23,48,109,.04);
+}
+
+.record-page .journal-list-row:hover {
+  background: color-mix(in srgb, var(--journal-yellow) 34%, var(--journal-paper)) !important;
+}
+
+/* Exception: each row in Learning History is itself an explicit subject record.
+ * Keep the archive page neutral, but restore that row's subject identity.
+ */
+.record-page a.journal-list-row[href*="module=listening"] {
+  background: var(--subject-listening-soft) !important;
+}
+.record-page a.journal-list-row[href*="module=speaking"] {
+  background: var(--subject-speaking-soft) !important;
+}
+.record-page a.journal-list-row[href*="module=reading"] {
+  background: var(--subject-reading-soft) !important;
+}
+.record-page a.journal-list-row[href*="module=writing"] {
+  background: var(--subject-writing-soft) !important;
+}
+
+.record-page a.journal-list-row[href*="module=listening"] > div:first-child {
+  border-left-color: var(--subject-listening) !important;
+}
+.record-page a.journal-list-row[href*="module=speaking"] > div:first-child {
+  border-left-color: var(--subject-speaking) !important;
+}
+.record-page a.journal-list-row[href*="module=reading"] > div:first-child {
+  border-left-color: var(--subject-reading) !important;
+}
+.record-page a.journal-list-row[href*="module=writing"] > div:first-child {
+  border-left-color: var(--subject-writing) !important;
+}
+
+.record-page a.journal-list-row[href*="module=listening"] > span:last-child {
+  color: var(--subject-listening) !important;
+}
+.record-page a.journal-list-row[href*="module=speaking"] > span:last-child {
+  color: var(--subject-speaking) !important;
+}
+.record-page a.journal-list-row[href*="module=reading"] > span:last-child {
+  color: var(--subject-reading) !important;
+}
+.record-page a.journal-list-row[href*="module=writing"] > span:last-child {
+  color: var(--subject-writing) !important;
+}
+
+.record-page a.journal-list-row[href*="module=listening"]:hover,
+.record-page a.journal-list-row[href*="module=speaking"]:hover,
+.record-page a.journal-list-row[href*="module=reading"]:hover,
+.record-page a.journal-list-row[href*="module=writing"]:hover {
+  filter: saturate(1.04) brightness(.995);
+}

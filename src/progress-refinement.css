@@ -1,0 +1,153 @@
+.progress-overview {
+  --progress-paper: var(--journal-paper);
+  --progress-ink: var(--journal-ink);
+}
+
+/* Progress uses neutral Ivy English stationery only. Subject colors are reserved for subject-bound cards and data. */
+.progress-overview .progress-summary {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0 !important;
+}
+
+.progress-overview .progress-summary > .grid {
+  gap: .75rem;
+}
+
+.progress-overview .journal-stat {
+  position: relative;
+  min-height: 8.5rem;
+  overflow: hidden;
+  border: 1px solid var(--journal-line);
+  border-top: 3px solid var(--journal-ink);
+  background: var(--progress-paper) !important;
+  padding: 1.05rem;
+  box-shadow: 3px 4px 0 rgba(23, 48, 109, .055);
+  transform: none !important;
+}
+
+/* Only neutral stationery accents may tint global summary cards. */
+.progress-overview .journal-stat:nth-child(1) {
+  background-color: var(--journal-yellow) !important;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 30px, rgba(23, 48, 109, .045) 31px) !important;
+}
+
+.progress-overview .journal-stat:nth-child(2) {
+  background-color: var(--journal-peach) !important;
+  background-image: none !important;
+}
+
+.progress-overview .journal-stat:nth-child(3) {
+  background-color: var(--journal-paper) !important;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 30px, rgba(23, 48, 109, .04) 31px) !important;
+}
+
+.progress-overview .journal-stat:nth-child(4) {
+  background-color: var(--journal-paper) !important;
+  background-image: none !important;
+}
+
+.progress-overview .journal-stat::before,
+.progress-overview .journal-stat::after {
+  content: none !important;
+}
+
+.progress-overview .progress-trend {
+  position: relative;
+  margin-top: .9rem !important;
+  border: 1px solid var(--journal-line) !important;
+  background-color: var(--journal-paper) !important;
+  background-image: linear-gradient(to right, rgba(23,48,109,.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(23,48,109,.045) 1px, transparent 1px) !important;
+  background-size: 24px 24px !important;
+  padding: 1.15rem !important;
+  box-shadow: 3px 4px 0 rgba(23,48,109,.045) !important;
+}
+
+.progress-overview .progress-trend::before {
+  content: none !important;
+}
+
+/* These cards explicitly represent subjects, so subject ink is allowed here. */
+.progress-overview .progress-skill-card {
+  background: var(--journal-paper) !important;
+  box-shadow: 3px 4px 0 rgba(23,48,109,.045) !important;
+}
+
+.progress-overview .progress-skill-card::before,
+.progress-overview .progress-skill-card::after {
+  opacity: .45;
+}
+
+/* IELTS score cards remain neutral record paper; the score/link ink may identify the actual subject. */
+.progress-overview .progress-score-card {
+  background-color: var(--journal-paper) !important;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 31px, rgba(23,48,109,.04) 32px) !important;
+  box-shadow: 3px 4px 0 rgba(23,48,109,.045) !important;
+}
+
+/* Cross-subject filing cards are neutral. Their tabs use only neutral stationery accents. */
+.progress-overview .progress-collection-card {
+  position: relative;
+  overflow: visible;
+  border: 1px solid var(--journal-line);
+  background: var(--journal-paper) !important;
+  box-shadow: 3px 4px 0 rgba(23,48,109,.045);
+}
+
+.progress-overview .progress-collection-card::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 18px;
+  width: 54px;
+  height: 14px;
+  border: 1px solid rgba(23,48,109,.09);
+  background: var(--journal-yellow);
+}
+
+.progress-overview .progress-collection-card:nth-child(2)::before {
+  background: var(--journal-peach);
+}
+
+.progress-overview .progress-collection-card:nth-child(3)::before {
+  background: var(--journal-paper);
+  border-color: var(--journal-ink);
+}
+
+.progress-overview .progress-issues-paper {
+  background: var(--journal-paper) !important;
+  border-left: 3px solid var(--journal-yellow) !important;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 33px, rgba(23,48,109,.035) 34px) !important;
+}
+
+.progress-overview .progress-issues-paper::before,
+.progress-overview .progress-issues-paper::after {
+  content: none !important;
+}
+
+.progress-overview .progress-recent .journal-ledger {
+  background: var(--journal-paper);
+  box-shadow: 3px 4px 0 rgba(23,48,109,.04);
+}
+
+@media (max-width: 767px) {
+  .progress-overview .journal-stat {
+    min-height: 8rem;
+    padding: .95rem;
+  }
+
+  .progress-overview .progress-summary > .grid {
+    gap: .65rem;
+  }
+
+  .progress-overview .progress-trend {
+    background-size: 20px 20px !important;
+  }
+
+  .progress-overview .progress-skill-card,
+  .progress-overview .progress-score-card,
+  .progress-overview .progress-collection-card {
+    transform: none !important;
+  }
+}
