@@ -1,0 +1,203 @@
+.progress-overview {
+  --progress-paper: var(--journal-paper);
+  --progress-ink: var(--journal-ink);
+}
+
+/* The progress page is an analysis notebook, not a wall of pastel cards. */
+.progress-overview .progress-summary {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0 !important;
+}
+
+.progress-overview .progress-summary > .grid {
+  gap: .8rem;
+}
+
+.progress-overview .journal-stat {
+  position: relative;
+  min-height: 8.75rem;
+  overflow: hidden;
+  border: 1px solid var(--journal-line);
+  border-top: 2px solid var(--journal-ink);
+  background: var(--progress-paper) !important;
+  padding: 1.05rem 1.05rem 1.1rem;
+  box-shadow: 3px 4px 0 rgba(23, 48, 109, .06);
+  transform: none !important;
+}
+
+/* Four stats use four different paper constructions, with color limited to small accents. */
+.progress-overview .journal-stat:nth-child(1) {
+  background-image: repeating-linear-gradient(to bottom, transparent 0 27px, rgba(63, 99, 242, .08) 28px) !important;
+}
+.progress-overview .journal-stat:nth-child(1)::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: -1px;
+  width: 56px;
+  height: 9px;
+  background: var(--journal-yellow);
+  border: 1px solid rgba(23, 48, 109, .10);
+}
+
+.progress-overview .journal-stat:nth-child(2) {
+  background-image: linear-gradient(to right, rgba(63,99,242,.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(63,99,242,.08) 1px, transparent 1px) !important;
+  background-size: 18px 18px !important;
+}
+.progress-overview .journal-stat:nth-child(2)::before {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 18px;
+  width: 38px;
+  height: 18px;
+  background: #EAF6FF;
+  border: 1px solid var(--journal-line);
+}
+
+.progress-overview .journal-stat:nth-child(3) {
+  border-left: 4px solid var(--journal-danger);
+}
+.progress-overview .journal-stat:nth-child(3)::before {
+  content: "";
+  position: absolute;
+  right: 13px;
+  bottom: 12px;
+  width: 38px;
+  height: 6px;
+  background: var(--journal-peach);
+  transform: rotate(-2deg);
+}
+
+.progress-overview .journal-stat:nth-child(4) {
+  background-image: linear-gradient(to right, transparent 0 25px, rgba(255,93,177,.14) 26px 27px, transparent 28px), repeating-linear-gradient(to bottom, transparent 0 27px, rgba(63,99,242,.08) 28px) !important;
+}
+.progress-overview .journal-stat:nth-child(4)::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 18px;
+  width: 6px;
+  height: 6px;
+  border: 1px solid rgba(23,48,109,.35);
+  border-radius: 50%;
+  box-shadow: 0 22px 0 -1px var(--journal-paper), 0 22px 0 0 rgba(23,48,109,.35), 0 44px 0 -1px var(--journal-paper), 0 44px 0 0 rgba(23,48,109,.35);
+}
+
+.progress-overview .progress-trend {
+  position: relative;
+  margin-top: .9rem !important;
+  border: 1px solid var(--journal-line) !important;
+  background-color: var(--journal-paper) !important;
+  background-image: linear-gradient(to right, rgba(63,99,242,.09) 1px, transparent 1px), linear-gradient(to bottom, rgba(63,99,242,.09) 1px, transparent 1px) !important;
+  background-size: 22px 22px !important;
+  padding: 1.15rem !important;
+  box-shadow: 3px 4px 0 rgba(23,48,109,.05) !important;
+}
+.progress-overview .progress-trend::before {
+  content: "ANALYSIS";
+  position: absolute;
+  right: 14px;
+  top: -10px;
+  padding: 2px 8px;
+  background: var(--journal-canvas);
+  border: 1px solid var(--journal-line);
+  color: var(--journal-ink);
+  font-size: 9px;
+  letter-spacing: .14em;
+}
+
+/* Subject entry cards stay mostly paper-white. Subject colors behave like ink, not fill. */
+.progress-overview .progress-skill-card {
+  background: var(--journal-paper) !important;
+  box-shadow: 3px 4px 0 color-mix(in srgb, var(--subject-color) 10%, transparent) !important;
+}
+.progress-overview .progress-skills a:nth-child(2) .progress-skill-card::before,
+.progress-overview .progress-skills a:nth-child(4) .progress-skill-card::before {
+  left: auto;
+  right: 18px;
+  width: 34px;
+  background: color-mix(in srgb, var(--subject-color) 18%, var(--journal-paper));
+}
+
+/* IELTS score sheets use two different archival constructions instead of two identical cards. */
+.progress-overview .progress-score-card {
+  background: var(--journal-paper) !important;
+}
+.progress-overview .progress-ielts > div > :first-child .progress-score-card,
+.progress-overview .progress-ielts > div > .progress-score-card:first-child {
+  background-image: repeating-linear-gradient(to bottom, transparent 0 29px, rgba(63,99,242,.08) 30px) !important;
+}
+.progress-overview .progress-ielts > div > :last-child .progress-score-card,
+.progress-overview .progress-ielts > div > .progress-score-card:last-child {
+  background-image: linear-gradient(to right, rgba(0,155,159,.09) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,155,159,.09) 1px, transparent 1px) !important;
+  background-size: 20px 20px !important;
+}
+
+/* Collection cards look filed rather than painted. */
+.progress-overview .progress-collection-card {
+  position: relative;
+  overflow: visible;
+  border: 1px solid var(--journal-line);
+  background: var(--journal-paper) !important;
+}
+.progress-overview .progress-collection-card:nth-child(1)::before {
+  content: "";
+  position: absolute;
+  top: -9px;
+  left: 18px;
+  width: 64px;
+  height: 18px;
+  background: var(--journal-yellow);
+  border: 1px solid var(--journal-line);
+}
+.progress-overview .progress-collection-card:nth-child(2) {
+  background-image: repeating-linear-gradient(to bottom, transparent 0 27px, rgba(63,99,242,.08) 28px) !important;
+}
+.progress-overview .progress-collection-card:nth-child(2)::before {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 14px;
+  width: 38px;
+  height: 18px;
+  background: #EAF6FF;
+  border: 1px solid var(--journal-line);
+}
+.progress-overview .progress-collection-card:nth-child(3) {
+  border-left: 5px solid var(--journal-peach);
+}
+
+/* Learning issues become a clipped review sheet, not one large yellow block. */
+.progress-overview .progress-issues-paper {
+  background: var(--journal-paper) !important;
+  border-left: 4px solid var(--journal-yellow) !important;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 31px, rgba(63,99,242,.07) 32px) !important;
+}
+.progress-overview .progress-issues-paper::before {
+  background: var(--journal-yellow) !important;
+}
+
+.progress-overview .progress-recent .journal-ledger {
+  box-shadow: 3px 4px 0 rgba(23,48,109,.05);
+}
+
+@media (max-width: 767px) {
+  .progress-overview .journal-stat {
+    min-height: 8.1rem;
+    padding: .95rem;
+  }
+  .progress-overview .progress-summary > .grid {
+    gap: .65rem;
+  }
+  .progress-overview .progress-trend {
+    background-size: 18px 18px !important;
+  }
+  .progress-overview .progress-skill-card,
+  .progress-overview .progress-score-card,
+  .progress-overview .progress-collection-card {
+    transform: none !important;
+  }
+}
