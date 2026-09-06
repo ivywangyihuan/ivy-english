@@ -118,3 +118,52 @@
 .record-page .journal-list-row:hover {
   background: color-mix(in srgb, var(--journal-yellow) 34%, var(--journal-paper)) !important;
 }
+
+/* Exception: each row in Learning History is itself an explicit subject record.
+ * Keep the archive page neutral, but restore that row's subject identity.
+ */
+.record-page a.journal-list-row[href*="module=listening"] {
+  background: var(--subject-listening-soft) !important;
+}
+.record-page a.journal-list-row[href*="module=speaking"] {
+  background: var(--subject-speaking-soft) !important;
+}
+.record-page a.journal-list-row[href*="module=reading"] {
+  background: var(--subject-reading-soft) !important;
+}
+.record-page a.journal-list-row[href*="module=writing"] {
+  background: var(--subject-writing-soft) !important;
+}
+
+.record-page a.journal-list-row[href*="module=listening"] > div:first-child {
+  border-left-color: var(--subject-listening) !important;
+}
+.record-page a.journal-list-row[href*="module=speaking"] > div:first-child {
+  border-left-color: var(--subject-speaking) !important;
+}
+.record-page a.journal-list-row[href*="module=reading"] > div:first-child {
+  border-left-color: var(--subject-reading) !important;
+}
+.record-page a.journal-list-row[href*="module=writing"] > div:first-child {
+  border-left-color: var(--subject-writing) !important;
+}
+
+.record-page a.journal-list-row[href*="module=listening"] > span:last-child {
+  color: var(--subject-listening) !important;
+}
+.record-page a.journal-list-row[href*="module=speaking"] > span:last-child {
+  color: var(--subject-speaking) !important;
+}
+.record-page a.journal-list-row[href*="module=reading"] > span:last-child {
+  color: var(--subject-reading) !important;
+}
+.record-page a.journal-list-row[href*="module=writing"] > span:last-child {
+  color: var(--subject-writing) !important;
+}
+
+.record-page a.journal-list-row[href*="module=listening"]:hover,
+.record-page a.journal-list-row[href*="module=speaking"]:hover,
+.record-page a.journal-list-row[href*="module=reading"]:hover,
+.record-page a.journal-list-row[href*="module=writing"]:hover {
+  filter: saturate(1.04) brightness(.995);
+}
