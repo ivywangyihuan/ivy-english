@@ -64,7 +64,7 @@ interface AppState {
   sessions: StudySession[];
   addSession: (s: Omit<StudySession, "id">) => string;
   questions: Question[];
-  markPracticed: (id: string) => void;
+  markPracticed: (id: string, action?: "add" | "undo") => void;
   signals: LearningSignal[];
   updateSignalStatus: (id: string, status: SignalStatus) => void;
   mistakes: MistakeRecord[];
@@ -181,8 +181,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return id;
   }, []);
 
-  const markPracticed = useCallback((id: string) => {
-    setQuestionList((prev) => prev.map((q) => q.id === id ? { ...q, practiceCount: q.practiceCount + 1, status: q.practiceCount === 0 ? "练过 1 次" : "练过多次" } : q));
+  const markPracticed = useCallback((id: string, action: "add" | "undo" = "add") => {
+    setQuestionList((prev) => prev.map((q) => {
+      if (q.id !== id) return q;
+      const nextCount = action === "undo" ? Math.max(0, q.practiceCount - 1) : q.practiceCount + 1;
+      const status = nextCount === 0 ? "未练习" : nextCount === 1 ? "练过 1 次" : "练过多次";
+      return { ...q, practiceCount: nextCount, status };
+    }));
   }, []);
 
   const updateSignalStatus = useCallback((id: string, status: SignalStatus) => {
