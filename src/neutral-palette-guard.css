@@ -97,6 +97,61 @@
   box-shadow: 2px 2px 0 var(--journal-line);
 }
 
+/* Bank filter board: make the whole control area a real grid-paper sheet. */
+.journal-app .journal-section-paper:has(input[type="search"][placeholder^="搜索题目"]) {
+  border: 1px solid var(--journal-line);
+  background-color: var(--journal-paper);
+  background-image:
+    linear-gradient(to right, rgba(23,48,109,.065) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(23,48,109,.065) 1px, transparent 1px);
+  background-size: 22px 22px;
+  box-shadow: 4px 5px 0 rgba(23,48,109,.055);
+}
+
+.journal-app .journal-section-paper:has(input[type="search"][placeholder^="搜索题目"]) input[type="search"] {
+  background: var(--journal-paper);
+}
+
+/* Progress recent study: grid notebook underneath, neutral-color paper slips above it. */
+.progress-overview .progress-recent .journal-ledger {
+  display: grid;
+  gap: .55rem;
+  border: 1px solid var(--journal-line);
+  background-color: var(--journal-paper);
+  background-image:
+    linear-gradient(to right, rgba(23,48,109,.065) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(23,48,109,.065) 1px, transparent 1px);
+  background-size: 22px 22px;
+  padding: .85rem;
+  box-shadow: 4px 5px 0 rgba(23,48,109,.05);
+}
+
+.progress-overview .progress-recent .journal-ledger > li {
+  border: 1px solid rgba(23,48,109,.12);
+  box-shadow: 2px 3px 0 rgba(23,48,109,.035);
+}
+
+.progress-overview .progress-recent .journal-ledger > li:nth-child(3n + 1) > a {
+  background-color: var(--journal-yellow);
+}
+
+.progress-overview .progress-recent .journal-ledger > li:nth-child(3n + 2) > a {
+  background-color: var(--journal-peach);
+}
+
+.progress-overview .progress-recent .journal-ledger > li:nth-child(3n) > a {
+  background-color: var(--journal-paper);
+}
+
+.progress-overview .progress-recent .journal-ledger > li > a {
+  border-bottom: 0 !important;
+  padding: .8rem .7rem;
+}
+
+.progress-overview .progress-recent .journal-ledger > li span.absolute.size-2 {
+  background: var(--journal-ink) !important;
+}
+
 @media (max-width: 767px) {
   .journal-app .journal-paper,
   .journal-workspace .journal-paper,
@@ -108,5 +163,15 @@
   .journal-app .journal-sticky,
   .journal-workspace .journal-sticky {
     box-shadow: 3px 4px 0 color-mix(in srgb, var(--subject-color, var(--journal-ink)) 8%, transparent) !important;
+  }
+
+  .journal-app .journal-section-paper:has(input[type="search"][placeholder^="搜索题目"]),
+  .progress-overview .progress-recent .journal-ledger {
+    background-size: 18px 18px;
+  }
+
+  .progress-overview .progress-recent .journal-ledger {
+    gap: .45rem;
+    padding: .65rem;
   }
 }
