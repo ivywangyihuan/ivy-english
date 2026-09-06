@@ -57,6 +57,16 @@
 .journal-workspace .journal-sticky::before {
   border-left-color: color-mix(in srgb, var(--subject-color, var(--journal-ink)) 12%, transparent);
   border-right-color: color-mix(in srgb, var(--subject-color, var(--journal-ink)) 12%, transparent);
+  pointer-events: none;
+}
+
+.journal-app .journal-sticky button,
+.journal-workspace .journal-sticky button,
+.journal-app .journal-sticky a,
+.journal-workspace .journal-sticky a {
+  position: relative;
+  z-index: 3;
+  pointer-events: auto;
 }
 
 .journal-app .journal-sticky:hover,
