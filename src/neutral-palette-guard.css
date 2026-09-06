@@ -112,7 +112,7 @@
   background: var(--journal-paper);
 }
 
-/* Progress recent study: grid notebook underneath, neutral-color paper slips above it. */
+/* Progress recent study: grid notebook underneath, subject-specific study slips above it. */
 .progress-overview .progress-recent .journal-ledger {
   display: grid;
   gap: .55rem;
@@ -127,29 +127,49 @@
 }
 
 .progress-overview .progress-recent .journal-ledger > li {
-  border: 1px solid rgba(23,48,109,.12);
+  border: 1px solid rgba(23,48,109,.10);
   box-shadow: 2px 3px 0 rgba(23,48,109,.035);
 }
 
-.progress-overview .progress-recent .journal-ledger > li:nth-child(3n + 1) > a {
-  background-color: var(--journal-yellow);
-}
-
-.progress-overview .progress-recent .journal-ledger > li:nth-child(3n + 2) > a {
-  background-color: var(--journal-peach);
-}
-
-.progress-overview .progress-recent .journal-ledger > li:nth-child(3n) > a {
-  background-color: var(--journal-paper);
-}
-
 .progress-overview .progress-recent .journal-ledger > li > a {
+  --recent-subject: var(--journal-ink);
+  --recent-soft: var(--journal-paper);
   border-bottom: 0 !important;
+  border-left: 3px solid var(--recent-subject);
+  background-color: var(--recent-soft);
   padding: .8rem .7rem;
 }
 
-.progress-overview .progress-recent .journal-ledger > li span.absolute.size-2 {
-  background: var(--journal-ink) !important;
+.progress-overview .progress-recent .journal-ledger > li > a[href*="module=listening"] {
+  --recent-subject: var(--subject-listening);
+  --recent-soft: var(--subject-listening-soft);
+}
+
+.progress-overview .progress-recent .journal-ledger > li > a[href*="module=speaking"] {
+  --recent-subject: var(--subject-speaking);
+  --recent-soft: var(--subject-speaking-soft);
+}
+
+.progress-overview .progress-recent .journal-ledger > li > a[href*="module=reading"] {
+  --recent-subject: var(--subject-reading);
+  --recent-soft: var(--subject-reading-soft);
+}
+
+.progress-overview .progress-recent .journal-ledger > li > a[href*="module=writing"] {
+  --recent-subject: var(--subject-writing);
+  --recent-soft: var(--subject-writing-soft);
+}
+
+.progress-overview .progress-recent .journal-ledger > li > a span.absolute.size-2 {
+  background: var(--recent-subject) !important;
+}
+
+.progress-overview .progress-recent .journal-ledger > li > a > span.flex-1 {
+  border-left-color: color-mix(in srgb, var(--recent-subject) 40%, var(--journal-line)) !important;
+}
+
+.progress-overview .progress-recent .journal-ledger > li > a > svg {
+  color: var(--recent-subject) !important;
 }
 
 @media (max-width: 767px) {
