@@ -1,0 +1,112 @@
+/*
+ * Neutral palette guard
+ *
+ * Subject strong + soft colors are semantic. They may only appear when a surface
+ * explicitly belongs to Listening / Speaking / Reading / Writing.
+ * Generic journal primitives use Deep Ink, structural lines, Paper, Butter Yellow
+ * and Peach Tape only.
+ */
+
+.journal-app .journal-paper,
+.journal-workspace .journal-paper {
+  box-shadow: 3px 4px 0 rgba(23, 48, 109, .06);
+}
+
+.journal-app .journal-paper::after,
+.journal-workspace .journal-paper::after {
+  background-image:
+    radial-gradient(circle at 18% 20%, rgba(23,48,109,.022) 0 1px, transparent 1.2px),
+    radial-gradient(circle at 78% 68%, rgba(23,48,109,.014) 0 1px, transparent 1.2px);
+}
+
+.journal-app .journal-grid,
+.journal-workspace .journal-grid {
+  background-color: var(--journal-paper);
+  background-image:
+    linear-gradient(to right, rgba(23,48,109,.065) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(23,48,109,.065) 1px, transparent 1px);
+}
+
+.journal-app .journal-receipt,
+.journal-workspace .journal-receipt {
+  border-color: rgba(23,48,109,.22);
+  box-shadow: 4px 5px 0 rgba(23,48,109,.065);
+}
+
+.journal-app .journal-note-neutral,
+.journal-workspace .journal-note-neutral {
+  box-shadow: 4px 5px 0 rgba(23,48,109,.055) !important;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 27px, rgba(23,48,109,.055) 28px) !important;
+}
+
+.journal-app .journal-note-neutral::before,
+.journal-workspace .journal-note-neutral::before {
+  border-left-color: rgba(23,48,109,.10);
+  border-right-color: rgba(23,48,109,.10);
+}
+
+/* Neutral sticky notes default to Deep Ink. A subject-* wrapper overrides these variables. */
+.journal-app .journal-sticky,
+.journal-workspace .journal-sticky {
+  border-color: color-mix(in srgb, var(--subject-color, var(--journal-ink)) 38%, transparent);
+  background-image: repeating-linear-gradient(to bottom, transparent 0 27px, color-mix(in srgb, var(--subject-color, var(--journal-ink)) 7%, transparent) 28px);
+  box-shadow: 4px 5px 0 color-mix(in srgb, var(--subject-color, var(--journal-ink)) 9%, transparent);
+}
+
+.journal-app .journal-sticky::before,
+.journal-workspace .journal-sticky::before {
+  border-left-color: color-mix(in srgb, var(--subject-color, var(--journal-ink)) 12%, transparent);
+  border-right-color: color-mix(in srgb, var(--subject-color, var(--journal-ink)) 12%, transparent);
+}
+
+.journal-app .journal-sticky:hover,
+.journal-workspace .journal-sticky:hover {
+  box-shadow: 6px 7px 0 color-mix(in srgb, var(--subject-color, var(--journal-ink)) 10%, transparent);
+}
+
+.journal-app .journal-rule,
+.journal-workspace .journal-rule,
+.journal-app .journal-ledger,
+.journal-workspace .journal-ledger {
+  background-image: repeating-linear-gradient(to bottom, transparent 0 27px, rgba(23,48,109,.055) 28px);
+}
+
+.journal-app .journal-folder,
+.journal-workspace .journal-folder {
+  box-shadow: 4px 5px 0 rgba(23,48,109,.055);
+}
+
+/* Global actions and links remain Deep Ink. */
+.journal-app .journal-link,
+.journal-workspace .journal-link {
+  color: var(--journal-ink);
+}
+
+.journal-app .journal-button,
+.journal-workspace .journal-button {
+  box-shadow: 3px 3px 0 var(--journal-line);
+}
+
+.journal-app .journal-button:hover,
+.journal-workspace .journal-button:hover {
+  box-shadow: 5px 5px 0 var(--journal-line);
+}
+
+.journal-app .journal-button:active,
+.journal-workspace .journal-button:active {
+  box-shadow: 2px 2px 0 var(--journal-line);
+}
+
+@media (max-width: 767px) {
+  .journal-app .journal-paper,
+  .journal-workspace .journal-paper,
+  .journal-app .journal-receipt,
+  .journal-workspace .journal-receipt {
+    box-shadow: 3px 4px 0 rgba(23,48,109,.05);
+  }
+
+  .journal-app .journal-sticky,
+  .journal-workspace .journal-sticky {
+    box-shadow: 3px 4px 0 color-mix(in srgb, var(--subject-color, var(--journal-ink)) 8%, transparent) !important;
+  }
+}
