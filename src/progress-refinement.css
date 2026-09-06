@@ -3,7 +3,7 @@
   --progress-ink: var(--journal-ink);
 }
 
-/* Progress stays calm, but a few larger paper surfaces carry very light color. */
+/* Progress uses only the frozen Ivy English palette. No page-specific colors. */
 .progress-overview .progress-summary {
   border: 0;
   background: transparent;
@@ -27,14 +27,14 @@
   transform: none !important;
 }
 
-/* Only the first two summary papers receive a gentle tint. */
+/* Two existing palette papers add color; the other two remain neutral. */
 .progress-overview .journal-stat:nth-child(1) {
-  background-color: color-mix(in srgb, var(--journal-yellow) 38%, var(--journal-paper)) !important;
+  background-color: var(--journal-yellow) !important;
   background-image: repeating-linear-gradient(to bottom, transparent 0 30px, rgba(63, 99, 242, .05) 31px) !important;
 }
 
 .progress-overview .journal-stat:nth-child(2) {
-  background-color: #F1F9FF !important;
+  background-color: var(--journal-aqua) !important;
   background-image: none !important;
 }
 
@@ -57,7 +57,7 @@
   position: relative;
   margin-top: .9rem !important;
   border: 1px solid var(--journal-line) !important;
-  background-color: #FFFCF3 !important;
+  background-color: var(--journal-paper) !important;
   background-image: linear-gradient(to right, rgba(63,99,242,.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(63,99,242,.06) 1px, transparent 1px) !important;
   background-size: 24px 24px !important;
   padding: 1.15rem !important;
@@ -68,7 +68,7 @@
   content: none !important;
 }
 
-/* Subject entry cards remain white. Subject colors stay as ink and rules. */
+/* Subject entry cards remain paper-white. Subject colors stay as ink and rules. */
 .progress-overview .progress-skill-card {
   background: var(--journal-paper) !important;
   box-shadow: 3px 4px 0 rgba(23,48,109,.045) !important;
@@ -79,32 +79,20 @@
   opacity: .45;
 }
 
-/* IELTS score cards use one restrained warm record-paper treatment. */
+/* IELTS score cards stay neutral record paper so subject colors remain meaningful. */
 .progress-overview .progress-score-card {
-  background-color: #FFFCF6 !important;
+  background-color: var(--journal-paper) !important;
   background-image: repeating-linear-gradient(to bottom, transparent 0 31px, rgba(63,99,242,.05) 32px) !important;
   box-shadow: 3px 4px 0 rgba(23,48,109,.045) !important;
 }
 
-/* Filing cards use only a whisper of color; tabs do most of the differentiation. */
+/* Filing cards are neutral; their small tabs reuse the frozen palette exactly. */
 .progress-overview .progress-collection-card {
   position: relative;
   overflow: visible;
   border: 1px solid var(--journal-line);
   background: var(--journal-paper) !important;
   box-shadow: 3px 4px 0 rgba(23,48,109,.045);
-}
-
-.progress-overview .progress-collection-card:nth-child(1) {
-  background: color-mix(in srgb, var(--journal-yellow) 13%, var(--journal-paper)) !important;
-}
-
-.progress-overview .progress-collection-card:nth-child(2) {
-  background: color-mix(in srgb, #EAF6FF 24%, var(--journal-paper)) !important;
-}
-
-.progress-overview .progress-collection-card:nth-child(3) {
-  background: color-mix(in srgb, var(--journal-peach) 13%, var(--journal-paper)) !important;
 }
 
 .progress-overview .progress-collection-card::before {
@@ -116,21 +104,20 @@
   height: 14px;
   border: 1px solid rgba(23,48,109,.09);
   background: var(--journal-yellow);
-  opacity: .62;
 }
 
 .progress-overview .progress-collection-card:nth-child(2)::before {
-  background: #EAF6FF;
+  background: var(--journal-aqua);
 }
 
 .progress-overview .progress-collection-card:nth-child(3)::before {
   background: var(--journal-peach);
 }
 
-/* Review sheet receives one subtle yellow wash, not a full sticky-note fill. */
+/* Review sheet remains neutral with one existing yellow margin cue. */
 .progress-overview .progress-issues-paper {
-  background: color-mix(in srgb, var(--journal-yellow) 14%, var(--journal-paper)) !important;
-  border-left: 3px solid color-mix(in srgb, var(--journal-yellow) 80%, var(--journal-ink)) !important;
+  background: var(--journal-paper) !important;
+  border-left: 3px solid var(--journal-yellow) !important;
   background-image: repeating-linear-gradient(to bottom, transparent 0 33px, rgba(63,99,242,.04) 34px) !important;
 }
 
@@ -140,7 +127,7 @@
 }
 
 .progress-overview .progress-recent .journal-ledger {
-  background: #FFFCF6;
+  background: var(--journal-paper);
   box-shadow: 3px 4px 0 rgba(23,48,109,.04);
 }
 
